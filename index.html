@@ -87,8 +87,9 @@
           };
           
           // --- YENİ ve DÜZELTİLMİŞ HALİ (corsproxy.io ile) ---
-          const n8nRegisterUrl = "https://gulinhalgur.app.n8n.cloud/webhook/register";
-          const response = await fetch("/api/register", {
+          const n8nRegisterUrl = "https://gulinhalgur.app.n8n.cloud/webhook-test/register";
+
+          const response = await fetch(n8nRegisterUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)
@@ -128,8 +129,9 @@
           };
 
         
-          const n8nLoginUrl = "https://gulinhalgur.app.n8n.cloud/webhook/login"; 
-          const response = await fetch("/api/login", {
+          const n8nLoginUrl = "https://gulinhalgur.app.n8n.cloud/webhook-test/login";
+
+          const response = await fetch(n8nLoginUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(loginData)

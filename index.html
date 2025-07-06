@@ -88,7 +88,7 @@
           
           // --- YENİ ve DÜZELTİLMİŞ HALİ (corsproxy.io ile) ---
           const n8nRegisterUrl = "https://gulinhalgur.app.n8n.cloud/webhook/register";
-          const response = await fetch(`https://corsproxy.io/?${encodeURIComponent(n8nRegisterUrl)}`, {
+          const response = await fetch("/api/register", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)
@@ -129,7 +129,7 @@
 
         
           const n8nLoginUrl = "https://gulinhalgur.app.n8n.cloud/webhook/login"; 
-          const response = await fetch(`https://corsproxy.io/?${encodeURIComponent(n8nLoginUrl)}`, {
+          const response = await fetch("/api/login", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(loginData)

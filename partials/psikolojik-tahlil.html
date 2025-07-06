@@ -1,0 +1,223 @@
+
+ 
+<main>
+  <section class="bg-section" style="background-color: #e9ecef;  height: 92.9vh;" id="psikoloji">
+     <div class="container align-items-center">
+       <div class="row align-items-center ">
+          <div class = "col" >
+
+            <h1 class="amatic-sc-bold"> Psikolojinizi Anketler ve Oyunlarla <br>  Test Edin </h1>
+
+            <p class = " open-sans"  >KayAI birçok farklı test ve sonuçları gelişmiş analiz yeteneği ile sizlere sunar.</p>
+            <a href="#anket" class="btn btn-danger rounded-5 px-4">Testler Hakkında Detaylı Bilgi</a>
+       
+
+          </div>
+         <div class = "col">
+           <img src="psikoloji.png" alt="PsikolojikResim" style="padding: 100px; margin-left:100px;">
+        
+         </div>
+      </div>
+</main>
+
+
+  <section class="stats-section" id="stats">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-md-4">
+        <div id="counter1" class="stat-number">0</div>
+        <div>Anket Türü</div>
+      </div>
+      <div class="col-md-4">
+        <div id="counter2" class="stat-number">0</div>
+        <div>Oyun Modu</div>
+      </div>
+      <div class="col-md-4">
+        <div id="counter3" class="stat-number">0</div>
+        <div>Sınırsız Rapor</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+  <section class="bg-ankettur open-sans" id="anket">
+    <h3 class="text-center section-title">Anket Türleri</h3>
+    <div class="container py-5">
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="p-4 border rounded shadow-sm survey-card bg-light">
+        
+            <h5 class="survey-title"> <i class="bi bi-journal-text icon"></i> Klasik Anket</h5>
+            <div class="survey-description">
+              Bu testler daha çok kişinin kendi düşünce yapısını öğrenebilmek için oluşturulmuştur. <br><br>
+              <a  class="btn btn-outline-primary  rounded-5 px-4">Örnek Anket</a>
+            </div>
+          </div>
+        </div>
+ 
+
+      
+        <div class="col-md-4">
+          <div class="p-4 border rounded shadow-sm survey-card bg-light"> 
+            <h5 class="survey-title"><i class="bi bi-ui-checks icon"></i> Çoklu Seçmeli Anket</h5>
+            <div class="survey-description">
+             Kullanıcının birkaç seçeneğini görerek onlardan hangisini seçeceği öğrenilmeye çalışılmıştır. <br><br>
+            <a class="btn btn-outline-primary  rounded-5 px-4">Örnek Anket</a>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-md-4">
+          <div class="p-4 border rounded shadow-sm survey-card bg-light">
+          
+            <h5 class="survey-title">   <i class="bi bi-question-circle icon"></i> Evet / Hayır Anketi</h5>
+            <div class="survey-description">
+              Kullanıcıdan kısa Evet Hayır cevaplar alınmak istenmiştir. <br><br>
+              <a  class="btn btn-outline-primary  rounded-5 px-4">Örnek Anket</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div> 
+ </section>
+
+
+
+
+  <section id="rapor-features" class="bg-light py-5 rapor-features-section">
+    <div class="container">
+      <h3 class="text-center section-title">Rapor Özellikleri</h3>
+      <div class="row g-4">
+
+        <div class="col-md-4">
+          <div class="p-4 border rounded shadow-sm bg-white h-100">
+            <h5 class="text-danger"><i class="bi bi-bar-chart-line"></i> Kişisel Psikolojik Profil</h5>
+            <p>
+              Her test sonrası kişiye özel grafikler ve açıklamalarla psikolojik durumun detaylı analizi sunulur.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="p-4 border rounded shadow-sm bg-white h-100">
+            <h5 class="text-danger"><i class="bi bi-clipboard-data"></i> Test Sonuçlarının Detayları</h5>
+            <p>
+              Verilen cevaplara göre alt başlıklar (örneğin: stres seviyesi, karar verme yetisi) ile sonuçların yorumları paylaşılır.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="p-4 border rounded shadow-sm bg-white h-100">
+            <h5 class="text-danger"><i class="bi bi-download"></i> Erişim ve İndirme</h5>
+            <p>
+              Raporlara profilinizden sınırsız şekilde erişebilir, PDF formatında dışa aktarabilirsiniz.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="text-center mt-4">
+        <a href="ornek-rapor.pdf" class="btn btn-outline-danger rounded-5 px-4" target="_blank">Örnek Raporu Görüntüle</a>
+      </div>
+
+    </div>
+  </section>
+
+   
+
+      
+
+
+
+   
+    
+
+  <script>
+   
+document.addEventListener("DOMContentLoaded", function () {
+  const elements = document.querySelectorAll(".animate-on-scroll");
+  const psikolojiLink = document.querySelector('a[href="#psikoloji"]');
+  const psikolojiSection = document.getElementById("psikoloji");
+
+  function isElementInViewport(el) {
+    const rect = el.getBoundingClientRect();
+    return (
+      rect.top < window.innerHeight && rect.bottom > 0
+    );
+  }
+
+  function checkScroll() {
+    elements.forEach((element) => {
+      if (isElementInViewport(element)) {
+        element.classList.add("active");
+      } else {
+        element.classList.remove("active");
+      }
+    });
+  }
+
+  
+  if (psikolojiSection && isElementInViewport(psikolojiSection)) {
+    const animatedElements = psikolojiSection.querySelectorAll(".animate-on-scroll");
+    animatedElements.forEach((el) => el.classList.add("active"));
+  }
+
+
+  if (oyunHakkindaLink) {
+      psikolojiLink.addEventListener("click", function (event) {
+      event.preventDefault();
+
+      psikolojiSection.scrollIntoView({ behavior: "smooth" });
+
+
+      setTimeout(() => {
+        const animatedElements = psikolojiSection.querySelectorAll(".animate-on-scroll");
+        animatedElements.forEach((el) => el.classList.add("active"));
+      }, 500);
+    });
+  }
+
+  window.addEventListener("scroll", checkScroll);
+  checkScroll(); 
+});
+
+
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const counters = [
+      { id: 'counter1', startVal: 0 ,endVal: 10 },
+      { id: 'counter2', startVal : 0 , endVal: 1 },
+      { id: 'counter3', startVal : 0 , endVal: 9999 }
+    ];
+
+    const options = {
+      duration: 3, 
+      separator: ','
+    };
+
+    counters.forEach(counter => {
+      const el = document.getElementById(counter.id);
+      const countUp = new CountUp.CountUp(el, counter.endVal, options);
+      if (!countUp.error) {
+        countUp.start();
+      } else {
+        console.error(countUp.error);
+      }
+    });
+  });
+</script>
+
+
+
+
+

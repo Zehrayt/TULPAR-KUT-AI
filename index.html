@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Giriş ve Kayıt</title>
+    <link rel="stylesheet" href="Giriş.css" />
+  </head>
+  <body>
+    <div class="main">
+      <input type="checkbox" id="chk" aria-hidden="true" />
+
+      <div class="signup">
+        <form id="register-form">
+          <label for="chk" aria-hidden="true">Kayıt Ol</label>
+
+          <input type="text" name="username" placeholder="Kullanıcı Adı" required="" id="register-username" />
+
+          <div class="password-container">
+            <input type="password" id="registerPassword" name="password" placeholder="Şifre" required=""/>
+            <span class="eye-icon" onclick="togglePasswordVisibility('registerPassword', this)">👁</span>
+          </div>
+
+          <input type="date" name="birthdate" placeholder="Doğum Tarihi" required="" id="register-birthdate" />
+
+          <select name="studentType" required="" id="register-studentType">
+            <option disabled="" selected="" value="">Öğrenci Türü</option>
+            <option value="ilkokul">İlkokul</option>
+            <option value="ortaokul">Ortaokul</option>
+            <option value="lise">Lise</option>
+            <option value="universite">Üniversite</option>
+            <option value="diger">Diğer</option>
+          </select>
+
+          <select required="" name="gender" id="register-gender">
+            <option disabled="" selected="" value="">Cinsiyet</option>
+            <option value="erkek">Erkek</option>
+            <option value="kiz">Kız</option>
+          </select>
+
+          <textarea name="about" placeholder="Kendinizden bahsedin..." rows="3" id="register-about"></textarea>
+          <button type="submit" id="register-button">Kayıt Ol</button>
+        </form>
+      </div>
+
+      <div class="login">
+        <form id="login-form">
+          <label for="chk" aria-hidden="true">Giriş Yap</label>
+          <input type="text" name="username" placeholder="Kullanıcı Adı" required="" id="login-username" />
+          <div class="password-container">
+            <input type="password" id="loginPassword" name="pswd" placeholder="Şifre" required="" />
+            <span class="eye-icon" onclick="togglePasswordVisibility('loginPassword', this)">👁</span>
+          </div>
+          <button type="submit" id="login-button">Giriş Yap</button>
+        </form>
+      </div>
+    </div>
+
+<script>
+  function togglePasswordVisibility(fieldId, iconElement) {
+    const passwordField = document.getElementById(fieldId);
+    if (passwordField) {
+      const isPassword = passwordField.type === "password";
+      passwordField.type = isPassword ? "text" : "password";
+      iconElement.textContent = isPassword ? "🙈" : "👁";
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    // --- KAYIT FORMU İÇİN DÜZELTME ---
+    const registerForm = document.getElementById('register-form');
+    if (registerForm) {
+      registerForm.addEventListener('submit', async function (event) {
+        event.preventDefault();
+        const registerButton = document.getElementById('register-button');
+        registerButton.disabled = true;
+        registerButton.innerText = 'Kaydediliyor...';
+        
+        try {
+          const formData = {
+            username: document.getElementById('register-username').value,
+            password: document.getElementById('registerPassword').value,
+            birthdate: document.getElementById('register-birthdate').value,
+            studentType: document.getElementById('register-studentType').value,
+            gender: document.getElementById('register-gender').value,
+            description: document.getElementById('register-about').value
+          };
+          
+          // --- YENİ ve DÜZELTİLMİŞ HALİ (corsproxy.io ile) ---
+          const n8nRegisterUrl = "https://gulinhalgur.app.n8n.cloud/webhook/register";
+          const response = await fetch(`https://corsproxy.io/?${encodeURIComponent(n8nRegisterUrl)}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+          });
+          // --- DEĞİŞİKLİK SONU ---
+
+          const result = await response.json();
+          if (response.ok) {
+            alert(result.message || "Kayıt başarılı!");
+            document.getElementById('chk').checked = true;
+          } else {
+            alert('Hata: ' + (result.message || "Bilinmeyen bir hata oluştu."));
+          }
+        } catch (error) {
+          console.error('Kayıt sırasında hata:', error);
+          alert('Bir ağ hatası oluştu. Lütfen tekrar deneyin.');
+        } finally {
+          registerButton.disabled = false;
+          registerButton.innerText = 'Kayıt Ol';
+        }
+      });
+    }
+
+    
+    const loginForm = document.getElementById('login-form');
+    if (loginForm) {
+      loginForm.addEventListener('submit', async function (event) {
+        event.preventDefault();
+        const loginButton = document.getElementById('login-button');
+        loginButton.disabled = true;
+        loginButton.innerText = 'Giriş Yapılıyor...';
+        
+        try {
+          const loginData = {
+              username: document.getElementById('login-username').value,
+              password: document.getElementById('loginPassword').value
+          };
+
+        
+          const n8nLoginUrl = "https://gulinhalgur.app.n8n.cloud/webhook/login"; 
+          const response = await fetch(`https://corsproxy.io/?${encodeURIComponent(n8nLoginUrl)}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(loginData)
+          });
+          
+
+          const result = await response.json();
+          if (response.ok) {
+            localStorage.setItem('userToken', result.token);
+            localStorage.setItem('userId', result.userId);
+            localStorage.setItem('username', loginData.username);
+            alert(result.message || "Giriş başarılı!");
+            window.location.href = 'mainPage.html';
+          } else {
+            alert('Hata: ' + (result.message || "Kullanıcı adı veya şifre hatalı."));
+          }
+        } catch (error) {
+          console.error('Giriş sırasında hata:', error);
+          alert('Bir ağ hatası oluştu. Lütfen tekrar deneyin.');
+        } finally {
+          loginButton.disabled = false;
+          loginButton.innerText = 'Giriş Yap';
+        }
+      });
+    }
+  });
+</script>
+ </body>
+</html>

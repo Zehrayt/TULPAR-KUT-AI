@@ -1,0 +1,1103 @@
+
+    <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Doktor Paneli</title>
+    <link rel="stylesheet" href="DoktorSayfa.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+
+  </head>
+
+  <body class="bg-light">
+    <div style="font-size: 17px">
+      <nav
+        class="navbar navbar-expand-lg bg-white position-relative py-2 font height:10vh shadow-sm"
+      >
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Kut-AI</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarMain"
+          >
+      
+
+          <div class="d-flex gap-2 navbar-right">
+            <div class="dropdown">
+              <button class="btn btn-outline-secondary dropdown-toggle rounded-5 px-3" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
+                <i class="bi bi-person-circle me-1"></i>Dr. Ayşe Demir
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="#">Profil</a></li>
+                <li><a class="dropdown-item" href="#">Ayarlar</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item text-danger" href="index.html">Çıkış Yap</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <div class="container-fluid py-4">
+      <div class="row">
+        <!-- Sidebar -->
+        <div class="col-lg-3 d-none d-lg-block">
+          <div class="card shadow-sm rounded-3 border-0 mb-4">
+            <div class="card-body text-center py-4">
+          
+              <h5 class="mb-1">Dr. Ayşe Demir</h5>
+              <p class="text-muted small">psikolog@example.com</p>
+              <div class="d-flex justify-content-center gap-2 mt-3">
+                <span class="badge bg-primary">Uzman Psikolog</span>
+                <span class="badge bg-success">Çevrimiçi</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card shadow-sm rounded-3 border-0 mb-4">
+            <div class="card-body">
+              <h6 class="fw-bold mb-3">Hasta İstatistikleri</h6>
+              <div class="d-flex justify-content-between mb-2">
+                <span class="small">Toplam Hasta</span>
+                <span class="fw-bold">42</span>
+              </div>
+              <div class="d-flex justify-content-between mb-2">
+                <span class="small">Aktif Hasta</span>
+                <span class="fw-bold">18</span>
+              </div>
+              <div class="d-flex justify-content-between mb-2">
+                <span class="small">Bu Ay Yeni</span>
+                <span class="fw-bold">5</span>
+              </div>
+              <div class="d-flex justify-content-between">
+                <span class="small">Randevu Bekleyen</span>
+                <span class="fw-bold">3</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card shadow-sm rounded-3 border-0">
+            <div class="card-body">
+              <h6 class="fw-bold mb-3">Hasta Ekle</h6>
+              <form>
+                <div class="mb-3">
+                  <label for="patientId" class="form-label small">Hasta ID</label>
+                  <input type="text" class="form-control form-control-sm" id="patientId" placeholder="Hasta ID girin">
+                </div>
+                <div class="mb-3">
+                  <label for="patientName" class="form-label small">Hasta Adı</label>
+                  <input type="text" class="form-control form-control-sm" id="patientName" placeholder="Ad Soyad">
+                </div>
+                <button type="submit" class="btn btn-sm btn-primary w-100">Hasta Ekle</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="col-lg-9">
+          <div class="card shadow-sm rounded-3 border-0 mb-4">
+            <div class="card-body p-0">
+              <ul class="nav nav-tabs" id="doctorTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="hastalar-tab" data-bs-toggle="tab" data-bs-target="#hastalar" type="button" role="tab">Hastalarım</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link " id="anketler-tab" data-bs-toggle="tab" data-bs-target="#anketler" type="button" role="tab">Anketler</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="raporlar-tab" data-bs-toggle="tab" data-bs-target="#raporlar" type="button" role="tab">Raporlar</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="mesajlar-tab" data-bs-toggle="tab" data-bs-target="#mesajlar" type="button" role="tab">Mesajlar</button>
+                </li>
+                 <li class="nav-item" role="presentation">
+    <button class="nav-link" id="randevular-tab" data-bs-toggle="tab" data-bs-target="#randevular" type="button" role="tab">Randevular</button>
+              </ul>
+              
+              <div class="tab-content p-4" id="doctorTabsContent">
+                <!-- Hastalar Tab -->
+                <div class="tab-pane fade show active" id="hastalar" role="tabpanel">
+                  <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="mb-0">Hasta Listesi</h4>
+                    <div class="input-group" style="width: 300px;">
+                      <input type="text" class="form-control" placeholder="Hasta ara...">
+                      <button class="btn btn-outline-secondary" type="button">
+                        <i class="bi bi-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <div class="table-responsive">
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>Hasta ID</th>
+                          <th>Ad Soyad</th>
+                          <th>Son Görüşme</th>
+                          <th>Durum</th>
+                          <th>İşlemler</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>#PAT-1001</td>
+                          <td>
+                            <div class="d-flex align-items-center">
+                           
+                              Ahmet Yılmaz
+                            </div>
+                          </td>
+                          <td>15.06.2023</td>
+                          <td><span class="badge bg-success">Aktif</span></td>
+                          <td>
+                            <button class="btn btn-sm btn-outline-primary">Profil</button>
+                            <button class="btn btn-sm btn-outline-secondary">Mesaj</button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>#PAT-1002</td>
+                          <td>
+                            <div class="d-flex align-items-center">
+                          
+                              Mehmet Kaya
+                            </div>
+                          </td>
+                          <td>10.06.2023</td>
+                          <td><span class="badge bg-warning text-dark">Beklemede</span></td>
+                          <td>
+                            <button class="btn btn-sm btn-outline-primary">Profil</button>
+                            <button class="btn btn-sm btn-outline-secondary">Mesaj</button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>#PAT-1003</td>
+                          <td>
+                            <div class="d-flex align-items-center">
+                             
+                              Zeynep Akın
+                            </div>
+                          </td>
+                          <td>05.06.2023</td>
+                          <td><span class="badge bg-danger">Pasif</span></td>
+                          <td>
+                            <button class="btn btn-sm btn-outline-primary">Profil</button>
+                            <button class="btn btn-sm btn-outline-secondary">Mesaj</button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>#PAT-1004</td>
+                          <td>
+                            <div class="d-flex align-items-center">
+                            
+                              Fatma Şahin
+                            </div>
+                          </td>
+                          <td>01.06.2023</td>
+                          <td><span class="badge bg-success">Aktif</span></td>
+                          <td>
+                            <button class="btn btn-sm btn-outline-primary">Profil</button>
+                            <button class="btn btn-sm btn-outline-secondary">Mesaj</button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  
+                  <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                      <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Önceki</a>
+                      </li>
+                      <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                      <li class="page-item"><a class="page-link" href="#">2</a></li>
+                      <li class="page-item"><a class="page-link" href="#">3</a></li>
+                      <li class="page-item">
+                        <a class="page-link" href="#">Sonraki</a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+                
+                <!-- Anketler Tab -->
+                <div class="tab-pane fade " id="anketler" role="tabpanel">
+                  <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="mb-0">Hasta Anketleri</h4>
+                    <div class="btn-group">
+                      <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-filter"></i> Filtrele
+                      </button>
+                      <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#">Tüm Anketler</a></li>
+                        <li><a class="dropdown-item" href="#">Tamamlananlar</a></li>
+                        <li><a class="dropdown-item" href="#">Devam Edenler</a></li>
+                        <li><a class="dropdown-item" href="#">Başlamayanlar</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  
+                  <div class="row">
+                    <div class="col-md-6 mb-4">
+                      <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                          <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                              <h5 class="card-title mb-0">Ahmet Yılmaz</h5>
+                              <p class="card-text small text-muted mb-0">#PAT-1001</p>
+                            </div>
+                            <span class="badge bg-success">Tamamlandı</span>
+                          </div>
+                          <hr>
+                          <h6 class="mb-3">Depresyon Tarama Testi</h6>
+                          <div class="progress mb-3" style="height: 6px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%;"></div>
+                          </div>
+                          <div class="d-flex justify-content-between small text-muted mb-3">
+                            <span>Son tamamlanma: 15.06.2023</span>
+                            <span>Skor: 14/30</span>
+                          </div>
+                          <div class="d-flex gap-2">
+                            <a href="#" class="btn btn-sm btn-outline-primary flex-grow-1">Sonuçları İncele</a>
+                            <a href="#" class="btn btn-sm btn-outline-secondary">Hasta Profili</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-4">
+                      <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                          <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                              <h5 class="card-title mb-0">Mehmet Kaya</h5>
+                              <p class="card-text small text-muted mb-0">#PAT-1002</p>
+                            </div>
+                            <span class="badge bg-warning text-dark">Devam Ediyor</span>
+                          </div>
+                          <hr>
+                          <h6 class="mb-3">Anksiyete Ölçeği</h6>
+                          <div class="progress mb-3" style="height: 6px;">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 65%;"></div>
+                          </div>
+                          <div class="d-flex justify-content-between small text-muted mb-3">
+                            <span>Son güncelleme: 20.06.2023</span>
+                            <span>Skor: -</span>
+                          </div>
+                          <div class="d-flex gap-2">
+                            <a href="#" class="btn btn-sm btn-outline-primary flex-grow-1">Sonuçları İncele</a>
+                            <a href="#" class="btn btn-sm btn-outline-secondary">Hasta Profili</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-4">
+                      <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                          <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                              <h5 class="card-title mb-0">Zeynep Akın</h5>
+                              <p class="card-text small text-muted mb-0">#PAT-1003</p>
+                            </div>
+                            <span class="badge bg-danger">Başlamadı</span>
+                          </div>
+                          <hr>
+                          <h6 class="mb-3">Kişilik Envanteri</h6>
+                          <div class="progress mb-3" style="height: 6px;">
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: 0%;"></div>
+                          </div>
+                          <div class="d-flex justify-content-between small text-muted mb-3">
+                            <span>Son erişim: Hiç</span>
+                            <span>Skor: -</span>
+                          </div>
+                          <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-outline-secondary flex-grow-1" disabled>Sonuçları İncele</button>
+                            <a href="#" class="btn btn-sm btn-outline-secondary">Hasta Profili</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-4">
+                      <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                          <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                              <h5 class="card-title mb-0">Fatma Şahin</h5>
+                              <p class="card-text small text-muted mb-0">#PAT-1004</p>
+                            </div>
+                            <span class="badge bg-success">Tamamlandı</span>
+                          </div>
+                          <hr>
+                          <h6 class="mb-3">Stres Düzeyi Testi</h6>
+                          <div class="progress mb-3" style="height: 6px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%;"></div>
+                          </div>
+                          <div class="d-flex justify-content-between small text-muted mb-3">
+                            <span>Son tamamlanma: 10.06.2023</span>
+                            <span>Skor: 22/40</span>
+                          </div>
+                          <div class="d-flex gap-2">
+                            <a href="#" class="btn btn-sm btn-outline-primary flex-grow-1">Sonuçları İncele</a>
+                            <a href="#" class="btn btn-sm btn-outline-secondary">Hasta Profili</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Raporlar Tab -->
+                <div class="tab-pane fade" id="raporlar" role="tabpanel">
+                  <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="mb-0">Hasta Raporları</h4>
+                    <div>
+                   
+                      <button class="btn btn-sm btn-outline-secondary">
+                        <i class="bi bi-download"></i> Tümünü İndir
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <div class="table-responsive">
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>Rapor No</th>
+                          <th>Hasta</th>
+                          <th>Tarih</th>
+                          <th>Tür</th>
+                        
+                          <th>İşlemler</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>#RPT-2023-001</td>
+                          <td>Ahmet Yılmaz (#PAT-1001)</td>
+                          <td>15.06.2023</td>
+                          <td>Psikolojik Değerlendirme</td>
+                          <td>
+                            <button class="btn btn-sm btn-outline-primary">Görüntüle</button>
+                            <button class="btn btn-sm btn-outline-danger">İndir</button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>#RPT-2023-002</td>
+                          <td>Mehmet Kaya (#PAT-1002)</td>
+                          <td>10.06.2023</td>
+                          <td>Terapi Süreci</td>
+                          
+                          <td>
+                            <button class="btn btn-sm btn-outline-primary">Görüntüle</button>
+                            <button class="btn btn-sm btn-outline-danger">İndir</button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>#RPT-2023-003</td>
+                          <td>Zeynep Akın (#PAT-1003)</td>
+                          <td>05.06.2023</td>
+                          <td>İlk Görüşme</td>
+                          
+                          <td>
+                            <button class="btn btn-sm btn-outline-primary">Görüntüle</button>
+                            <button class="btn btn-sm btn-outline-danger">İndir</button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>#RPT-2023-004</td>
+                          <td>Fatma Şahin (#PAT-1004)</td>
+                          <td>01.06.2023</td>
+                          <td>Psikolojik Değerlendirme</td>
+                        
+                          <td>
+                            <button class="btn btn-sm btn-outline-primary">Görüntüle</button>
+                            <button class="btn btn-sm btn-outline-danger">İndir</button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                
+                <!-- Mesajlar Tab -->
+                <div class="tab-pane fade" id="mesajlar" role="tabpanel">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="card border-0 shadow-sm h-100">
+                        <div class="card-header bg-white border-0">
+                          <h5 class="mb-0">Hastalarım</h5>
+                        </div>
+                        <div class="card-body p-0">
+                          <div class="list-group list-group-flush">
+                            <a href="#" class="list-group-item list-group-item-action active">
+                              <div class="d-flex align-items-center">
+                              
+                                <div>
+                                  <h6 class="mb-0">Ahmet Yılmaz</h6>
+                                  <small class="text-white-50">Son mesaj: 15 dk önce</small>
+                                </div>
+                              </div>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                              <div class="d-flex align-items-center">
+                             
+                                <div>
+                                  <h6 class="mb-0">Mehmet Kaya</h6>
+                                  <small class="text-muted">Son mesaj: 2 gün önce</small>
+                                </div>
+                              </div>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                              <div class="d-flex align-items-center">
+                              
+                                <div>
+                                  <h6 class="mb-0">Zeynep Akın</h6>
+                                  <small class="text-muted">Son mesaj: 1 hafta önce</small>
+                                </div>
+                              </div>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                              <div class="d-flex align-items-center">
+                              
+                                <div>
+                                  <h6 class="mb-0">Fatma Şahin</h6>
+                                  <small class="text-muted">Son mesaj: 2 hafta önce</small>
+                                </div>
+                              </div>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="col-md-8">
+                      <div class="card border-0 shadow-sm h-100">
+                        <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+                          <div class="d-flex align-items-center">
+                       
+                            <div>
+                              <h5 class="mb-0">Ahmet Yılmaz (#PAT-1001)</h5>
+                              <small class="text-muted">Çevrimiçi</small>
+                            </div>
+                          </div>
+                          <div>
+                            <button class="btn btn-sm btn-outline-secondary">
+                              <i class="bi bi-telephone"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-secondary ms-2">
+                              <i class="bi bi-three-dots-vertical"></i>
+                            </button>
+                          </div>
+                        </div>
+                        
+                        <div class="card-body chat-messages" style="height: 400px; overflow-y: auto;">
+                          <div class="message received mb-3">
+                            <div class="message-content bg-light p-3 rounded">
+                              <p class="mb-0">Merhaba Doktor Hanım, son test sonuçlarımı merak ediyorum. Ne zaman görüşebiliriz?</p>
+                              <small class="text-muted d-block text-end mt-1">15:30 - 15.06.2023</small>
+                            </div>
+                          </div>
+                          
+                          <div class="message sent mb-3">
+                            <div class="message-content bg-primary text-white p-3 rounded">
+                              <p class="mb-0">Merhaba Ahmet Bey, sonuçlarınızı inceledim. Yarın saat 14:00 uygun mudur?</p>
+                              <small class="text-white-50 d-block text-end mt-1">15:32 - 15.06.2023</small>
+                            </div>
+                          </div>
+                          
+                          <div class="message received mb-3">
+                            <div class="message-content bg-light p-3 rounded">
+                              <p class="mb-0">Yarın 14:00 uygun. Randevu oluşturdum. Görüşmek üzere, iyi günler.</p>
+                              <small class="text-muted d-block text-end mt-1">15:35 - 15.06.2023</small>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div class="card-footer bg-white border-0">
+                          <div class="input-group">
+                            <input type="text" class="form-control rounded-start" placeholder="Mesaj yazın...">
+                            <button class="btn btn-primary rounded-end" type="button">
+                              <i class="bi bi-send"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+<div class="tab-pane fade" id="randevular" role="tabpanel">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">Randevu Takvimi</h5>
+          <div>
+            <button id="prevMonth" class="btn btn-sm btn-outline-secondary">
+              <i class="bi bi-chevron-left"></i>
+            </button>
+            <span id="currentMonthYear" class="mx-2 fw-bold">Haziran 2023</span>
+            <button id="nextMonth" class="btn btn-sm btn-outline-secondary">
+              <i class="bi bi-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="calendar">
+            <div class="calendar-header">
+              <div class="day-header">Pzt</div>
+              <div class="day-header">Sal</div>
+              <div class="day-header">Çar</div>
+              <div class="day-header">Per</div>
+              <div class="day-header">Cum</div>
+              <div class="day-header">Cmt</div>
+              <div class="day-header">Paz</div>
+            </div>
+            <div class="calendar-days" id="calendarDays"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white border-0">
+          <h5 class="mb-0">Gelecek Randevularım</h5>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover" id="upcomingAppointments">
+              <thead>
+                <tr>
+                  <th>Tarih</th>
+                  <th>Saat</th>
+                  <th>Hasta</th>
+                  <th>Durum</th>
+                  <th>İşlemler</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- JavaScript ile doldurulacak -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm sticky-top" style="top: 20px;">
+        <div class="card-header bg-white border-0">
+          <h5 class="mb-0" id="selectedDateTitle">Randevu Oluştur</h5>
+        </div>
+        <div class="card-body">
+          <form id="appointmentForm">
+            <div class="mb-3">
+              <label for="appointmentPatient" class="form-label">Hasta Seçin</label>
+              <select class="form-select" id="appointmentPatient" required>
+                <option value="" selected disabled>Hasta seçin</option>
+                <option value="PAT-1001">Ahmet Yılmaz</option>
+                <option value="PAT-1002">Mehmet Kaya</option>
+                <option value="PAT-1003">Zeynep Akın</option>
+                <option value="PAT-1004">Fatma Şahin</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Saat Seçin</label>
+              <div class="time-slots" id="timeSlots">
+                <!-- JavaScript ile doldurulacak -->
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="appointmentNotes" class="form-label">Notlar</label>
+              <textarea class="form-control" id="appointmentNotes" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Randevu Oluştur</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script>
+        // Randevu verileri (gerçek uygulamada bu veriler sunucudan gelecek)
+let appointments = [
+  { id: 1, patientId: 'PAT-1001', patientName: 'Ahmet Yılmaz', date: '2023-06-20', time: '10:00', notes: 'Kontrol görüşmesi', status: 'confirmed' },
+  { id: 2, patientId: 'PAT-1002', patientName: 'Mehmet Kaya', date: '2023-06-20', time: '14:00', notes: 'İlk görüşme', status: 'pending' },
+  { id: 3, patientId: 'PAT-1003', patientName: 'Zeynep Akın', date: '2023-06-22', time: '11:30', notes: 'Terapi seansı', status: 'confirmed' }
+];
+
+// Takvim ve randevu işlemleri
+document.addEventListener('DOMContentLoaded', function() {
+  // Takvim oluştur
+  let currentDate = new Date();
+  renderCalendar(currentDate);
+  renderUpcomingAppointments();
+  
+  // Ay değiştirme butonları
+  document.getElementById('prevMonth').addEventListener('click', function() {
+    currentDate.setMonth(currentDate.getMonth() - 1);
+    renderCalendar(currentDate);
+  });
+  
+  document.getElementById('nextMonth').addEventListener('click', function() {
+    currentDate.setMonth(currentDate.getMonth() + 1);
+    renderCalendar(currentDate);
+  });
+  
+  // Randevu formu gönderimi
+  document.getElementById('appointmentForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    createAppointment();
+  });
+});
+
+// Takvimi oluştur
+function renderCalendar(date) {
+  const monthNames = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", 
+                     "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+  
+  // Ay ve yıl bilgisini güncelle
+  document.getElementById('currentMonthYear').textContent = 
+    `${monthNames[date.getMonth()]} ${date.getFullYear()}`;
+  
+  // Ayın ilk günü
+  const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+  // Ayın son günü
+  const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+  // Ayın ilk gününün hafta içi (0-6, Pazar=0)
+  const firstDayOfWeek = firstDay.getDay();
+  // Ayın gün sayısı
+  const daysInMonth = lastDay.getDate();
+  
+  // Takvim günlerini temizle
+  const calendarDays = document.getElementById('calendarDays');
+  calendarDays.innerHTML = '';
+  
+  // Önceki ayın son günlerini ekle (boşluklar için)
+  const prevMonthLastDay = new Date(date.getFullYear(), date.getMonth(), 0).getDate();
+  for (let i = 0; i < (firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1); i++) {
+    const dayElement = document.createElement('div');
+    dayElement.className = 'day disabled';
+    dayElement.textContent = prevMonthLastDay - i;
+    calendarDays.appendChild(dayElement);
+  }
+  
+  // Bu ayın günlerini ekle
+  const today = new Date();
+  for (let i = 1; i <= daysInMonth; i++) {
+    const dayElement = document.createElement('div');
+    dayElement.className = 'day';
+    dayElement.textContent = i;
+    
+    // Bugün mü kontrolü
+    if (date.getFullYear() === today.getFullYear() && 
+        date.getMonth() === today.getMonth() && 
+        i === today.getDate()) {
+      dayElement.classList.add('today');
+    }
+    
+    // Randevu var mı kontrolü
+    const dateStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+    const dayAppointments = appointments.filter(a => a.date === dateStr);
+    if (dayAppointments.length > 0) {
+      dayElement.classList.add('has-appointment');
+    }
+    
+    // Gün seçimine tıklama
+    dayElement.addEventListener('click', function() {
+      selectDay(i, date);
+    });
+    
+    calendarDays.appendChild(dayElement);
+  }
+  
+  // Sonraki ayın ilk günlerini ekle (takvimi tamamlamak için)
+  const totalCells = Math.ceil((daysInMonth + (firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1)) / 7) * 7;
+  const remainingCells = totalCells - (daysInMonth + (firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1));
+  for (let i = 1; i <= remainingCells; i++) {
+    const dayElement = document.createElement('div');
+    dayElement.className = 'day disabled';
+    dayElement.textContent = i;
+    calendarDays.appendChild(dayElement);
+  }
+}
+
+// Gün seçimini işle
+function selectDay(day, currentDate) {
+  // Tüm gün seçimlerini kaldır
+  document.querySelectorAll('.day.selected').forEach(el => {
+    el.classList.remove('selected');
+  });
+  
+  // Seçili günü işaretle
+  const days = document.querySelectorAll('.day:not(.disabled)');
+  days[day - 1].classList.add('selected');
+  
+  // Seçili tarihi formatla
+  const selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+  const formattedDate = selectedDate.toLocaleDateString('tr-TR', { 
+    weekday: 'long', 
+    day: 'numeric', 
+    month: 'long', 
+    year: 'numeric' 
+  });
+  
+  // Sağ panel başlığını güncelle
+  document.getElementById('selectedDateTitle').textContent = formattedDate;
+  
+  // Saat seçeneklerini oluştur
+  renderTimeSlots(selectedDate);
+}
+
+// Saat seçeneklerini oluştur
+function renderTimeSlots(date) {
+  const timeSlotsContainer = document.getElementById('timeSlots');
+  timeSlotsContainer.innerHTML = '';
+  
+  // Randevu saatleri (09:00 - 17:00 arası, 30 dakika aralıklarla)
+  const startHour = 9;
+  const endHour = 17;
+  const interval = 30;
+  
+  // Seçili tarihin formatı (YYYY-MM-DD)
+  const dateStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+  
+  // Bu tarihteki randevular
+  const dayAppointments = appointments.filter(a => a.date === dateStr);
+  
+  for (let hour = startHour; hour < endHour; hour++) {
+    for (let minute = 0; minute < 60; minute += interval) {
+      const time = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+      const timeSlot = document.createElement('div');
+      timeSlot.className = 'time-slot';
+      timeSlot.textContent = time;
+      
+      // Bu saatte randevu var mı kontrolü
+      const isBooked = dayAppointments.some(a => a.time === time);
+      if (isBooked) {
+        timeSlot.classList.add('booked');
+      } else {
+        timeSlot.addEventListener('click', function() {
+          // Tüm saat seçimlerini kaldır
+          document.querySelectorAll('.time-slot.selected').forEach(el => {
+            el.classList.remove('selected');
+          });
+          
+          // Seçili saati işaretle
+          timeSlot.classList.add('selected');
+        });
+      }
+      
+      timeSlotsContainer.appendChild(timeSlot);
+    }
+  }
+}
+
+// Randevu oluştur
+function createAppointment() {
+  const patientSelect = document.getElementById('appointmentPatient');
+  const selectedPatient = patientSelect.options[patientSelect.selectedIndex];
+  const selectedTime = document.querySelector('.time-slot.selected');
+  
+  if (!selectedPatient.value || !selectedTime) {
+    alert('Lütfen hasta ve saat seçiniz!');
+    return;
+  }
+  
+  // Seçili tarih ve saat bilgilerini al
+  const selectedDay = document.querySelector('.day.selected');
+  const currentMonthYear = document.getElementById('currentMonthYear').textContent;
+  const [month, year] = currentMonthYear.split(' ');
+  const monthIndex = [
+    'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 
+    'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'
+  ].indexOf(month);
+  
+  const date = new Date(year, monthIndex, parseInt(selectedDay.textContent));
+  const dateStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+  const time = selectedTime.textContent;
+  const notes = document.getElementById('appointmentNotes').value;
+  
+  // Yeni randevu oluştur
+  const newAppointment = {
+    id: appointments.length + 1,
+    patientId: selectedPatient.value,
+    patientName: selectedPatient.text,
+    date: dateStr,
+    time: time,
+    notes: notes,
+    status: 'confirmed'
+  };
+  
+  appointments.push(newAppointment);
+  
+  // Takvimi ve listeyi güncelle
+  renderCalendar(date);
+  renderUpcomingAppointments();
+  
+  // Formu temizle
+  document.getElementById('appointmentForm').reset();
+  document.querySelectorAll('.time-slot.selected').forEach(el => {
+    el.classList.remove('selected');
+  });
+  
+  alert('Randevu başarıyla oluşturuldu!');
+}
+
+// Gelecek randevuları listele
+function renderUpcomingAppointments() {
+  const tbody = document.querySelector('#upcomingAppointments tbody');
+  tbody.innerHTML = '';
+  
+  // Bugünün tarihi
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  
+  // Gelecek randevuları filtrele ve sırala
+  const upcoming = appointments
+    .filter(a => {
+      const [year, month, day] = a.date.split('-');
+      const appDate = new Date(year, month - 1, day);
+      return appDate >= today;
+    })
+    .sort((a, b) => {
+      if (a.date === b.date) {
+        return a.time.localeCompare(b.time);
+      }
+      return new Date(a.date) - new Date(b.date);
+    });
+  
+  // Randevuları tabloya ekle
+  upcoming.forEach(app => {
+    const [year, month, day] = app.date.split('-');
+    const formattedDate = `${day}.${month}.${year}`;
+    
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${formattedDate}</td>
+      <td>${app.time}</td>
+      <td>${app.patientName}</td>
+      <td><span class="appointment-status status-${app.status}">
+        ${app.status === 'confirmed' ? 'Onaylandı' : 
+          app.status === 'pending' ? 'Bekliyor' : 'İptal Edildi'}
+      </span></td>
+      <td>
+        <button class="btn btn-sm btn-outline-primary edit-appointment" data-id="${app.id}">Düzenle</button>
+        <button class="btn btn-sm btn-outline-danger cancel-appointment" data-id="${app.id}">İptal Et</button>
+      </td>
+    `;
+    
+    tbody.appendChild(tr);
+  });
+  
+  // Düzenle ve iptal butonlarına event listener ekle
+  document.querySelectorAll('.edit-appointment').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const id = parseInt(this.getAttribute('data-id'));
+      editAppointment(id);
+    });
+  });
+  
+  document.querySelectorAll('.cancel-appointment').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const id = parseInt(this.getAttribute('data-id'));
+      cancelAppointment(id);
+    });
+  });
+}
+
+
+// Randevu düzenle
+function editAppointment(id) {
+  const appointment = appointments.find(a => a.id === id);
+  if (!appointment) return;
+  
+  // Mevcut randevu bilgilerini sakla
+  const oldDate = appointment.date;
+  const oldTime = appointment.time;
+  
+  // Randevu bilgilerini forma doldur
+  document.getElementById('appointmentPatient').value = appointment.patientId;
+  document.getElementById('appointmentNotes').value = appointment.notes || '';
+  
+  // Tarihi seç
+  const [year, month, day] = appointment.date.split('-');
+  const date = new Date(year, month - 1, day);
+  renderCalendar(date);
+  
+  // Günü seç
+  setTimeout(() => {
+    const days = document.querySelectorAll('.day:not(.disabled)');
+    days[parseInt(day) - 1].click();
+    
+    // Saati seç
+    setTimeout(() => {
+      const timeSlots = document.querySelectorAll('.time-slot');
+      Array.from(timeSlots).find(slot => slot.textContent === appointment.time)?.click();
+    }, 100);
+  }, 100);
+  
+  // Randevu sekmesine git
+  document.getElementById('randevular-tab').click();
+  
+  // Form submit işlemini güncelle
+  const form = document.getElementById('appointmentForm');
+  form.removeEventListener('submit', createAppointment);
+  form.onsubmit = function(e) {
+    e.preventDefault();
+    updateAppointment(id, oldDate, oldTime);
+  };
+  form.querySelector('button[type="submit"]').textContent = 'Randevuyu Güncelle';
+}
+
+// Randevu güncelle
+function updateAppointment(id, oldDate, oldTime) {
+  const appointment = appointments.find(a => a.id === id);
+  if (!appointment) return;
+  
+  const patientSelect = document.getElementById('appointmentPatient');
+  const selectedPatient = patientSelect.options[patientSelect.selectedIndex];
+  const selectedTime = document.querySelector('.time-slot.selected');
+  
+  
+  // Seçili tarih ve saat bilgilerini al
+  const selectedDay = document.querySelector('.day.selected');
+  const currentMonthYear = document.getElementById('currentMonthYear').textContent;
+  const [month, year] = currentMonthYear.split(' ');
+  const monthIndex = [
+    'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 
+    'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'
+  ].indexOf(month);
+  
+  const date = new Date(year, monthIndex, parseInt(selectedDay.textContent));
+  const dateStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+  const time = selectedTime.textContent;
+  const notes = document.getElementById('appointmentNotes').value;
+  
+  // Eğer tarih veya saat değiştiyse, eski randevu zamanını serbest bırak
+  if (oldDate !== dateStr || oldTime !== time) {
+    // Eski randevuyu listeden kaldır
+    appointments = appointments.filter(a => !(a.date === oldDate && a.time === oldTime && a.id === id));
+  }
+  
+  // Randevuyu güncelle veya yeni olarak ekle
+  appointment.patientId = selectedPatient.value;
+  appointment.patientName = selectedPatient.text;
+  appointment.date = dateStr;
+  appointment.time = time;
+  appointment.notes = notes;
+  
+  // Eğer yeni bir randevu oluşturulduysa (tarih/saat değiştiyse)
+  if (oldDate !== dateStr || oldTime !== time) {
+    appointment.id = appointments.length > 0 ? Math.max(...appointments.map(a => a.id)) + 1 : 1;
+    appointments.push(appointment);
+  }
+  
+  // Takvimi ve listeyi güncelle
+  renderCalendar(new Date());
+  renderUpcomingAppointments();
+  
+  // Formu sıfırla
+  document.getElementById('appointmentForm').reset();
+  document.querySelectorAll('.time-slot.selected').forEach(el => {
+    el.classList.remove('selected');
+  });
+  
+  // Form submit işlemini eski haline getir
+  const form = document.getElementById('appointmentForm');
+  form.onsubmit = createAppointment;
+  form.querySelector('button[type="submit"]').textContent = 'Randevu Oluştur';
+  
+  alert('Randevu başarıyla güncellendi!');
+}
+
+// Randevu iptal et
+function cancelAppointment(id) {
+  if (confirm('Bu randevuyu iptal etmek istediğinize emin misiniz?')) {
+    const appointment = appointments.find(a => a.id === id);
+    if (appointment) {
+      appointment.status = 'cancelled';
+      renderUpcomingAppointments();
+      
+      // Takvimi güncelle
+      const [year, month, day] = appointment.date.split('-');
+      const date = new Date(year, month - 1, day);
+      renderCalendar(date);
+      
+      alert('Randevu iptal edildi!');
+    }
+  }
+}
+
+function renderTimeSlots(date) {
+  const timeSlotsContainer = document.getElementById('timeSlots');
+  timeSlotsContainer.innerHTML = '';
+  
+  const startHour = 9;
+  const endHour = 17;
+  const interval = 30;
+  
+  const dateStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+  
+  const dayAppointments = appointments.filter(a => a.date === dateStr);
+  
+  for (let hour = startHour; hour < endHour; hour++) {
+    for (let minute = 0; minute < 60; minute += interval) {
+      const time = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+      const timeSlot = document.createElement('div');
+      timeSlot.className = 'time-slot';
+      timeSlot.textContent = time;
+      
+      const isBooked = dayAppointments.some(a => a.time === time);
+      if (isBooked) {
+        timeSlot.classList.add('booked');
+        // Eğer bu randevu düzenlenen randevuysa, seçilebilir yap
+        const editingAppointment = appointments.find(a => a.date === dateStr && a.time === time && a.status !== 'cancelled');
+        if (editingAppointment) {
+          timeSlot.classList.remove('booked');
+          timeSlot.classList.add('editing');
+          timeSlot.addEventListener('click', function() {
+            document.querySelectorAll('.time-slot.selected').forEach(el => {
+              el.classList.remove('selected');
+            });
+            timeSlot.classList.add('selected');
+          });
+        }
+      } else {
+        timeSlot.addEventListener('click', function() {
+          document.querySelectorAll('.time-slot.selected').forEach(el => {
+            el.classList.remove('selected');
+          });
+          timeSlot.classList.add('selected');
+        });
+      }
+      
+      timeSlotsContainer.appendChild(timeSlot);
+    }
+  }
+}
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

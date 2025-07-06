@@ -1,0 +1,396 @@
+.main {
+  width: 350px;
+  height: 700px;
+  background-color: var(--light-color);
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 5px 20px 50px #000;
+  position: relative;
+  font-family: "Jost", sans-serif;
+}
+
+:root {
+  --primary-color: #dc3545;
+  --secondary-color: #343a40;
+  --light-color: #f8f9fa;
+}
+
+* {
+  margin: 0px;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+div {
+  display: block;
+  unicode-bidi: isolate;
+  font-family: sans-serif;
+}
+body {
+  font-family: Arial, sans-serif;
+  background-color: var(--light-color);
+  overflow-x: hidden;
+  transition: filter 0.3s ease-in-out;
+  color: var(--secondary-color);
+}
+
+html {
+  font-size: 17px;
+  scroll-behavior: smooth;
+  overflow-y: auto;
+}
+
+.main {
+  /* Formun ana konteyneri */
+  width: 500px; /* Orijinal genişlik */
+  height: 700px; /* Orijinal yükseklik, KAYIT OL FORMUNUN TÜM İÇERİĞİ SIĞMALI */
+  background-color: white; /* TEMEL ARKA PLAN BEYAZ */
+  overflow: hidden; /* BU ÇOK ÖNEMLİ! */
+  border-radius: 10px;
+  box-shadow: 5px 20px 50px #000;
+  position: relative;
+  font-family: sans-serif;
+  margin-inline-start: 30rem;
+  margin-top: 30px;
+  
+}
+
+#chk {
+  display: none;
+}
+
+.signup {
+  position: relative;
+  height: 100%; /* .main yüksekliğini alır */
+  width: 100%;
+
+
+  /* background: lightyellow; /* Geçici debug rengi */
+}
+
+/* GENEL LABEL STİLİ (SEKME BAŞLIKLARI İÇİN) */
+.main > div > form > label[for="chk"] {
+  /* Daha spesifik seçici */
+  font-size: 2em;
+  justify-content: center;
+  display: flex;
+  margin: 50px 0 30px 0; /* Üst ve alt boşluklar */
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.5s ease-in-out;
+}
+
+/* SIGNUP (KAYIT OL) LABEL'I */
+.signup > form > label[for="chk"] {
+  color: var(--secondary-color);
+
+  /* MOR RENK (Eğer arka planı beyazsa) veya #fff (eğer signup arka planı mor ise) */
+  /* Şimdilik mor yapalım, beyaz arka plana göre */
+}
+.signup > form > label[for="chk"]::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: #dc3545; /* Kırmızı çizgi */
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+/* INPUT, SELECT, TEXTAREA ORTAK STİLLERİ */
+/* Ortak form elemanları */
+.main input,
+.main select,
+.main textarea {
+  width: 70%;
+  padding: 14px;
+  font-size: 16px;
+  margin: 15px auto;
+  display: block;
+  border-radius: 6px;
+  border: none;
+  background-color: #e0dede;
+  box-sizing: border-box;
+}
+/* Tarih inputu için placeholder'ı düzeltmek gerekebilir */
+.main input[type="date"]:required:invalid::-webkit-datetime-edit {
+  color: #333; /* Placeholder rengi */
+}
+.main input[type="date"] {
+  /* Tarih seçildiğinde normal yazı rengi */
+  color: #333;
+}
+
+.main textarea {
+  min-height: 60px; /* Textarea için minimum yükseklik */
+  resize: none;
+}
+
+/* BUTON ORTAK STİLİ */
+.main button {
+  width: 60%; /* Orijinal genişlik */
+  height: 40px; /* Orijinal yükseklik */
+  margin: 20px auto; /* Üstte boşluk, yatayda ortala */
+  display: block;
+  color: #fff;
+  background: var(--primary-color); /* Orijinal mor renk */
+  font-size: 1em; /* Orijinal font boyutu */
+  font-weight: bold;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  transition: 0.2s ease-in;
+  cursor: pointer;
+}
+
+.main button:hover {
+  background: var(--primary-color);
+}
+
+/* LOGIN (GİRİŞ YAP) BÖLÜMÜ */
+.login {
+  height: 460px; /* LOGIN FORMUNUN İÇERİĞİNE (başlık, 2 input, buton) YETECEK YÜKSEKLİK. GEREKİRSE AYARLAYIN! */
+  background-color: #eee; /* LOGIN BÖLÜMÜNÜN AÇIK GRİ ARKA PLANI */
+  border-radius: 60px / 30px; /* Orijinal kavis */
+  width: 100%;
+  position: absolute;
+  margin-top: 20px; /* Başlangıçta en üste yasla */
+  left: 0;
+ 
+
+  /* BAŞLANGIÇ POZİSYONU: Login formunu signup formunun altına itecek şekilde ayarlanacak */
+  /* .main_height (700) - .login_height (460) = 240px. Bu login'in alt kenarının signup'ın alt kenarıyla hizalanması demek. */
+  /* Eğer signup formunun altında, login label'ı görünecek şekilde istiyorsak: */
+  transform: translateY(
+    500px
+  ); /* Login'in üst kısmı, .main'in 600px aşağısında başlasın, yani alttan 100px'lik kısmı görünsün */
+  /* Bu 100px, login label'ının ve kavisin görünmesi için gereken yükseklik */
+  /* Senin kodundaki: transform: translateY(-250px); Bu login'i yukarı taşıyordu. */
+  /* Biz şimdi login'i aşağı itip, checkbox ile yukarı çekeceğiz. */
+  transition: 0.8s ease-in-out;
+  /* background: lightblue; /* Geçici debug rengi */
+}
+
+/* LOGIN (GİRİŞ YAP) LABEL'I */
+.login > form > label[for="chk"] {
+  color: var(--secondary-color); /* Mor renk */
+  transform: scale(1); /* Başlangıçta normal boyutta */
+}
+
+
+#chk:checked ~ .signup > form > label[for="chk"] {
+  transform: scale(0.6); /* Signup label'ını küçült */
+  color: var(--secondary-color); /* Signup label rengini soluklaştır */
+}
+
+#chk:checked ~ .login {
+  /* Login formunu tam olarak .main'in en üstüne getir */
+  transform: translateY(0);
+}
+/* #chk:checked ~ .login > form > label[for="chk"] { */
+/* Zaten başlangıçta scale(1) olduğu için ve login formu yukarı geldiği için bu label normal görünür */
+/* } */
+
+/* ŞİFRE GÖSTER/GİZLE İKONLARI */
+.password-container {
+  position: relative;
+  width: 70%; /* inputlarla aynı genişlik */
+  margin: 15px auto;
+}
+
+.password-container input[type="password"],
+.password-container input[type="text"] {
+  width: 100%;
+  padding: 14px;
+  padding-right: 40px; /* göz ikonu için boşluk */
+  font-size: 16px;
+  border-radius: 6px;
+  border: none;
+  box-sizing: border-box;
+  background-color: #e0dede;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  cursor: pointer;
+  color: #555;
+}
+
+.main select,
+.main textarea {
+  width: calc(60% + 20px);
+  margin: 15px auto;
+  display: block;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #e0dede;
+}
+.main textarea {
+  resize: vertical; /* sadece yukarı-aşağı boyutlandırılabilir */
+  min-height: 80px;
+  width: 70%;
+}
+
+/* --- FORM STİLLERİ SONU --- */
+
+/* LAST SECTION   */
+.contact-section {
+  padding: 60px 20px;
+  background-color: #000; /* Siyah arka plan */
+  color: #fff; /* Beyaz metin */
+  text-align: center;
+}
+
+.contact-section .container {
+  max-width: 600px;
+  margin: auto;
+}
+
+.contact-section h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: #ffcc00; /* Vurgulu başlık rengi */
+}
+
+.contact-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.contact-section input,
+.contact-section textarea {
+  padding: 12px;
+  font-size: 1rem;
+  background-color: #111;
+  border: 1px solid #444;
+  border-radius: 8px;
+  color: #fff;
+}
+
+.contact-section input::placeholder,
+.contact-section textarea::placeholder {
+  color: #aaa;
+}
+
+.contact-section button {
+  background-color: #ffcc00;
+  color: #000;
+  padding: 12px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.contact-section button:hover {
+  background-color: #e6b800;
+}
+
+@media (max-width: 991.98px) {
+  html {
+    font-size: 16px;
+  }
+
+  .main {
+    width: 90%;
+    height: 700px;
+    margin: 60px auto;
+    padding: 20px 10px;
+    border-radius: 10px;
+    box-shadow: inset;
+  }
+
+  .main input,
+  .main select,
+  .main textarea,
+  .password-container,
+  .password-container input {
+    width: 90%;
+  }
+
+  .main button {
+    width: 80%;
+    height: 40px;
+  }
+
+  .password-container .eye-icon {
+    right: 10px;
+  }
+
+  .main > div > form > label[for="chk"],
+  .signup > form > label[for="chk"]
+ {
+    font-size: 2em;
+    margin: 40px 0 10px 0;
+    
+   
+  }
+
+    .login > form > label[for="chk"]{
+      margin : 80px 0 0px 0;
+      font-size: 2em;
+   
+    }
+      
+      
+    }
+
+  .login {
+    height: 460px;
+    background-color: #eee; /* LOGIN BÖLÜMÜNÜN AÇIK GRİ ARKA PLANI */
+    border-radius : 60px / 30px; /* Orijinal kavis */
+    width: 100%;
+    position: absolute;
+    top: 100px; /* Başlangıçta en üste yasla */
+    left: 0;
+    transform: translateY(440px);
+
+  }
+    .login form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    height: 95%;
+    padding: 0 20px;
+  }
+
+  #chk:checked ~ .login {
+    transform: translateY(0);
+  }
+
+  .contact-section {
+    padding: 30px 15px;
+  }
+
+  .contact-section .container {
+    width: 100%;
+    padding: 0;
+  }
+
+  .contact-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .contact-section input,
+  .contact-section textarea {
+    width: 100%;
+    font-size: 0.95rem;
+  }
+
+  .contact-section button {
+    font-size: 0.95rem;
+  }
+}

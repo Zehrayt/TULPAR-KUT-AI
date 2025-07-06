@@ -1,0 +1,797 @@
+body {   
+  background-color: #f8f9fa;
+  color: #111827;
+}
+
+.height {
+  height: 90px;
+}
+
+.font {
+  font-family: sans-serif;
+}
+
+.navbar {
+  position: relative; 
+  z-index: 1050;
+  height: 10vh;
+  font-size: 17px;
+  background-color: white; 
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Hafif bir gölge ekleyelim */
+}
+
+.nav-link {
+  position: relative;
+  padding-bottom: 5px;
+  transition: all 0.3s ease;
+}
+
+.navbar .dropdown-menu {
+  z-index: 1051; /* Navbar'dan bile daha yüksek bir değer vererek en üstte olmasını garantiler */
+}
+
+.navbar-center .nav-link:not(.dropdown-toggle)::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: #dc3545; /* Kırmızı çizgi */
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.navbar-center .nav-link:hover::after,
+.navbar-center .nav-link:focus::after {
+  width: 100%;
+}
+
+.navbar-center .nav-link.active::after {
+  width: 100%;
+}
+
+.dropdown-item {
+ 
+  transition: all 0.2s ease;
+  padding: 8px 16px;
+}
+
+.dropdown-item:hover {
+   
+  background-color: #f8f9fa;
+  color: #dc3545;
+  font-weight: 500;
+  transform: scale(1.05);
+}
+
+.dropdown-toggle::after {
+
+  display: none !important;
+}
+
+.dropdown-toggle:hover::after {
+ 
+  transform: translateY(2px);
+}
+
+/* Navbar butonları */
+.btn-outline-primary {
+  border-color: #0d6efd;
+  color: #0d6efd;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+  background-color: #0d6efd;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.btn-danger {
+  transition: all 0.3s ease;
+}
+
+.btn-danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+/* Mobile menü için */
+@media (max-width: 991.98px) {
+  .navbar-collapse {
+    position: static;
+    transform: none;
+    text-align: center;
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+  }
+
+  .navbar-nav {
+    gap: 10px !important;
+  }
+
+  .nav-link::after {
+    display: none;
+  }
+}
+.navbar-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.navbar-right {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.dropdown-menu {
+ 
+  transform: none;
+  transition: none;
+  display: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease-in-out;
+}
+
+/* ESKİ KURALI SİLİP YERİNE BUNU EKLEYİN */
+.navbar .dropdown:hover > .dropdown-menu {
+  display: block;
+}
+
+section {
+  padding: 3.5rem 7%;
+}
+
+
+.main-hero {
+  position: relative; /* İçerideki absolute konumlandırma için zorunlu */
+  width: 100%;
+  height: 90vh; /* Ekran yüksekliğinin %90'ı */
+  display: flex; /* İçeriği ortalamak için */
+  align-items: center; /* Dikeyde ortala */
+  justify-content: center; /* Yatayda ortala */
+  text-align: center;
+  overflow: hidden;
+  padding: 0;
+}
+
+/* Arka plan resmini tutan div */
+.hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  
+  /* BURAYA KENDİ ARKA PLAN RESMİNİZİN YOLUNU YAZIN */
+  background-image: url('resimler/arkaplan.png'); 
+  
+  background-size: cover;
+  background-position: center;
+  z-index: 1; /* Arka planda kalacak */
+  filter: brightness(0.6); /* Resmi biraz karartarak yazıyı okunur yapar */
+}
+
+/* Başlık ve buton gibi içerikleri tutan div */
+.hero-content {
+  position: relative;
+  z-index: 2; /* Ön planda kalacak */
+  color: white;
+}
+
+/* Başlık için stil */
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+/* Oyuna Başla Butonu (Yeni stil) */
+.hero-button {
+  font-weight: bold;
+  font-size: 1.25rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Sadece transform ve box-shadow'a geçiş efekti */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Butonun hover efekti */
+.hero-button:hover {
+  transform: translateY(-5px); /* Fare üzerine gelince 5px yukarı kalksın */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Ekran genişliği 768px ve üzeri için (md breakpoint) */
+@media (min-width: 768px) {
+  .game-intro .row {
+    flex-direction: row; /* Normalde zaten böyle ama açıklık için */
+  }
+  .game-intro .col-md-6:first-child {
+    /* Yazıların olduğu ilk col-md-6 */
+    padding-right: 3rem;
+  }
+  .game-intro .col-md-6:last-child {
+    /* Resmin olduğu ikinci col-md-6 */
+    padding-left: 3rem;
+  }
+}
+
+/* Ekran genişliği 768px'den küçükse (mobil) */
+@media (max-width: 767.98px) {
+  .game-intro .col-md-6 {
+    margin-bottom: 2rem; /* Alt alta geldiklerinde boşluk */
+  }
+  .game-intro .col-md-6:first-child {
+    padding-bottom: 0; /* Yazının altındaki boşluğu kaldır */
+  }
+
+  #biz-kimiz .row.g-4 > div {
+    width: 100% !important;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+}
+#karakterler {
+  background-color: #f8f9fa;
+  padding: 5rem 0;
+}
+
+.character-carousel-wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 90%;
+  margin: auto;
+  max-width: 1050px;
+}
+
+.character-carousel {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  padding: 0 20px;
+}
+
+.character-card {
+  flex: 0 0 calc(50% - 20px);
+  min-width: calc(50% - 20px);
+  box-sizing: border-box;
+  padding: 20px;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  margin: 0 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  opacity: 0.6;
+  transform: scale(0.95);
+  transition: all 0.4s ease;
+  min-height: auto;
+}
+
+.character-card.active {
+  opacity: 1;
+  transform: scale(1);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+#karakterler .character-image {
+  width: 100% !important;
+  height: 380px !important; /* İstediğiniz yüksekliği buraya yazın */
+  overflow: hidden !important;
+  position: relative !important;
+  border-radius: 10px !important;
+  margin-bottom: 15px !important;
+  background-color: #f0f0f0 !important;
+}
+
+#karakterler .character-image img {
+  width: 100% !important;
+  height: auto !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+}
+
+.character-card:hover .character-image img {
+  transform: translateX(-50%); /* Sadece yatayda ortalamayı koru, başka bir transform olmasın */
+  transition: none; /* Üzerine gelince geçiş efektini kaldır */
+}
+
+/* JavaScript'ten gelen .active class'ı dışındaki kartlara uygulanan hover efektini sıfırla */
+.character-card:not(.active):hover {
+    transform: scale(0.95); /* Aktif olmayan kartların hover durumunu da sabit tut */
+}
+
+.character-details {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 10px;
+}
+
+.character-description {
+  flex-grow: 1; 
+}
+
+.character-type {
+  font-style: italic;
+  color: #dc3545;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.character-traits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 10px 0;
+}
+
+.trait-badge {
+  background-color: #e9ecef;
+  padding: 3px 8px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+}
+
+.carousel-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: #343a40;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.carousel-control:hover {
+  background: #dc3545;
+  color: white;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.prev-btn {
+  left: 0;
+}
+
+.next-btn {
+  right: 0;
+}
+
+.section-title {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  color: #343a40;
+}
+
+.section-title:after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background-color: #dc3545;
+}
+
+@media (max-width: 767.98px) {
+  .character-card {
+    flex: 0 0 calc(100% - 20px);
+    min-width: calc(100% - 20px);
+  }
+
+  .carousel-control {
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+  }
+
+  .prev-btn {
+    left: 0;
+  }
+
+  .next-btn {
+    right: 0;
+  }
+}
+
+:root {
+  --primary-color: #dc3545;
+  --secondary-color: #343a40;
+  --light-color: #f8f9fa;
+}
+.section-title {
+  position: relative;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  color: var(--secondary-color);
+}
+
+.section-title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background-color: var(--primary-color);
+}
+
+.team-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.team-card .card-body {
+  flex-grow: 1; 
+  display: flex;
+  flex-direction: column;
+}
+
+.team-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.team-members {
+  margin-top: auto; /* İsimleri kartın en altına iter */
+  padding-top: 1rem; /* Üstteki içerikle arasına boşluk koyar */
+}
+
+.member-item {
+  display: flex;
+  justify-content: space-between; /* İsim sola, ikonlar sağa */
+  align-items: center; /* Dikeyde ortala */
+  width: 100%;
+  margin-bottom: 0.5rem; /* İsimler arası boşluk */
+  padding: 0.25rem 0;
+  border-bottom: 1px solid #f0f0f0; /* İsimler arasına ince bir çizgi */
+}
+
+.member-item:last-child {
+  border-bottom: none; /* Son ismin altındaki çizgiyi kaldır */
+}
+
+.member-item .team-name {
+  margin-bottom: 0 !important;
+  text-align: left; /* İsimleri sola hizala */
+  font-weight: 600;
+}
+
+.member-socials a {
+  color: #adb5bd; /* İkonların başlangıç rengi */
+  text-decoration: none;
+  margin-left: 0.75rem; /* İkonlar arası boşluk */
+  font-size: 1.1rem; /* İkon boyutu */
+  transition: color 0.3s ease;
+}
+
+.member-socials a:hover {
+  color: #dc3545; /* Fare üzerine gelince kırmızı olsun */
+}
+
+.team-img {
+  height: 200px;
+  object-fit: cover;
+  object-position: top;
+}
+
+.team-icon {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.team-name {
+  font-weight: 600;
+  color: var(--secondary-color);
+}
+
+.advisor-card {
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.advisor-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.advisor-img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border: 3px solid var(--primary-color);
+}
+
+.bg-light-custom {
+  background-color: rgba(248, 249, 250, 0.8);
+}
+
+
+footer {
+  background-color: #343a40;
+  color: white;
+  padding: 60px 0 30px;
+}
+
+.footer h5 {
+  color: #fff;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.footer-links a {
+  color: #adb5bd;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 10px;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: #dc3545;
+}
+
+/* mainPage.css dosyasının en altına bu kuralı ekleyin */
+
+#footer-message {
+  height: auto !important;
+  min-height: 0 !important;
+  resize: none; 
+}
+
+.contact-info p {
+  margin-bottom: 15px;
+  color: #adb5bd;
+}
+
+.contact-info i {
+  margin-right: 10px;
+  color: #dc3545;
+}
+
+.social-icons a {
+  color: white;
+  background-color: #495057;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  transition: all 0.3s;
+}
+
+.social-icons a:hover {
+  background-color: #dc3545;
+  transform: translateY(-3px);
+}
+
+.copyright {
+  border-top: 1px solid #495057;
+  padding-top: 20px;
+  margin-top: 30px;
+  color: #adb5bd;
+}
+
+.contact-form input,
+.contact-form textarea {
+  background-color: #495057;
+  border: none;
+  color: white;
+  margin-bottom: 15px;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: #adb5bd;
+}
+
+.contact-form .btn-danger {
+  width: 100%;
+}
+
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease-out;
+}
+
+.animate-on-scroll.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;  
+  height: 100vh; 
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  overflow: auto; /* İçerik taşarsa kaydırma çubuğu */
+}
+
+#overlay.active {
+  opacity: 1;
+ visibility:visible;
+  display:flex;
+
+}
+
+#textbox-container {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  margin: 20px;
+  position: relative;
+}
+
+#overlay.active #textbox-container {
+  transform: translateY(0);
+  opacity: 1;
+}
+  #textbox-container h3 {
+    margin-top: 0;
+    color: #2c3e50;
+    font-size: 1.5rem;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e0e6ed;
+  }
+
+  textarea {
+    width: 100%;
+    height: 300px;
+    max-height: 400px; /* Gerekirse ekranın içine sığması için */
+    font-size: 16px;
+    border: 1px solid #d8e1eb;
+    border-radius: 8px;
+    padding: 15px;
+    box-sizing: border-box;
+    background: white;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+    transition: border 0.3s ease;
+    line-height: 1.6;
+    color: #34495e;
+    overflow:scroll;
+   
+  }
+
+  textarea:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52,152,219,0.1);
+  }
+
+  #close-btn {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+
+  #close-btn:hover {
+    background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+  }
+
+  #close-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .btn-float {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .btn-float:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  }
+
+  .btn-float:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255,255,255,0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%);
+    transform-origin: 50% 50%;
+  }
+
+  .btn-float:focus:not(:active)::after {
+    animation: ripple 0.6s ease-out;
+  }
+
+  @keyframes ripple {
+    0% {
+      transform: scale(0, 0);
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(20, 20);
+      opacity: 0;
+    }
+  }
+
+@media (max-width: 768px) {
+  #textbox-container {
+    padding: 20px;
+    max-height: 80vh;
+    font-size: 15px;
+  }
+}
+
+/* mainPage.css dosyasının en altına ekleyin */
+
+/* Dropdown menüsünü başlangıçta gizle */
+#user-menu {
+  display: none;
+  position: absolute; /* Butona göre konumlanması için */
+  right: 0; /* En sağa hizalı olması için */
+  z-index: 1000;
+}
+
+/* JavaScript ile 'show' class'ı eklendiğinde menüyü göster */
+#user-menu.show {
+  display: block;
+}
+
+/* Butonun olduğu div'in konumlandırma referansı olmasını sağla */
+.dropdown {
+  position: relative;
+}

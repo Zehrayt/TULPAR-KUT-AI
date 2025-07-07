@@ -67,7 +67,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
-    // --- KAYIT FORMU İÇİN DÜZELTME ---
+    // --- KAYIT FORMU (NETLIFY PROXY İLE DOĞRU HALİ) ---
     const registerForm = document.getElementById('register-form');
     if (registerForm) {
       registerForm.addEventListener('submit', async function (event) {
@@ -86,15 +86,12 @@
             description: document.getElementById('register-about').value
           };
           
-          // --- YENİ ve DÜZELTİLMİŞ HALİ (corsproxy.io ile) ---
-          const n8nRegisterUrl = "https://gulinhalgur.app.n8n.cloud/webhook-test/register";
-
-          const response = await fetch(n8nRegisterUrl, {
+          // *** İŞTE DOĞRU KOD! DOĞRUDAN n8n'e DEĞİL, /api/ YOLUNA GİDİYORUZ ***
+          const response = await fetch("/api/register", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)
           });
-          // --- DEĞİŞİKLİK SONU ---
 
           const result = await response.json();
           if (response.ok) {
@@ -113,7 +110,7 @@
       });
     }
 
-    
+    // --- GİRİŞ FORMU (NETLIFY PROXY İLE DOĞRU HALİ) ---
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
       loginForm.addEventListener('submit', async function (event) {
@@ -128,16 +125,13 @@
               password: document.getElementById('loginPassword').value
           };
 
-        
-          const n8nLoginUrl = "https://gulinhalgur.app.n8n.cloud/webhook-test/login";
-
-          const response = await fetch(n8nLoginUrl, {
+          // *** İŞTE DOĞRU KOD! DOĞRUDAN n8n'e DEĞİL, /api/ YOLUNA GİDİYORUZ ***
+          const response = await fetch("/api/login", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(loginData)
           });
           
-
           const result = await response.json();
           if (response.ok) {
             localStorage.setItem('userToken', result.token);

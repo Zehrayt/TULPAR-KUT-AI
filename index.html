@@ -13,32 +13,19 @@
       <div class="signup">
         <form id="register-form">
           <label for="chk" aria-hidden="true">Kayıt Ol</label>
-
-          <input type="text" name="username" placeholder="Kullanıcı Adı" required="" id="register-username" />
+            <input type="text" name="name" placeholder="Adınız" required  id="register-name" />
+              <input type="text" name="surname" placeholder="Soyadınız" required id="register-surname" />
+                <input type="email" name="email" placeholder="Emailiniz" required id="register-email" />
+          <input type="text" name="username" placeholder="Kullanıcı Adınız" required="" id="register-username" />
 
           <div class="password-container">
             <input type="password" id="registerPassword" name="password" placeholder="Şifre" required=""/>
             <span class="eye-icon" onclick="togglePasswordVisibility('registerPassword', this)">👁</span>
           </div>
 
-          <input type="date" name="birthdate" placeholder="Doğum Tarihi" required="" id="register-birthdate" />
+  
 
-          <select name="studentType" required="" id="register-studentType">
-            <option disabled="" selected="" value="">Öğrenci Türü</option>
-            <option value="ilkokul">İlkokul</option>
-            <option value="ortaokul">Ortaokul</option>
-            <option value="lise">Lise</option>
-            <option value="universite">Üniversite</option>
-            <option value="diger">Diğer</option>
-          </select>
-
-          <select required="" name="gender" id="register-gender">
-            <option disabled="" selected="" value="">Cinsiyet</option>
-            <option value="erkek">Erkek</option>
-            <option value="kiz">Kız</option>
-          </select>
-
-          <textarea name="about" placeholder="Kendinizden bahsedin..." rows="3" id="register-about"></textarea>
+          
           <button type="submit" id="register-button">Kayıt Ol</button>
         </form>
       </div>

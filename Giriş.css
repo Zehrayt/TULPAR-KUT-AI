@@ -277,8 +277,7 @@ html {
   color: #fff;
 }
 
-.contact-section input::placeholder,
-.contact-section textarea::placeholder {
+.contact-section input::placeholder {
   color: #aaa;
 }
 
@@ -313,7 +312,6 @@ html {
 
   .main input,
   .main select,
-  .main textarea,
   .password-container,
   .password-container input {
     width: 90%;
@@ -393,4 +391,4 @@ html {
   .contact-section button {
     font-size: 0.95rem;
   }
-}
+

@@ -8,7 +8,7 @@ exports.handler = async (event) => {
 
   try {
     const loginData = JSON.parse(event.body);
-    const n8nWebhookUrl = 'https://gulnihalgur.app.n8n.cloud/webhook-test/login';
+    const n8nWebhookUrl = 'https://gulnihalgur.app.n8n.cloud/webhook/login';
 
     const response = await fetch(n8nWebhookUrl, {
       method: 'POST',

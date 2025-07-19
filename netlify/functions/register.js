@@ -10,7 +10,7 @@ exports.handler = async (event) => {
     const userData = JSON.parse(event.body);
     
     // n8n webhook URL'niz (değişmedi)
-    const n8nWebhookUrl = 'https://gulinhalgur.app.n8n.cloud/webhook/register';
+    const n8nWebhookUrl = 'https://gulnihalgur.app.n8n.cloud/webhook/register';
 
     // n8n'e isteği GÜNCELLENMİŞ VERİLERLE gönder
     const response = await fetch(n8nWebhookUrl, {

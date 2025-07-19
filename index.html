@@ -54,7 +54,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
-    // --- KAYIT FORMU (NETLIFY PROXY İLE DOĞRU HALİ) ---
+    // --- KAYIT FORMU (YENİ FORMA GÖRE GÜNCELLENDİ) ---
     const registerForm = document.getElementById('register-form');
     if (registerForm) {
       registerForm.addEventListener('submit', async function (event) {
@@ -64,16 +64,15 @@
         registerButton.innerText = 'Kaydediliyor...';
         
         try {
+          // *** BURASI YENİ HTML FORMUNA GÖRE GÜNCELLENDİ ***
           const formData = {
+            name: document.getElementById('register-name').value,
+            surname: document.getElementById('register-surname').value,
+            email: document.getElementById('register-email').value,
             username: document.getElementById('register-username').value,
-            password: document.getElementById('registerPassword').value,
-            birthdate: document.getElementById('register-birthdate').value,
-            studentType: document.getElementById('register-studentType').value,
-            gender: document.getElementById('register-gender').value,
-            description: document.getElementById('register-about').value
+            password: document.getElementById('registerPassword').value
           };
           
-          // *** İŞTE DOĞRU KOD! DOĞRUDAN n8n'e DEĞİL, /api/ YOLUNA GİDİYORUZ ***
           const response = await fetch("/.netlify/functions/register", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -97,7 +96,7 @@
       });
     }
 
-    // --- GİRİŞ FORMU (NETLIFY PROXY İLE DOĞRU HALİ) ---
+    // --- GİRİŞ FORMU (BU KISIM ZATEN DOĞRUYDU, AYNI KALDI) ---
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
       loginForm.addEventListener('submit', async function (event) {
@@ -112,7 +111,6 @@
               password: document.getElementById('loginPassword').value
           };
 
-          // *** İŞTE DOĞRU KOD! DOĞRUDAN n8n'e DEĞİL, /api/ YOLUNA GİDİYORUZ ***
           const response = await fetch("/.netlify/functions/login", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

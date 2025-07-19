@@ -74,7 +74,7 @@
           };
           
           // *** İŞTE DOĞRU KOD! DOĞRUDAN n8n'e DEĞİL, /api/ YOLUNA GİDİYORUZ ***
-          const response = await fetch("/api/register", {
+          const response = await fetch("/.netlify/functions/register", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)
@@ -113,7 +113,7 @@
           };
 
           // *** İŞTE DOĞRU KOD! DOĞRUDAN n8n'e DEĞİL, /api/ YOLUNA GİDİYORUZ ***
-          const response = await fetch("/api/login", {
+          const response = await fetch("/.netlify/functions/login", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(loginData)

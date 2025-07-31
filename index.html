@@ -123,7 +123,7 @@
             localStorage.setItem('userId', result.userId);
             localStorage.setItem('username', loginData.username);
             alert(result.message || "Giriş başarılı!");
-            window.location.href = 'mainPage.html';
+            window.location.href = 'main.html';
           } else {
             alert('Hata: ' + (result.message || "Kullanıcı adı veya şifre hatalı."));
           }

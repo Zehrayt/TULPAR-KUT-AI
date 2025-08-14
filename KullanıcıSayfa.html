@@ -235,14 +235,14 @@
                       <tbody>
                         <tr>
                           <td>Psikolojik Değerlendirme Raporu</td>
-                          <td>
+                          <td class="report-date-cell">
                             const reportDate = new Date(report.reportGeneratedAt).toLocaleDateString('tr-TR'); // Tarihi 'gg.aa.yyyy' formatına çevirir
                             tableRow.querySelector('.report-date-cell').textContent = reportDate;
                           </td>
                          
                          
                           <td>
-                            <button class="btn btn-sm btn-outline-primary" id="view-report-button">Görüntüle</button>
+                            <button class="btn btn-sm btn-outline-primary" id="view-psychology-report-btn">Görüntüle</button>
                             <button class="btn btn-sm btn-outline-danger">İndir</button>
                           </td>
                         </tr>
@@ -268,7 +268,7 @@
                       </tbody>
                     </table>
                   </div>
-                  <div id="report-status" class="mt-4"></div>
+                  <div id="report-status-container" class="mt-4"></div>
                 </div>
                 
                 <!-- Analizler Tab -->
@@ -507,61 +507,7 @@
                   console.error("Oyun başlatılamadı: Giriş yapmış kullanıcı ID'si bulunamadı.");
               }
           }
-      
-          // ==========================================================
-          // RAPORU ALMA İŞLEVSELLİĞİ
-          // ==========================================================
-          const raporButonu = document.getElementById('raporBtn');
-          if (raporButonu) {
-              raporButonu.addEventListener('click', async () => {
-                  // Tarayıcıdan o an giriş yapmış olan kullanıcının ID'sini al
-                  const currentUserId = localStorage.getItem('userId');
-      
-                  if (!currentUserId) {
-                      alert("Raporu almak için giriş yapmış olmalısınız.");
-                      return;
-                  }
-      
-                  raporButonu.disabled = true;
-                  raporButonu.innerText = 'Rapor Oluşturuluyor...';
-                  
-                  try {
-                      // Kendi N8N webhook URL'nizi buraya yazın
-                      const response = await fetch("http://localhost:5678/webhook-test/oyun", {
-                          method: "POST",
-                          headers: { "Content-Type": "application/json" },
-                          // Sabit ID yerine, giriş yapan kullanıcının ID'sini gönder
-                          body: JSON.stringify({ userId: currentUserId }) 
-                      });
-      
-                      if (!response.ok) {
-                          throw new Error(`Sunucu Hatası: ${response.status}`);
-                      }
-                      
-                      const data = await response.json();
-      
-                      // 1. PDF Linkini Güncelle
-                      if (data.pdfLink) {
-                          const pdfLinkElement = document.getElementById('pdfLink');
-                          pdfLinkElement.href = data.pdfLink;
-                          pdfLinkElement.style.display = 'inline-block';
-                      }
-      
-                      // 2. Psikolojik Durum Grafiğini Güncelle
-                      if (data.scores) {
-                          updatePsychologyChart(data.scores);
-                      }
-      
-                  } catch (error) {
-                      console.error("Rapor alma işlemi sırasında bir hata oluştu:", error);
-                      alert("Rapor alınırken bir hata oluştu. Lütfen daha sonra tekrar deneyin.");
-                  } finally {
-                      raporButonu.disabled = false;
-                      raporButonu.innerText = 'Raporu Al';
-                  }
-              });
-          }
-      
+
           // ==========================================================
           // GRAFİK GÜNCELLEME FONKSİYONU
           // ==========================================================
@@ -596,12 +542,11 @@
       // ==========================================================
       // RAPOR GÖRÜNTÜLEME İŞLEVSELLİĞİ
       // ==========================================================
-      const viewReportButton = document.getElementById('view-report-button');
-      const reportStatusDiv = document.getElementById('report-status');
+      const viewReportButton = document.getElementById('view-psychology-report-btn');
+      const reportStatusContainer = document.getElementById('report-status-container');
       
-      if (viewReportButton && reportStatusDiv) {
+      if (viewReportButton && reportStatusContainer) {
           viewReportButton.addEventListener('click', async () => {
-              // Tarayıcıdan o an giriş yapmış olan kullanıcının ID'sini al
               const currentUserId = localStorage.getItem('userId');
       
               if (!currentUserId) {
@@ -610,11 +555,11 @@
               }
       
               viewReportButton.disabled = true;
-              viewReportButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Rapor aranıyor...';
-              reportStatusDiv.innerHTML = ''; // Önceki mesajları temizle
+              viewReportButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Aranıyor...';
+              reportStatusContainer.innerHTML = '';
       
               try {
-                  // DİKKAT: Artık Netlify Functions kullandığımız için, isteği kendi fonksiyonumuza atacağız.
+                  // Netlify Fonksiyonumuza istek atıyoruz
                   const response = await fetch("/.netlify/functions/generate-report", {
                       method: "POST",
                       headers: { "Content-Type": "application/json" },
@@ -624,23 +569,29 @@
                   const result = await response.json();
       
                   if (result.success) {
-                      // Rapor bulundu ve PDF linki geldi
-                      reportStatusDiv.innerHTML = `
-                          <div class="alert alert-success">
-                              ${result.message} 
-                              <a href="${result.pdfLink}" target="_blank" class="alert-link ms-2">PDF'i Görüntüle</a>
+                      // Rapor bulundu veya başarıyla oluşturuldu
+                      reportStatusContainer.innerHTML = `
+                          <div class="alert alert-success d-flex justify-content-between align-items-center">
+                              <span>${result.message}</span>
+                              <a href="${result.pdfLink}" target="_blank" class="btn btn-success btn-sm">PDF'i Aç</a>
                           </div>
                       `;
+                      
+                      // Tarih hücresini de güncelleyelim
+                      const reportDateCell = document.querySelector('.report-date-cell');
+                      if (reportDateCell && result.generatedAt) {
+                          reportDateCell.textContent = new Date(result.generatedAt).toLocaleDateString('tr-TR');
+                      }
                   } else {
-                      // Rapor bulunamadı
-                      reportStatusDiv.innerHTML = `
+                      // Rapor oluşturulamadı (örn: veri yok)
+                      reportStatusContainer.innerHTML = `
                           <div class="alert alert-warning">${result.message}</div>
                       `;
                   }
       
               } catch (error) {
-                  console.error("Rapor görüntüleme sırasında bir hata oluştu:", error);
-                  reportStatusDiv.innerHTML = `
+                  console.error("Rapor oluşturma sırasında bir hata oluştu:", error);
+                  reportStatusContainer.innerHTML = `
                       <div class="alert alert-danger">Rapor alınırken bir sunucu hatası oluştu. Lütfen daha sonra tekrar deneyin.</div>
                   `;
               } finally {
@@ -648,6 +599,14 @@
                   viewReportButton.innerHTML = 'Görüntüle';
               }
           });
+      }
+
+      // Diğer butonlar ve işlevsellikler buraya eklenebilir...
+      // Örneğin, eski "Raporu Al" butonu mantığınız
+      const eskiRaporButonu = document.getElementById('raporBtn');
+      if(eskiRaporButonu) {
+        // Bu butona ait eski kodunuz buraya gelebilir, ama yeni sistemle çakışabilir.
+        // Şimdilik bu kısmı boş bırakmak veya silmek daha iyi.
       }
     </script>
 

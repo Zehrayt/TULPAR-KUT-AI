@@ -11,7 +11,7 @@ exports.handler = async (event) => {
     const requestData = JSON.parse(event.body);
     
     // n8n webhook URL'si (doğru yazıldığından emin olun)
-    const n8nWebhookUrl = 'https://gulniihalgur.app.n8n.cloud/webhook/generate-report';
+    const n8nWebhookUrl = 'https://gulnihalgur.app.n8n.cloud/webhook/generate-report';
 
     // n8n'e isteği gönder
     const response = await fetch(n8nWebhookUrl, {

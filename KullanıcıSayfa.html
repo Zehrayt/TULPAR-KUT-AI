@@ -61,8 +61,8 @@
         <div class="col-lg-3 d-none d-lg-block">
           <div class="card shadow-sm rounded-3 border-0 mb-4">
             <div class="card-body text-center py-4">
-              <h5 class="mb-1">Gözde Gönül</h5>
-              <p class="text-muted small">gozde.gonul@example.com</p>
+             <h5 class="mb-1 user-name-display">Gözde Gönül</h5>
+              <p class="text-muted small user-email-display">gozde.gonul@example.com</p>
               <div class="d-flex justify-content-center gap-2 mt-3">
                 <span class="badge bg-success">Aktif</span>
               </div>
@@ -233,19 +233,19 @@
                         </tr>
                       </thead>
                       <tbody>
+                        
                         <tr>
                           <td>Psikolojik Değerlendirme Raporu</td>
                           <td class="report-date-cell">
                             const reportDate = new Date(report.reportGeneratedAt).toLocaleDateString('tr-TR'); // Tarihi 'gg.aa.yyyy' formatına çevirir
                             tableRow.querySelector('.report-date-cell').textContent = reportDate;
                           </td>
-                         
-                         
                           <td>
                             <button class="btn btn-sm btn-outline-primary" id="view-psychology-report-btn">Görüntüle</button>
                             <button class="btn btn-sm btn-outline-danger">İndir</button>
                           </td>
                         </tr>
+                        
                         <tr>
                           <td>Terapi Süreci Değerlendirmesi</td>
                           <td>10.06.2023</td>
@@ -466,83 +466,68 @@
     </div>
 
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-          
-          // ==========================================================
-          // ÇIKIŞ YAPMA İŞLEVSELLİĞİ
-          // ==========================================================
-          const logoutLink = document.getElementById('logout-link');
-          if (logoutLink) {
-              logoutLink.addEventListener('click', function(event) {
-                  event.preventDefault();
-                  
-                  // Tarayıcıdan kullanıcı oturum bilgilerini temizle
-                  localStorage.removeItem('userToken');
-                  localStorage.removeItem('userId');
-                  localStorage.removeItem('username'); // veya userEmail
-                  
-                  alert('Başarıyla çıkış yaptınız.');
-                  window.location.href = 'index.html'; // Ana sayfaya yönlendir
-              });
-          }
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
       
-          // ==========================================================
-          // OYUN OYNAMA BUTONU İŞLEVSELLİĞİ
-          // ==========================================================
-          const oynaButonu = document.getElementById('btnoyna');
-          if (oynaButonu) {
-              // Tarayıcıdan giriş yapmış kullanıcının ID'sini al
-              const loggedInUserId = localStorage.getItem('userId');
-              
-              if (loggedInUserId) {
-                  // Butonun linkini kullanıcının ID'si ile güncelle
-                  const oyunLinki = 'https://ardaarslan.com.tr/oyun/';
-                  oynaButonu.href = oyunLinki + '?userId=' + loggedInUserId;
-                  // Yeni sekmede açılması için target attribute'u da ekleyelim
-                  oynaButonu.setAttribute('target', '_blank');
-              } else {
-                  // Eğer bir şekilde ID alınamazsa, butonu gizle ve hata ver
-                  oynaButonu.style.display = 'none';
-                  console.error("Oyun başlatılamadı: Giriş yapmış kullanıcı ID'si bulunamadı.");
-              }
-          }
+      // ==========================================================
+      // KULLANICI BİLGİLERİNİ SAYFAYA YAZDIRMA
+      // ==========================================================
+      const loggedInUsername = localStorage.getItem('username');
 
-          // ==========================================================
-          // GRAFİK GÜNCELLEME FONKSİYONU
-          // ==========================================================
-          function updatePsychologyChart(scores) {
-              // Her bir özellik için ID'leri ve skorları eşleştirerek güncelle
-              const chartMapping = {
-                  disadonukluk: { barId: 'bar-disadonukluk', textId: 'text-disadonukluk', label: 'Dışadönüklük' },
-                  uyumluluk: { barId: 'bar-uyumluluk', textId: 'text-uyumluluk', label: 'Uyumluluk' },
-                  sorumluluk: { barId: 'bar-sorumluluk', textId: 'text-sorumluluk', label: 'Sorumluluk' },
-                  duygusalDenge: { barId: 'bar-duygusaldenge', textId: 'text-duygusaldenge', label: 'Duygusal Denge' }
-                  // Deneyime açıklık vb. eklenecekse buraya ekleyin
-              };
+      if (loggedInUsername) {
+          // 1. Sidebar'daki ismi günceller
+          // Az önce eklediğimiz class'ı kullanarak elementi bulur
+          document.querySelectorAll('.user-name-display').forEach(el => {
+              el.textContent = loggedInUsername;
+          });
       
-              for (const key in scores) {
-                  if (chartMapping[key]) {
-                      const mapping = chartMapping[key];
-                      const score = scores[key];
-                      
-                      const barElement = document.getElementById(mapping.barId);
-                      const textElement = document.getElementById(mapping.textId);
-      
-                      if (barElement && textElement) {
-                          barElement.style.width = score + '%';
-                          barElement.setAttribute('aria-valuenow', score);
-                          textElement.innerText = `${mapping.label}: %${score}`;
-                      }
-                  }
-              }
+          // 2. Navbar'daki butonu günceller
+          // Zaten var olan ID'yi kullanarak butonu bulur
+          const dropdownButton = document.getElementById('dropdownMenuButton');
+          if(dropdownButton) {
+              dropdownButton.innerHTML = `<i class="bi bi-person-circle me-1"></i> ${loggedInUsername}`;
           }
+      }
 
-          // ==========================================================
-          // RAPOR GÖRÜNTÜLEME İŞLEVSELLİĞİ
-          // ==========================================================
+      if (loggedInUserEmail) {
+      const emailElement = document.querySelector('.user-email-display');
+        if (emailElement) {
+          emailElement.textContent = loggedInUserEmail;
+        }
+      }
 
-          const viewReportButton = document.getElementById('view-psychology-report-btn');
+      // ==========================================================
+      // ÇIKIŞ YAPMA İŞLEVSELLİĞİ
+      // ==========================================================
+      const logoutLink = document.querySelector('a[href="index.html"].text-danger');
+      if (logoutLink) {
+          logoutLink.addEventListener('click', function(event) {
+              event.preventDefault();
+              localStorage.clear();
+              alert('Başarıyla çıkış yaptınız.');
+              window.location.href = 'index.html';
+          });
+      }
+  
+      // ==========================================================
+      // OYUN OYNAMA BUTONU İŞLEVSELLİĞİ
+      // ==========================================================
+      const oynaButonu = document.getElementById('btnoyna');
+      if (oynaButonu) {
+          const loggedInUserId = localStorage.getItem('userId');
+          if (loggedInUserId) {
+              const oyunLinki = 'https://ardaarslan.com.tr/oyun/';
+              oynaButonu.href = `${oyunLinki}?userId=${loggedInUserId}`;
+              oynaButonu.setAttribute('target', '_blank');
+          } else {
+              oynaButonu.style.display = 'none';
+          }
+      }
+  
+      // ==========================================================
+      // PSİKOLOJİK RAPOR GÖRÜNTÜLEME İŞLEVSELLİĞİ
+      // ==========================================================
+      const viewReportButton = document.getElementById('view-psychology-report-btn');
       const reportStatusContainer = document.getElementById('report-status-container');
       
       if (viewReportButton && reportStatusContainer) {
@@ -562,28 +547,24 @@
                   const response = await fetch("/.netlify/functions/generate-report", {
                       method: "POST",
                       headers: { "Content-Type": "application/json" },
-                      // *** DEĞİŞİKLİK BURADA! "userId" yerine "playerId" gönderiyoruz. ***
+                      // n8n'in beklediği 'playerId' anahtarını kullanıyoruz.
                       body: JSON.stringify({ playerId: currentUserId }) 
                   });
       
                   const result = await response.json();
       
                   if (response.ok && result.success) {
-                      // Rapor bulundu veya başarıyla oluşturuldu
                       reportStatusContainer.innerHTML = `
                           <div class="alert alert-success d-flex justify-content-between align-items-center">
                               <span>${result.message}</span>
                               <a href="${result.pdfLink}" target="_blank" class="btn btn-success btn-sm">PDF'i Aç</a>
                           </div>
                       `;
-                      
-                      // Tarih hücresini de güncelleyelim
                       const reportDateCell = document.querySelector('.report-date-cell');
                       if (reportDateCell && result.generatedAt) {
                           reportDateCell.textContent = new Date(result.generatedAt).toLocaleDateString('tr-TR');
                       }
                   } else {
-                      // Rapor oluşturulamadı (örn: veri yok)
                       reportStatusContainer.innerHTML = `
                           <div class="alert alert-warning">${result.message || 'Bir hata oluştu.'}</div>
                       `;
@@ -600,10 +581,8 @@
               }
           });
       }
-
-        
-      });
-    </script>
+  });
+</script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   </body>

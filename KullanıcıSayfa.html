@@ -537,12 +537,12 @@
                   }
               }
           }
-      });
 
-      // ==========================================================
-      // RAPOR GÖRÜNTÜLEME İŞLEVSELLİĞİ
-      // ==========================================================
-      const viewReportButton = document.getElementById('view-psychology-report-btn');
+          // ==========================================================
+          // RAPOR GÖRÜNTÜLEME İŞLEVSELLİĞİ
+          // ==========================================================
+
+          const viewReportButton = document.getElementById('view-psychology-report-btn');
       const reportStatusContainer = document.getElementById('report-status-container');
       
       if (viewReportButton && reportStatusContainer) {
@@ -559,16 +559,16 @@
               reportStatusContainer.innerHTML = '';
       
               try {
-                  // Netlify Fonksiyonumuza istek atıyoruz
                   const response = await fetch("/.netlify/functions/generate-report", {
                       method: "POST",
                       headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify({ userId: currentUserId }) 
+                      // *** DEĞİŞİKLİK BURADA! "userId" yerine "playerId" gönderiyoruz. ***
+                      body: JSON.stringify({ playerId: currentUserId }) 
                   });
       
                   const result = await response.json();
       
-                  if (result.success) {
+                  if (response.ok && result.success) {
                       // Rapor bulundu veya başarıyla oluşturuldu
                       reportStatusContainer.innerHTML = `
                           <div class="alert alert-success d-flex justify-content-between align-items-center">
@@ -585,14 +585,14 @@
                   } else {
                       // Rapor oluşturulamadı (örn: veri yok)
                       reportStatusContainer.innerHTML = `
-                          <div class="alert alert-warning">${result.message}</div>
+                          <div class="alert alert-warning">${result.message || 'Bir hata oluştu.'}</div>
                       `;
                   }
       
               } catch (error) {
                   console.error("Rapor oluşturma sırasında bir hata oluştu:", error);
                   reportStatusContainer.innerHTML = `
-                      <div class="alert alert-danger">Rapor alınırken bir sunucu hatası oluştu. Lütfen daha sonra tekrar deneyin.</div>
+                      <div class="alert alert-danger">Sunucu ile iletişim kurulamadı. Lütfen tekrar deneyin.</div>
                   `;
               } finally {
                   viewReportButton.disabled = false;
@@ -601,13 +601,8 @@
           });
       }
 
-      // Diğer butonlar ve işlevsellikler buraya eklenebilir...
-      // Örneğin, eski "Raporu Al" butonu mantığınız
-      const eskiRaporButonu = document.getElementById('raporBtn');
-      if(eskiRaporButonu) {
-        // Bu butona ait eski kodunuz buraya gelebilir, ama yeni sistemle çakışabilir.
-        // Şimdilik bu kısmı boş bırakmak veya silmek daha iyi.
-      }
+        
+      });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

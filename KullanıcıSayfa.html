@@ -459,23 +459,34 @@
       document.addEventListener('DOMContentLoaded', function() {
           
           // ==========================================================
-          // KULLANICI BİLGİLERİNİ SAYFAYA YAZDIRMA
+          // GİRİŞ YAPAN KULLANICI BİLGİLERİNİ SAYFAYA YAZDIRMA
           // ==========================================================
           const loggedInUsername = localStorage.getItem('username');
-          const loggedInUserEmail = localStorage.getItem('userEmail'); // E-postayı burada tanımlıyoruz
+          const loggedInUserEmail = localStorage.getItem('userEmail'); 
           
           if (loggedInUsername) {
-              document.querySelectorAll('.user-name-display').forEach(el => {
-                  el.textContent = loggedInUsername;
-              });
+              // Sidebar'daki ismi bul ve güncelle
+              const sidebarNameElement = document.querySelector('.card-body.text-center h5.mb-1');
+              if (sidebarNameElement) {
+                  sidebarNameElement.textContent = loggedInUsername;
+              }
+    
+              // Navbar'daki butonun metnini güncelle
               const dropdownButton = document.getElementById('dropdownMenuButton');
               if(dropdownButton) {
                   dropdownButton.innerHTML = `<i class="bi bi-person-circle me-1"></i> ${loggedInUsername}`;
+              } else {
+                  // Eğer dropdown yoksa, sağ üstteki genel "Kullanıcı" butonunu bul
+                  const userButton = document.querySelector('a.btn.btn-outline-primary');
+                  if (userButton && userButton.textContent.includes('Kullanıcı')) {
+                      userButton.innerHTML = `<i class="bi bi-person-circle"></i> ${loggedInUsername}`;
+                  }
               }
           }
     
           if (loggedInUserEmail) {
-              const emailElement = document.querySelector('.user-email-display');
+              // Sidebar'daki e-postayı bul ve güncelle
+              const emailElement = document.querySelector('.card-body.text-center p.text-muted.small');
               if (emailElement) {
                   emailElement.textContent = loggedInUserEmail;
               }
@@ -484,7 +495,7 @@
           // ==========================================================
           // ÇIKIŞ YAPMA İŞLEVSELLİĞİ
           // ==========================================================
-          const logoutLink = document.getElementById('logout-link'); // Doğru şekilde ID ile buluyoruz
+          const logoutLink = document.querySelector('a[href="index.html"].text-danger');
           if (logoutLink) {
               logoutLink.addEventListener('click', function(event) {
                   event.preventDefault();
@@ -497,7 +508,7 @@
           // ==========================================================
           // OYUN OYNAMA BUTONU İŞLEVSELLİĞİ
           // ==========================================================
-          const oynaButonu = document.getElementById('btnoyna');
+          const oynaButonu = document.getElementById('btnoyna'); // HTML'de <... id="btnoyna"> olmalı
           if (oynaButonu) {
               const loggedInUserId = localStorage.getItem('userId');
               if (loggedInUserId) {
@@ -512,15 +523,15 @@
           // ==========================================================
           // PSİKOLOJİK RAPOR GÖRÜNTÜLEME İŞLEVSELLİĞİ
           // ==========================================================
-          const viewReportButton = document.getElementById('view-psychology-report-btn');
-          const reportStatusContainer = document.getElementById('report-status-container');
+          const viewReportButton = document.getElementById('view-psychology-report-btn'); // HTML'de <button id="view-psychology-report-btn">...
+          const reportStatusContainer = document.getElementById('report-status-container'); // HTML'de <div id="report-status-container">...
           
           if (viewReportButton && reportStatusContainer) {
               viewReportButton.addEventListener('click', async () => {
                   const currentUserId = localStorage.getItem('userId');
           
                   if (!currentUserId) {
-                      alert("Raporu görüntülemek için giriş yapmış olmalısınız.");
+                      alert("Bu işlem için giriş yapmış olmalısınız.");
                       return;
                   }
           
@@ -544,10 +555,6 @@
                                   <a href="${result.pdfLink}" target="_blank" class="btn btn-success btn-sm">PDF'i Aç</a>
                               </div>
                           `;
-                          const reportDateCell = document.querySelector('.report-date-cell');
-                          if (reportDateCell && result.generatedAt) {
-                              reportDateCell.textContent = new Date(result.generatedAt).toLocaleDateString('tr-TR');
-                          }
                       } else {
                           reportStatusContainer.innerHTML = `
                               <div class="alert alert-warning">${result.message || 'Bir hata oluştu.'}</div>
@@ -555,7 +562,6 @@
                       }
           
                   } catch (error) {
-                      console.error("Rapor oluşturma sırasında bir hata oluştu:", error);
                       reportStatusContainer.innerHTML = `
                           <div class="alert alert-danger">Sunucu ile iletişim kurulamadı. Lütfen tekrar deneyin.</div>
                       `;

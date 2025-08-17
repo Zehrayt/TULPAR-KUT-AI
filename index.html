@@ -98,6 +98,7 @@
 
     // --- GİRİŞ FORMU (BU KISIM ZATEN DOĞRUYDU, AYNI KALDI) ---
     // --- GİRİŞ FORMU (HATA AYIKLAMA MODUNDA) ---
+    // --- GİRİŞ FORMU (HATA AYIKLAMA MODUNDA) ---
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
       loginForm.addEventListener('submit', async function (event) {
@@ -106,6 +107,7 @@
         loginButton.disabled = true;
         loginButton.innerText = 'Giriş Yapılıyor...';
         
+        console.log("--- YENİ GİRİŞ DENEMESİ ---");
         console.log("1. Giriş işlemi başlatıldı.");
     
         try {
@@ -122,39 +124,39 @@
             body: JSON.stringify(loginData)
           });
           
-          console.log("3. Netlify'dan yanıt alındı. Durum:", response.status, "OK mi?:", response.ok);
+          console.log("3. Netlify'dan yanıt alındı. Durum:", response.status, "| OK mi?:", response.ok);
     
           // Yanıtı önce metin olarak alıyoruz, bu çökmesini engeller.
           const responseText = await response.text();
-          console.log("4. Yanıtın metin hali:", responseText);
+          console.log("4. n8n'den gelen HAM YANIT (Metin Hali):", responseText);
     
           // Sadece yanıt başarılıysa ve boş değilse JSON'a çevirmeye çalış.
           if (response.ok && responseText) {
             console.log("5. Başarılı blok (if) içine girildi.");
             const result = JSON.parse(responseText);
             
-            console.log("6. localStorage'a kaydedilecek veri:", result);
+            console.log("6. JSON'a çevrilen veri (result nesnesi):", result);
+            
+            console.log("7. localStorage'a kaydetme işlemi başlıyor...");
             localStorage.setItem('userToken', result.token);
             localStorage.setItem('userId', result.userId);
             localStorage.setItem('username', loginData.username);
-            // E-postayı da kaydetmeyi unutmayalım!
             localStorage.setItem('userEmail', result.email); 
             
-            console.log("7. localStorage'a kayıt yapıldı. Yönlendiriliyor...");
+            console.log("8. localStorage'a kayıt yapıldı. Yönlendiriliyor...");
             alert(result.message || "Giriş başarılı!");
-            window.location.href = 'main.html'; // Yönlendirme adresini kontrol edin
+            window.location.href = 'main.html'; 
           } else {
-            console.error("8. Başarısız blok (else) içine girildi.");
-            // Eğer responseText varsa, içindeki mesajı göstermeye çalış
+            console.error("HATA: Başarısız blok (else) içine girildi. Sunucu yanıtı 'ok' değil veya yanıt boş.");
             try {
                 const errorResult = JSON.parse(responseText);
                 alert('Hata: ' + (errorResult.message || "Kullanıcı adı veya şifre hatalı."));
             } catch (e) {
-                alert('Hata: Kullanıcı adı veya şifre hatalı veya sunucudan boş yanıt geldi.');
+                alert('Hata: Kullanıcı adı veya şifre hatalı veya sunucudan geçersiz yanıt alındı.');
             }
           }
         } catch (error) {
-          console.error('9. CATCH bloğuna düşüldü:', error);
+          console.error('HATA: CATCH bloğuna düşüldü:', error);
           alert('Bir ağ hatası oluştu. Lütfen tekrar deneyin.');
         } finally {
           loginButton.disabled = false;

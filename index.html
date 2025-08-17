@@ -145,7 +145,11 @@
             
             console.log("8. localStorage'a kayıt yapıldı. Yönlendiriliyor...");
             alert(result.message || "Giriş başarılı!");
-            window.location.href = 'main.html'; 
+
+            // localStorage'a yazma işleminin tamamlanması için çok kısa bir gecikme ekliyoruz.
+            setTimeout(() => {
+              window.location.href = 'main.html';
+            }, 100); // 100 milisaniye (saniyenin onda biri) yeterli olacaktır.
           } else {
             console.error("HATA: Başarısız blok (else) içine girildi. Sunucu yanıtı 'ok' değil veya yanıt boş.");
             try {

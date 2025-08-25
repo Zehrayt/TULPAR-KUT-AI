@@ -5,170 +5,308 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Giriş ve Kayıt</title>
     <link rel="stylesheet" href="Giriş.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
   </head>
   <body>
+   <div class="logo">
+        <i class="fas fa-graduation-cap"></i>
+        <span>KutAI</span>
+    </div>
+    
     <div class="main">
-      <input type="checkbox" id="chk" aria-hidden="true" />
+        <div class="user-type-selector">
+            <button class="user-type-btn active" id="student-btn">
+                <i class="fas fa-user-graduate"></i> Öğrenci
+            </button>
+            <button class="user-type-btn" id="teacher-btn">
+                <i class="fas fa-chalkboard-teacher"></i> Öğretmen
+            </button>
+        </div>
+        
+        <input type="checkbox" id="chk" aria-hidden="true" />
 
-      <div class="signup">
-        <form id="register-form">
-          <label for="chk" aria-hidden="true">Kayıt Ol</label>
-            <input type="text" name="name" placeholder="Adınız" required  id="register-name" />
-              <input type="text" name="surname" placeholder="Soyadınız" required id="register-surname" />
-                <input type="email" name="email" placeholder="Emailiniz" required id="register-email" />
-          <input type="text" name="username" placeholder="Kullanıcı Adınız" required="" id="register-username" />
+        <div class="signup">
+            <form id="register-form">
+                <label>
+                    <i class="fas fa-user-plus"></i> Kayıt Ol
+                </label>
+                
+                <div class="input-group">
+                    <i class="fas fa-user input-icon"></i>
+                    <input type="text" name="name" placeholder=" " required id="register-name" />
+                    <span class="floating-label">Adınız</span>
+                </div>
+                
+                <div class="input-group">
+                    <i class="fas fa-user input-icon"></i>
+                    <input type="text" name="surname" placeholder=" " required id="register-surname" />
+                    <span class="floating-label">Soyadınız</span>
+                </div>
+                
+                <div class="input-group">
+                    <i class="fas fa-envelope input-icon"></i>
+                    <input type="email" name="email" placeholder=" " required id="register-email" />
+                    <span class="floating-label">Emailiniz</span>
+                </div>
+                
+                <div class="input-group">
+                    <i class="fas fa-at input-icon"></i>
+                    <input type="text" name="username" placeholder=" " required id="register-username" />
+                    <span class="floating-label">Kullanıcı Adınız</span>
+                </div>
 
-          <div class="password-container">
-            <input type="password" id="registerPassword" name="password" placeholder="Şifre" required=""/>
-            <span class="eye-icon" onclick="togglePasswordVisibility('registerPassword', this)">👁</span>
-          </div>
-
-  
-
+                <div class="input-group">
+                    <i class="fas fa-lock input-icon"></i>
+                    <div class="password-container">
+                        <input type="password" id="registerPassword" name="password" placeholder=" " required />
+                        <span class="floating-label">Şifre</span>
+                        <span class="eye-icon" onclick="togglePasswordVisibility('registerPassword', this)">
+                            <i class="far fa-eye"></i>
+                        </span>
+                    </div>
+                </div>
+                
+                <button type="submit" id="register-button">
+                    <i class="fas fa-user-plus"></i> Kayıt Ol
+                </button>
+                
+                <div class="divider">
+                    <div class="divider-line"></div>
+                    <div class="divider-text">veya</div>
+                    <div class="divider-line"></div>
+                </div>
           
-          <button type="submit" id="register-button">Kayıt Ol</button>
-        </form>
-      </div>
+                
+                <p class="info-text">Hesabınız var mı? <a onclick="toggleForm()">Giriş yapın</a></p>
+            </form>
+        </div>
 
-      <div class="login">
-        <form id="login-form">
-          <label for="chk" aria-hidden="true">Giriş Yap</label>
-          <input type="text" name="username" placeholder="Kullanıcı Adı" required="" id="login-username" />
-          <div class="password-container">
-            <input type="password" id="loginPassword" name="pswd" placeholder="Şifre" required="" />
-            <span class="eye-icon" onclick="togglePasswordVisibility('loginPassword', this)">👁</span>
-          </div>
-          <button type="submit" id="login-button">Giriş Yap</button>
-        </form>
-      </div>
+        <div class="login">
+            <form id="login-form">
+                <label>
+                    <i class="fas fa-sign-in-alt"></i> Giriş Yap
+                </label>
+                
+                <div class="input-group">
+                    <i class="fas fa-at input-icon"></i>
+                    <input type="text" name="username" placeholder=" " required id="login-username" />
+                    <span class="floating-label">Kullanıcı Adı</span>
+                </div>
+                
+                <div class="input-group">
+                    <i class="fas fa-lock input-icon"></i>
+                    <div class="password-container">
+                        <input type="password" id="loginPassword" name="pswd" placeholder=" " required />
+                        <span class="floating-label">Şifre</span>
+                        <span class="eye-icon" onclick="togglePasswordVisibility('loginPassword', this)">
+                            <i class="far fa-eye"></i>
+                        </span>
+                    </div>
+                </div>
+                
+                <button type="submit" id="login-button">
+                    <i class="fas fa-sign-in-alt"></i> Giriş Yap
+                </button>
+                
+                <div class="divider">
+                    <div class="divider-line"></div>
+                    <div class="divider-text">veya</div>
+                    <div class="divider-line"></div>
+                </div>
+                
+                
+                <p class="info-text">Hesabınız yok mu? <a onclick="toggleForm()">Kayıt olun</a></p>
+            </form>
+        </div>
     </div>
 
-<script>
-  function togglePasswordVisibility(fieldId, iconElement) {
-    const passwordField = document.getElementById(fieldId);
-    if (passwordField) {
-      const isPassword = passwordField.type === "password";
-      passwordField.type = isPassword ? "text" : "password";
-      iconElement.textContent = isPassword ? "🙈" : "👁";
-    }
-  }
-
-  document.addEventListener('DOMContentLoaded', function () {
-    // --- KAYIT FORMU (YENİ FORMA GÖRE GÜNCELLENDİ) ---
-    const registerForm = document.getElementById('register-form');
-    if (registerForm) {
-      registerForm.addEventListener('submit', async function (event) {
-        event.preventDefault();
-        const registerButton = document.getElementById('register-button');
-        registerButton.disabled = true;
-        registerButton.innerText = 'Kaydediliyor...';
-        
-        try {
-          // *** BURASI YENİ HTML FORMUNA GÖRE GÜNCELLENDİ ***
-          const formData = {
-            name: document.getElementById('register-name').value,
-            surname: document.getElementById('register-surname').value,
-            email: document.getElementById('register-email').value,
-            username: document.getElementById('register-username').value,
-            password: document.getElementById('registerPassword').value
-          };
-          
-          const response = await fetch("/.netlify/functions/register", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData)
-          });
-
-          const result = await response.json();
-          if (response.ok) {
-            alert(result.message || "Kayıt başarılı!");
-            document.getElementById('chk').checked = true;
-          } else {
-            alert('Hata: ' + (result.message || "Bilinmeyen bir hata oluştu."));
-          }
-        } catch (error) {
-          console.error('Kayıt sırasında hata:', error);
-          alert('Bir ağ hatası oluştu. Lütfen tekrar deneyin.');
-        } finally {
-          registerButton.disabled = false;
-          registerButton.innerText = 'Kayıt Ol';
-        }
-      });
-    }
-
-    // --- GİRİŞ FORMU (BU KISIM ZATEN DOĞRUYDU, AYNI KALDI) ---
-    // --- GİRİŞ FORMU (HATA AYIKLAMA MODUNDA) ---
-    // --- GİRİŞ FORMU (HATA AYIKLAMA MODUNDA) ---
-    const loginForm = document.getElementById('login-form');
-    if (loginForm) {
-      loginForm.addEventListener('submit', async function (event) {
-        event.preventDefault();
-        const loginButton = document.getElementById('login-button');
-        loginButton.disabled = true;
-        loginButton.innerText = 'Giriş Yapılıyor...';
-        
-        console.log("--- YENİ GİRİŞ DENEMESİ ---");
-        console.log("1. Giriş işlemi başlatıldı.");
-    
-        try {
-          const loginData = {
-              username: document.getElementById('login-username').value,
-              password: document.getElementById('loginPassword').value
-          };
-    
-          console.log("2. Veri Netlify'a gönderiliyor:", loginData);
-    
-          const response = await fetch("/.netlify/functions/login", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(loginData)
-          });
-          
-          console.log("3. Netlify'dan yanıt alındı. Durum:", response.status, "| OK mi?:", response.ok);
-    
-          // Yanıtı önce metin olarak alıyoruz, bu çökmesini engeller.
-          const responseText = await response.text();
-          console.log("4. n8n'den gelen HAM YANIT (Metin Hali):", responseText);
-    
-          // Sadece yanıt başarılıysa ve boş değilse JSON'a çevirmeye çalış.
-          if (response.ok && responseText) {
-            console.log("5. Başarılı blok (if) içine girildi.");
-            const result = JSON.parse(responseText);
-            
-            console.log("6. JSON'a çevrilen veri (result nesnesi):", result);
-            
-            console.log("7. localStorage'a kaydetme işlemi başlıyor...");
-            localStorage.setItem('userToken', result.token);
-            localStorage.setItem('userId', result.userId);
-            localStorage.setItem('username', loginData.username);
-            localStorage.setItem('userEmail', result.email); 
-            
-            console.log("8. localStorage'a kayıt yapıldı. Yönlendiriliyor...");
-            alert(result.message || "Giriş başarılı!");
-
-            // localStorage'a yazma işleminin tamamlanması için çok kısa bir gecikme ekliyoruz.
-            setTimeout(() => {
-              window.location.href = 'main.html';
-            }, 100); // 100 milisaniye (saniyenin onda biri) yeterli olacaktır.
-          } else {
-            console.error("HATA: Başarısız blok (else) içine girildi. Sunucu yanıtı 'ok' değil veya yanıt boş.");
-            try {
-                const errorResult = JSON.parse(responseText);
-                alert('Hata: ' + (errorResult.message || "Kullanıcı adı veya şifre hatalı."));
-            } catch (e) {
-                alert('Hata: Kullanıcı adı veya şifre hatalı veya sunucudan geçersiz yanıt alındı.');
+    <script>
+        function togglePasswordVisibility(fieldId, iconElement) {
+            const passwordField = document.getElementById(fieldId);
+            if (passwordField) {
+                const isPassword = passwordField.type === "password";
+                passwordField.type = isPassword ? "text" : "password";
+                
+                const icon = iconElement.querySelector('i');
+                if (isPassword) {
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
             }
-          }
-        } catch (error) {
-          console.error('HATA: CATCH bloğuna düşüldü:', error);
-          alert('Bir ağ hatası oluştu. Lütfen tekrar deneyin.');
-        } finally {
-          loginButton.disabled = false;
-          loginButton.innerText = 'Giriş Yap';
         }
-      });
-    }
-  });
-</script>
- </body>
+
+        function toggleForm() {
+            const chk = document.getElementById('chk');
+            chk.checked = !chk.checked;
+            
+            // Değişiklik: Checkbox'ın durumuna göre 'change' olayını manuel olarak tetikle
+            // Bu, aşağıdaki event listener'ın çalışmasını sağlar.
+            const event = new Event('change');
+            chk.dispatchEvent(event);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const studentBtn = document.getElementById('student-btn');
+            const teacherBtn = document.getElementById('teacher-btn');
+            
+            // Değişiklik: Form yüksekliğini ayarlamak için gerekli elementler seçildi
+            const chk = document.getElementById('chk');
+            const mainContainer = document.querySelector('.main');
+            
+            // Değişiklik: Checkbox değiştiğinde formu yeniden boyutlandıran olay dinleyicisi
+            chk.addEventListener('change', function() {
+                if (this.checked) {
+                    // Kayıt formu aktifse yüksekliği artır
+                    mainContainer.style.height = '740px';
+                } else {
+                    // Giriş formu aktifse yüksekliği azalt
+                    mainContainer.style.height = '520px';
+                }
+            });
+            
+            studentBtn.addEventListener('click', function() {
+                studentBtn.classList.add('active');
+                teacherBtn.classList.remove('active');
+                document.querySelectorAll('form label').forEach(label => {
+                    if (label.querySelector('i').classList.contains('fa-sign-in-alt')) {
+                        label.innerHTML = '<i class="fas fa-sign-in-alt"></i> Öğrenci Girişi';
+                    } else {
+                        label.innerHTML = '<i class="fas fa-user-plus"></i> Öğrenci Kaydı';
+                    }
+                });
+            });
+            
+            teacherBtn.addEventListener('click', function() {
+                teacherBtn.classList.add('active');
+                studentBtn.classList.remove('active');
+                document.querySelectorAll('form label').forEach(label => {
+                    if (label.querySelector('i').classList.contains('fa-sign-in-alt')) {
+                        label.innerHTML = '<i class="fas fa-sign-in-alt"></i> Öğretmen Girişi';
+                    } else {
+                        label.innerHTML = '<i class="fas fa-user-plus"></i> Öğretmen Kaydı';
+                    }
+                });
+            });
+            
+            const registerForm = document.getElementById('register-form');
+            if (registerForm) {
+                registerForm.addEventListener('submit', async function (event) {
+                    event.preventDefault();
+                    const registerButton = document.getElementById('register-button');
+                    registerButton.disabled = true;
+                    registerButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Kaydediliyor...';
+                    
+                    try {
+                        const formData = {
+                            name: document.getElementById('register-name').value,
+                            surname: document.getElementById('register-surname').value,
+                            email: document.getElementById('register-email').value,
+                            username: document.getElementById('register-username').value,
+                            password: document.getElementById('registerPassword').value,
+                            userType: studentBtn.classList.contains('active') ? 'student' : 'teacher'
+                        };
+                        
+                        const response = await fetch("/.netlify/functions/register", {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(formData)
+                        });
+
+                        const result = await response.json();
+                        if (response.ok) {
+                            alert(result.message || "Kayıt başarılı!");
+                            document.getElementById('chk').checked = true;
+                        } else {
+                            alert('Hata: ' + (result.message || "Bilinmeyen bir hata oluştu."));
+                        }
+                    } catch (error) {
+                        console.error('Kayıt sırasında hata:', error);
+                        alert('Bir ağ hatası oluştu. Lütfen tekrar deneyin.');
+                    } finally {
+                        registerButton.disabled = false;
+                        registerButton.innerHTML = '<i class="fas fa-user-plus"></i> Kayıt Ol';
+                    }
+                });
+            }
+
+           const loginForm = document.getElementById('login-form');
+            if (loginForm) {
+                loginForm.addEventListener('submit', async function (event) {
+                    event.preventDefault();
+
+                    const loginButton = document.getElementById('login-button');
+                    loginButton.disabled = true;
+                    loginButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Giriş Yapılıyor...';
+                    
+                    try {
+              
+                        const loginData = {
+                            username: document.getElementById('login-username').value,
+                            password: document.getElementById('loginPassword').value,
+                            userType: studentBtn.classList.contains('active') ? 'student' : 'teacher'
+                        };
+                        
+                        const response = await fetch("/.netlify/functions/login", {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(loginData)
+                        });
+                        
+                        const responseText = await response.text();
+                        
+                        if (response.ok && responseText) {
+                            const result = JSON.parse(responseText);
+                            
+              
+                            localStorage.setItem('userToken', result.token);
+                            localStorage.setItem('userId', result.userId);
+                            localStorage.setItem('username', loginData.username);
+                            localStorage.setItem('userEmail', result.email);
+                            localStorage.setItem('userType', loginData.userType);
+                            
+                            alert(result.message || "Giriş başarılı!");
+
+                            setTimeout(() => {
+                                if (loginData.userType === 'student') {
+                                   
+                                    window.location.href = 'main.html';
+                                } else if (loginData.userType === 'teacher') {
+                                    
+                                    window.location.href = 'OgretmenSayfa.html'; 
+                                } else {
+                                  
+                                    window.location.href = 'index.html';
+                                }
+                            }, 100);
+
+
+                        } else {
+                          
+                            try {
+                                const errorResult = JSON.parse(responseText);
+                                alert('Hata: ' + (errorResult.message || "Kullanıcı adı veya şifre hatalı."));
+                            } catch (e) {
+                                alert('Hata: Kullanıcı adı veya şifre hatalı veya sunucudan geçersiz yanıt alındı.');
+                            }
+                        }
+                    } catch (error) {
+                   
+                        console.error('HATA: CATCH bloğuna düşüldü:', error);
+                        alert('Bir ağ hatası oluştu. Lütfen tekrar deneyin.');
+                    } finally {
+                        loginButton.disabled = false;
+                        loginButton.innerHTML = '<i class="fas fa-sign-in-alt"></i> Giriş Yap';
+                    }
+                });
+            
+            }
+        });
+    </script>
+  </body>
 </html>

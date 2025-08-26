@@ -167,25 +167,18 @@
                 messageBox.classList.add('show');
                 
                 // Başarılı mesajları yönlendirmeden önce görmek için
-                // Başarılı mesajlar için setTimeout'u burada kaldırıyoruz, yönlendirme setTimeout'u devreye girecek
-                // Hata mesajları için süre tanımlayalım
-                if (type === 'error') {
+                if (type === 'success') {
                     setTimeout(() => {
                         messageBox.classList.remove('show');
-                        // Mesaj tamamen gizlendikten sonra içeriğini temizle
-                        messageBox.addEventListener('transitionend', function handler() {
-                            messageBox.innerHTML = '';
-                            messageBox.removeEventListener('transitionend', handler);
-                        });
-                    }, 5000); // 5 saniye sonra gizle
+                    }, 2000); // 2 saniye sonra gizle
+                } else {
+                    // Hata mesajlarını 5 saniye sonra gizle
+                    setTimeout(() => {
+                        messageBox.classList.remove('show');
+                    }, 5000);
                 }
-            } else { // Mesaj boşsa gizle (örn. form değiştiğinde)
+            } else { // Mesaj boşsa gizle
                 messageBox.classList.remove('show');
-                 // Gizlenirken içeriği de temizle
-                 messageBox.addEventListener('transitionend', function handler() {
-                    messageBox.innerHTML = '';
-                    messageBox.removeEventListener('transitionend', handler);
-                });
             }
         }
     }
@@ -194,8 +187,8 @@
         const chk = document.getElementById('chk');
         chk.checked = !chk.checked;
         
-        // Bu kısım artık mainContainer yüksekliğini ayarlamaz, sadece formu değiştirir.
-        // mainContainer yüksekliği CSS'te sabitlenmiş durumda.
+        const event = new Event('change');
+        chk.dispatchEvent(event);
         
         // Form değiştirildiğinde mesaj kutularını temizle
         showMessage('register-message', '', '');
@@ -206,15 +199,21 @@
         const studentBtn = document.getElementById('student-btn');
         const teacherBtn = document.getElementById('teacher-btn');
         
-        // mainContainer yüksekliği artık sabit olduğu için bu kısımlar gereksizleşti.
-        // const chk = document.getElementById('chk');
-        // const mainContainer = document.querySelector('.main');
+        const chk = document.getElementById('chk');
+        const mainContainer = document.querySelector('.main');
         
-        // chk.addEventListener('change', function() {
-        //     // mainContainer yüksekliği artık CSS tarafından yönetiliyor, JavaScript ile değiştirmeye gerek yok.
-        //     showMessage('register-message', '', '');
-        //     showMessage('login-message', '', '');
-        // });
+        chk.addEventListener('change', function() {
+            if (this.checked) {
+                // Kayıt formu aktifse yüksekliği artır
+                mainContainer.style.height = '750px'; 
+            } else {
+                // Giriş formu aktifse yüksekliği azalt
+                mainContainer.style.height = '540px'; 
+            }
+            // Form değişiminde mesajları temizle
+            showMessage('register-message', '', '');
+            showMessage('login-message', '', '');
+        });
         
         studentBtn.addEventListener('click', function() {
             studentBtn.classList.add('active');
@@ -252,7 +251,8 @@
                 registerButton.disabled = true;
                 registerButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Kaydediliyor...';
                 
-                showMessage('register-message', '', ''); // Önceki mesajları temizle
+                // Önceki mesajları temizle
+                showMessage('register-message', '', '');
 
                 try {
                     const formData = {
@@ -270,31 +270,24 @@
                         body: JSON.stringify(formData)
                     });
 
-                    // Yanıtı JSON olarak ayrıştırmayı dene, hata olursa yakala
-                    let result;
-                    try {
-                        result = await response.json();
-                    } catch (jsonError) {
-                        // JSON ayrıştırma hatası, muhtemelen boş veya bozuk yanıt
-                        throw new Error('Sunucudan geçersiz yanıt alındı. ' + response.statusText);
-                    }
-                    
-                    if (response.ok) { // HTTP 2xx durum kodu
+                    const result = await response.json();
+                    if (response.ok) {
                         showMessage('register-message', result.message || "Kayıt başarılı!", 'success');
                         
-                        registerForm.reset(); // Başarılı kayıttan sonra formu sıfırla
+                        // Başarılı kayıttan sonra formları sıfırla
+                        registerForm.reset();
                         
+                        // 2 saniye sonra giriş formuna geç
                         setTimeout(() => {
-                            // Kayıt başarılıysa, giriş formuna geç
                             document.getElementById('chk').checked = true;
-                            // mainContainer yüksekliği artık CSS'te sabit.
-                        }, 2000); // Mesajın görünmesi için 2 saniye bekle
-                    } else { // HTTP 4xx veya 5xx durum kodu
-                        showMessage('register-message', result.message || "Kayıt sırasında bir hata oluştu.", 'error');
+                            mainContainer.style.height = '540px';
+                        }, 2000);
+                    } else {
+                        showMessage('register-message', result.message || "Bilinmeyen bir hata oluştu.", 'error');
                     }
                 } catch (error) {
                     console.error('Kayıt sırasında hata:', error);
-                    showMessage('register-message', error.message || 'Bir ağ hatası oluştu. Lütfen tekrar deneyin.', 'error');
+                    showMessage('register-message', 'Bir ağ hatası oluştu. Lütfen tekrar deneyin.', 'error');
                 } finally {
                     registerButton.disabled = false;
                     registerButton.innerHTML = '<i class="fas fa-user-plus"></i> Kayıt Ol';
@@ -311,7 +304,8 @@
                 loginButton.disabled = true;
                 loginButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Giriş Yapılıyor...';
                 
-                showMessage('login-message', '', ''); // Önceki mesajları temizle
+                // Önceki mesajları temizle
+                showMessage('login-message', '', '');
 
                 try {
                     const loginData = {
@@ -326,15 +320,15 @@
                         body: JSON.stringify(loginData)
                     });
                     
+                    // Yanıtı JSON olarak parse etmeye çalış
                     let result;
                     try {
                         result = await response.json();
-                    } catch (jsonError) {
-                        // JSON ayrıştırma hatası, muhtemelen boş veya bozuk yanıt
-                        throw new Error('Sunucudan geçersiz yanıt alındı. ' + response.statusText);
+                    } catch (e) {
+                        throw new Error('Sunucudan geçersiz yanıt alındı.');
                     }
                     
-                    if (response.ok) { // HTTP 2xx durum kodu
+                    if (response.ok) {
                         localStorage.setItem('userToken', result.token);
                         localStorage.setItem('userId', result.userId);
                         localStorage.setItem('username', loginData.username);
@@ -343,6 +337,7 @@
                         
                         showMessage('login-message', result.message || "Giriş başarılı!", 'success');
 
+                        // SADECE başarılı girişte yönlendirme yap
                         setTimeout(() => {
                             if (loginData.userType === 'student') {
                                 window.location.href = 'main.html';
@@ -351,12 +346,13 @@
                             } else {
                                 window.location.href = 'index.html';
                             }
-                        }, 2000); // Mesajın görünmesi için 2 saniye bekle
-                    } else { // HTTP 4xx veya 5xx durum kodu
+                        }, 2000);
+                    } else {
+                        // Giriş başarısızsa yönlendirme YAPMA, sadece hata göster
                         showMessage('login-message', result.message || "Kullanıcı adı veya şifre hatalı.", 'error');
                     }
                 } catch (error) {
-                    console.error('HATA: Giriş sırasında hata:', error);
+                    console.error('HATA:', error);
                     showMessage('login-message', error.message || 'Bir ağ hatası oluştu. Lütfen tekrar deneyin.', 'error');
                 } finally {
                     loginButton.disabled = false;

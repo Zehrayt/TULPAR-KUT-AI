@@ -335,10 +335,12 @@
                 // Başarılı kayıttan sonra formları sıfırla
                 registerForm.reset();
 
-                // 2 saniye sonra giriş formuna geç
                 setTimeout(() => {
-                  document.getElementById("chk").checked = true;
+                  const chk = document.getElementById("chk");
+                  chk.checked = true;
                   mainContainer.style.height = "540px";
+                  const event = new Event("change");
+                  chk.dispatchEvent(event);
                 }, 2000);
               } else {
                 showMessage(

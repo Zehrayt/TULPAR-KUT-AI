@@ -31,7 +31,7 @@ body::before {
   position: relative;
   width: 100%;
   max-width: 500px;
-  height: 520px;
+  height: 540px;
   background: rgba(255, 255, 255, 0.95);
   border-radius: 20px;
   box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
@@ -124,7 +124,7 @@ body::before {
 form {
   width: 100%;
   max-width: 500px;
-  margin: 20px auto;
+  margin: 10px auto;
 }
 
 label {
@@ -213,7 +213,7 @@ button[type="submit"]:active {
 .divider {
   display: flex;
   align-items: center;
-  margin: 25px 0;
+  margin-top: 20px;
 }
 
 .divider-line {
@@ -282,7 +282,7 @@ input:not(:placeholder-shown) + .floating-label {
 
 .info-text {
   text-align: center;
-  margin-top: 25px;
+  margin-top: 13px;
   color: #777;
   font-size: 14px;
 }
@@ -344,6 +344,81 @@ input:not(:placeholder-shown) + .floating-label {
     margin-right: 0;
     max-width: 90%;
     min-height: 600px;
+  }
+
+  .logo {
+    left: 50%;
+    transform: translateX(-50%);
+    top: 30px;
+  }
+
+  form {
+    padding: 0 10px;
+  }
+
+  label {
+    margin-top: 20px;
+    font-size: 26px;
+  }
+
+  .signup,
+  .login {
+    padding: 70px 20px 30px 20px;
+  }
+}
+
+
+/* Hata ve Başarı Mesajları */
+.message-box {
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  opacity: 0;
+  transform: translateY(-10px);
+  max-height: 0;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.message-box.show {
+  opacity: 1;
+  transform: translateY(0);
+  max-height: 100px; /* Mesajın içeriğine göre ayarlanabilir */
+}
+
+.message-box.success {
+  background-color: #e6ffed; /* Açık yeşil */
+  color: #2f855a; /* Koyu yeşil */
+  border: 1px solid #9ae6b4;
+}
+
+.message-box.error {
+  background-color: #fff0f5; /* Açık kırmızı */
+  color: #e53e3e; /* Koyu kırmızı */
+  border: 1px solid #feb2b2;
+}
+
+.message-box i {
+  font-size: 18px;
+}
+
+@media (max-width: 768px) {
+  body {
+    justify-content: center;
+  }
+
+  .main {
+    margin-top: 100px;
+    margin-right: 0;
+    max-width: 90%;
+    min-height: 600px; /* Mobil için minimum yükseklik */
   }
 
   .logo {

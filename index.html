@@ -230,9 +230,15 @@
         }
       }
 
-      function toggleForm() {
+      function toggleForm(toLogin = false) {
         const chk = document.getElementById("chk");
-        chk.checked = !chk.checked;
+        // Eğer toLogin true ise, giriş formunu göster (checked=false yap)
+        // Değilse mevcut davranışı uygula (toggle)
+        if (toLogin === true) {
+          chk.checked = false;
+        } else {
+          chk.checked = !chk.checked;
+        }
 
         const event = new Event("change");
         chk.dispatchEvent(event);
@@ -241,7 +247,6 @@
         showMessage("register-message", "", "");
         showMessage("login-message", "", "");
       }
-
       document.addEventListener("DOMContentLoaded", function () {
         const studentBtn = document.getElementById("student-btn");
         const teacherBtn = document.getElementById("teacher-btn");
@@ -335,7 +340,7 @@
                 registerForm.reset();
 
                 setTimeout(() => {
-                  toggleForm();
+                  toggleForm(true);
                 }, 2000);
               } else {
                 showMessage(

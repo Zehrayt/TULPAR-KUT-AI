@@ -332,15 +332,10 @@
                   "success"
                 );
 
-                // Başarılı kayıttan sonra formları sıfırla
                 registerForm.reset();
 
                 setTimeout(() => {
-                  const chk = document.getElementById("chk");
-                  chk.checked = true;
-                  mainContainer.style.height = "540px";
-                  const event = new Event("change");
-                  chk.dispatchEvent(event);
+                  toggleForm();
                 }, 2000);
               } else {
                 showMessage(

@@ -450,10 +450,7 @@
        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
    <script>
- // ==========================================================
-// GENEL ANALİZ (Çizgi grafik + %20 düşüş uyarısı)
-// ==========================================================
-async function showGeneralAnalysis() {
+     async function showGeneralAnalysis() {
   const analysesContainer = document.getElementById("analyses-container");
   analysesContainer.innerHTML = `<div class="col-12 text-center py-5"><div class="spinner-border"></div></div>`;
 
@@ -464,13 +461,20 @@ async function showGeneralAnalysis() {
     const response = await fetch(`https://unity-choice-api-production-8a70.up.railway.app/api/user-report/${username}`);
     const data = await response.json();
 
-    if (!response.ok || !data.reports) {
+    // ✅ burada API'nin bir rapor listesi döndürdüğünü varsayıyoruz
+    const reports = data.reports || data; // bazen doğrudan array olabilir
+
+    if (!response.ok || !reports || reports.length === 0) {
       analysesContainer.innerHTML = `<p class="text-danger">Rapor bulunamadı.</p>`;
       return;
     }
 
-    const reports = data.reports;
-    const labels = reports.map(r => r.date);
+    // Tarihe göre sırala
+    reports.sort((a, b) => new Date(a.generatedAt) - new Date(b.generatedAt));
+
+    const labels = reports.map(r =>
+      r.generatedAt ? new Date(r.generatedAt).toLocaleDateString("tr-TR") : "?"
+    );
 
     const traits = [
       { key: "Disadonukluk", label: "Dışadönüklük", color: "#0d6efd" },
@@ -497,7 +501,7 @@ async function showGeneralAnalysis() {
         labels,
         datasets: traits.map(trait => ({
           label: trait.label,
-          data: reports.map(r => r[trait.key]),
+          data: reports.map(r => r[trait.key] ?? 0),
           borderColor: trait.color,
           backgroundColor: trait.color,
           tension: 0.3,
@@ -509,7 +513,11 @@ async function showGeneralAnalysis() {
       options: {
         responsive: true,
         scales: {
-          y: { beginAtZero: true, max: 100, ticks: { callback: v => v + "%" } }
+          y: {
+            beginAtZero: true,
+            max: 100,
+            ticks: { callback: v => v + "%" }
+          }
         }
       }
     });
@@ -517,12 +525,12 @@ async function showGeneralAnalysis() {
     // %20 düşüş kontrolü
     const warnDiv = document.getElementById("general-warnings");
     traits.forEach(trait => {
-      const values = reports.map(r => r[trait.key]);
+      const values = reports.map(r => r[trait.key] ?? 0);
       for (let i = 1; i < values.length; i++) {
         if (values[i - 1] - values[i] >= 20) {
           warnDiv.innerHTML += `
             <div class="alert alert-warning p-2 my-1">
-              ⚠️ <strong>${trait.label}</strong> ${reports[i - 1].date} → ${reports[i].date} arasında 
+              ⚠️ <strong>${trait.label}</strong> ${labels[i - 1]} → ${labels[i]} arasında 
               %${values[i - 1] - values[i]} düştü!
             </div>`;
         }
@@ -534,31 +542,7 @@ async function showGeneralAnalysis() {
     analysesContainer.innerHTML = `<p class="text-danger">Sunucu hatası.</p>`;
   }
 }
-
-// ==========================================================
-// BUTON EVENTLERİ
-// ==========================================================
-document.addEventListener("DOMContentLoaded", () => {
-  // İlk açılışta Genel Analiz çalışsın
-  showGeneralAnalysis();
-
-  // Genel Analiz butonu
-  document.getElementById("btn-general-analysis").addEventListener("click", showGeneralAnalysis);
-
-  // Rapor Bazlı Analiz butonu
-  const loadAnalysesBtn = document.getElementById("load-analyses-btn");
-  if (loadAnalysesBtn) {
-    loadAnalysesBtn.addEventListener("click", () => {
-      // senin mevcut createAnalyses() fonksiyonun çalışacak
-      createAnalyses();
-    });
-  }
-});
-
 </script>
-     
-
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

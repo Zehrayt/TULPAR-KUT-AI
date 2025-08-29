@@ -117,12 +117,7 @@
                 </li>
                    <button class="nav-link" id="randevu-tab" data-bs-toggle="tab" data-bs-target="#randevu" type="button" role="tab">Gelecek Randevularım</button>
                 </li>
-              </ul>
-
-              
-  
-
-              
+              </div>
               <div class="tab-content p-4" id="userTabsContent">
                   <div class="tab-pane fade show active" id="oyun" role="tabpanel">
                     <section id="mainpage" class="video">
@@ -136,11 +131,7 @@
         style="z-index: +1"
         >Oyun Oyna</a>
     </div>
-      
 
-
-
-            
                 <div class="tab-pane fade show" id="anketler" role="tabpanel">
                   <h4 class="mb-4">Mevcut Anketler</h4>
                   
@@ -234,26 +225,7 @@
                       </thead>
                      
                       <tbody>
-                        <tr>
-                          <td>Psikolojik Değerlendirme Raporu</td>
-                          <td class="report-date-cell">--</td>
-                          <td>
-                           
-                            <button class="btn btn-sm btn-outline-primary" id="view-psychology-report-btn">Görüntüle</button>
-                            <button class="btn btn-sm btn-outline-danger">İndir</button>
-                          </td>
-                        </tr>
-                        <!-- Diğer rapor satırları -->
-                        <tr>
-                          <td>Terapi Süreci Değerlendirmesi</td>
-                          <td>10.06.2023</td>
-                          <td><button class="btn btn-sm btn-outline-primary">Görüntüle</button> ... </td>
-                        </tr>
-                        <tr>
-                          <td>İlk Görüşme Notları</td>
-                          <td>05.06.2023</td>
-                          <td><button class="btn btn-sm btn-outline-primary" disabled>Görüntüle</button></td>
-                        </tr>
+                      
                       </tbody>
                     </table>
                   </div>
@@ -319,135 +291,6 @@
                     </div>
                   </div>
                 </div>
-                
-                <!-- Mesajlar Tab -->
-                <div class="tab-pane fade" id="mesajlar" role="tabpanel">
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="card border-0 shadow-sm h-100">
-                        <div class="card-header bg-white border-0">
-                          <h5 class="mb-0">Doktorlarım</h5>
-                        </div>
-                        <div class="card-body p-0">
-                          <div class="list-group list-group-flush">
-                            <a href="#" class="list-group-item list-group-item-action active">
-                              <div class="d-flex align-items-center">
-                            
-                                <div>
-                                  <h6 class="mb-0">Dr. Ayşe Demir</h6>
-                                  <small class="text-white-50">Son mesaj: 15 dk önce</small>
-                                </div>
-                              </div>
-                            </a>
-                            <a href="#" class="list-group-item list-group-item-action">
-                              <div class="d-flex align-items-center">
-                      
-                                <div>
-                                  <h6 class="mb-0">Dr. Mehmet Kaya</h6>
-                                  <small class="text-muted">Son mesaj: 2 gün önce</small>
-                                </div>
-                              </div>
-                            </a>
-                            <a href="#" class="list-group-item list-group-item-action">
-                              <div class="d-flex align-items-center">
-                               
-                                <div>
-                                  <h6 class="mb-0">Dr. Zeynep Akın</h6>
-                                  <small class="text-muted">Son mesaj: 1 hafta önce</small>
-                                </div>
-                              </div>
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div class="col-md-8">
-                      <div class="card border-0 shadow-sm h-100">
-                        <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
-                          <div class="d-flex align-items-center">
-                    
-                            <div>
-                              <h5 class="mb-0">Dr. Ayşe Demir</h5>
-                              <small class="text-muted">Çevrimiçi</small>
-                            </div>
-                          </div>
-                          <div>
-                            <button class="btn btn-sm btn-outline-secondary">
-                              <i class="bi bi-telephone"></i>
-                            </button>
-                            <button class="btn btn-sm btn-outline-secondary ms-2">
-                              <i class="bi bi-three-dots-vertical"></i>
-                            </button>
-                          </div>
-                        </div>
-                        
-                        <div class="card-body chat-messages" style="height: 400px; overflow-y: auto;">
-                          <div class="message received mb-3">
-                            <div class="message-content bg-light p-3 rounded">
-                              <p class="mb-0">Merhaba Ahmet Bey, son test sonuçlarınızı inceledim. Görüşmek üzere randevu alabilir misiniz?</p>
-                              <small class="text-muted d-block text-end mt-1">15:32 - 15.06.2023</small>
-                            </div>
-                          </div>
-                          
-                          <div class="message sent mb-3">
-                            <div class="message-content bg-primary text-white p-3 rounded">
-                              <p class="mb-0">Merhaba Doktor Hanım, randevu almayı düşünüyorum. Yarın saat 14:00 uygun mudur?</p>
-                              <small class="text-white-50 d-block text-end mt-1">15:35 - 15.06.2023</small>
-                            </div>
-                          </div>
-                          
-                          <div class="message received mb-3">
-                            <div class="message-content bg-light p-3 rounded">
-                              <p class="mb-0">Yarın 14:00 uygun. Randevunuzu oluşturdum. Görüşmek üzere, kendinize iyi bakın.</p>
-                              <small class="text-muted d-block text-end mt-1">15:37 - 15.06.2023</small>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        <div class="card-footer bg-white border-0">
-                          <div class="input-group">
-                            <input type="text" class="form-control rounded-start" placeholder="Mesaj yazın...">
-                            <button class="btn btn-primary rounded-end" type="button">
-                              <i class="bi bi-send"></i>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-    
-                </div>
-
-                 <div class="tab-pane fade" id="randevu" role="tabpanel">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="card border-0 shadow-sm h-100">
-                        <div class="card-header bg-white border-0">
-                          <h5 class="mb-0">Gelecek Randevularım</h5>
-                        </div>
-                             <div class="card-body">
-                            <div class="table-responsive">
-                              <table class="table table-hover" id="upcomingAppointments">
-                                <thead>
-                                  <tr>
-                                    <th>Tarih</th>
-                                    <th>Saat</th>
-                                    <th>Hasta</th>
-                                    <th>Durum</th>
-                                    <th>İşlemler</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <!-- JavaScript ile doldurulacak -->
-                                </tbody>
-                              </table>
-                            </div>
-                          </div>
-                        </div>
-<button id="raporBtn">Raporu Al</button>
-<a id="pdfLink" href="#" target="_blank" style="display:none;">PDF Raporunu Görüntüle</a>
-                
             </div>
           </div>
         </div>

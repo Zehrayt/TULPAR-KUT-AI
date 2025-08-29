@@ -111,12 +111,7 @@
                 </li>
                 <li class="nav-item" role="presentation">
                   <button class="nav-link" id="analizler-tab" data-bs-toggle="tab" data-bs-target="#analizler" type="button" role="tab">Analizler</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="mesajlar-tab" data-bs-toggle="tab" data-bs-target="#mesajlar" type="button" role="tab">Mesajlar</button>
-                </li>
-                   <button class="nav-link" id="randevu-tab" data-bs-toggle="tab" data-bs-target="#randevu" type="button" role="tab">Gelecek Randevularım</button>
-                </li>
+             
               </ul>
 
               
@@ -258,66 +253,57 @@
                   </div>
                   <div id="report-status-container" class="mt-4"></div>
                 </div>
-                
-                <!-- Analizler Tab -->
-                <div class="tab-pane fade" id="analizler" role="tabpanel">
-                  <h4 class="mb-4">Psikolojik Analizlerim</h4>
-                  
-                  <div class="row">
-                    <div class="col-md-6 mb-4">
-                      <div class="card border-0 shadow-sm h-100">
-                        <div class="card-body">
-                          <h5 class="card-title">Oyun Analizi</h5>
-                            <canvas id="chart-KisilikOzellikleri"></canvas>
-                          <p class="card-text mt-3 small">Son 30 gündeki duygu durum değişimleriniz.</p>
-                          <a href="#" class="btn btn-sm btn-outline-primary">Detaylı İncele</a>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div class="col-md-6 mb-4">
-                      <div class="card border-0 shadow-sm h-100">
-                        <div class="card-body">
-                          <h5 class="card-title">Stres Seviyesi Takibi</h5>
-                          <div class="chart-container" style="height: 200px;">
-                            <!-- Buraya bir grafik eklenecek -->
-                          
-                          </div>
-                          <p class="card-text mt-3 small">Haftalık stres seviyenizin değişimi.</p>
-                          <a href="#" class="btn btn-sm btn-outline-primary">Detaylı İncele</a>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div class="col-md-6 mb-4">
-                      <div class="card border-0 shadow-sm h-100">
-                        <div class="card-body">
-                          <h5 class="card-title">Kişilik Özellikleri</h5>
-                          <div class="chart-container" style="height: 200px;">
-                            <!-- Buraya bir grafik eklenecek -->
-                          
-                          </div>
-                          <p class="card-text mt-3 small">Big Five kişilik özelliklerinizin dağılımı.</p>
-                          <a href="#" class="btn btn-sm btn-outline-primary">Detaylı İncele</a>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div class="col-md-6 mb-4">
-                      <div class="card border-0 shadow-sm h-100">
-                        <div class="card-body">
-                          <h5 class="card-title">Uyku Kalitesi Analizi</h5>
-                          <div class="chart-container" style="height: 200px;">
-                            <!-- Buraya bir grafik eklenecek -->
-                       
-                          </div>
-                          <p class="card-text mt-3 small">Aylık uyku kalitenizin değişimi.</p>
-                          <a href="#" class="btn btn-sm btn-outline-primary">Detaylı İncele</a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <div class="tab-pane fade" id="analizler" role="tabpanel">
+  <h4 class="mb-4">Oyun Analizi</h4>
+  <p class="text-muted">Oyun sonu raporlarınıza göre gelişim grafikleri</p>
+
+  <div class="row">
+    <!-- Dışadönüklük -->
+    <div class="col-md-6 mb-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="card-title">Dışadönüklük</h5>
+          <canvas id="chart-Disadonukluk"></canvas>
+          <div id="warn-Disadonukluk" class="mt-2"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Uyumluluk -->
+    <div class="col-md-6 mb-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="card-title">Uyumluluk</h5>
+          <canvas id="chart-Uyumluluk"></canvas>
+          <div id="warn-Uyumluluk" class="mt-2"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sorumluluk -->
+    <div class="col-md-6 mb-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="card-title">Sorumluluk</h5>
+          <canvas id="chart-Sorumluluk"></canvas>
+          <div id="warn-Sorumluluk" class="mt-2"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Duygusal Denge -->
+    <div class="col-md-6 mb-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="card-title">Duygusal Denge</h5>
+          <canvas id="chart-DuygusalDenge"></canvas>
+          <div id="warn-DuygusalDenge" class="mt-2"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
           
             </div>
           </div>
@@ -493,74 +479,91 @@
 
        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', async function() {
-        const username = localStorage.getItem('username');
-        if (!username) return;
+   <script>
+    document.addEventListener('DOMContentLoaded', function () {
+  const username = localStorage.getItem('username');
+  if (!username) return;
 
-        try {
-          const response = await fetch(`https://unity-choice-api-production-8a70.up.railway.app/api/user-report/${username}`);
-          const data = await response.json();
-          
-          const reports = data.reports || [];
-          if (!reports.length) return;
+  async function loadGameAnalysis() {
+    try {
+      const response = await fetch(`https://unity-choice-api-production-8a70.up.railway.app/api/user-report/${username}`);
+      const data = await response.json();
+      const reports = data.reports || [];
+      if (!reports.length) return;
 
-          const labels = reports.map(r => r.date);
-          const traits = ["Nevrotiklik", "Disadonukluk", "Aciklik", "Uyumluluk", "Vicdanlilik"];
-          const colors = ["#dc3545", "#0d6efd", "#6f42c1", "#198754", "#fd7e14"];
+      const labels = reports.map(r => r.date);
 
-          // Kişilik Özellikleri grafiği
-          const dataset = traits.map((trait, i) => ({
-            label: trait,
-            data: reports.map(r => r[trait]),
-            borderColor: colors[i],
-            backgroundColor: colors[i],
-            fill: false,
-            tension: 0.3,
-            pointRadius: 5,
-            pointHoverRadius: 7,
-          }));
+      const traits = [
+        { key: "Disadonukluk", label: "Dışadönüklük", color: "#0d6efd" },
+        { key: "Uyumluluk", label: "Uyumluluk", color: "#198754" },
+        { key: "Sorumluluk", label: "Sorumluluk", color: "#fd7e14" },
+        { key: "DuygusalDenge", label: "Duygusal Denge", color: "#dc3545" }
+      ];
 
-          new Chart(document.getElementById("chart-KisilikOzellikleri"), {
-            type: "line",
-            data: { labels, datasets: dataset },
-            options: {
-              responsive: true,
-              plugins: {
-                tooltip: {
-                  callbacks: {
-                    label: (ctx) => `${ctx.dataset.label}: ${ctx.formattedValue}%`
-                  }
-                }
-              },
-              scales: {
-                y: {
-                  beginAtZero: true,
-                  max: 100,
-                  ticks: { callback: v => v + "%" }
+      traits.forEach(trait => {
+        const values = reports.map(r => r[trait.key]);
+        const ctx = document.getElementById(`chart-${trait.key}`);
+        if (!ctx) return;
+
+        // Chart.js ile çiz
+        new Chart(ctx, {
+          type: "line",
+          data: {
+            labels,
+            datasets: [{
+              label: trait.label,
+              data: values,
+              borderColor: trait.color,
+              backgroundColor: trait.color,
+              tension: 0.3,
+              pointRadius: 5,
+              pointHoverRadius: 7,
+              fill: false
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              tooltip: {
+                callbacks: {
+                  label: (ctx) => `${ctx.dataset.label}: ${ctx.formattedValue}%`
                 }
               }
-            }
-          });
-
-          // %20 düşüş uyarıları
-          traits.forEach(trait => {
-            const dataPoints = reports.map(r => r[trait]);
-            for (let i = 1; i < dataPoints.length; i++) {
-              if (dataPoints[i - 1] - dataPoints[i] >= 20) {
-                const warnDiv = document.getElementById("warn-KisilikOzellikleri");
-                warnDiv.innerHTML += `<div class="alert alert-warning p-2 my-1">
-                  ⚠️ <strong>${trait}</strong> ${reports[i - 1].date} → ${reports[i].date} arasında %${dataPoints[i - 1] - dataPoints[i]} düştü!
-                </div>`;
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                max: 100,
+                ticks: { callback: v => v + "%" }
               }
             }
-          });
+          }
+        });
 
-        } catch (err) {
-          console.error("Grafik verileri alınamadı:", err);
+        // %20 düşüş uyarısı
+        const warnDiv = document.getElementById(`warn-${trait.key}`);
+        for (let i = 1; i < values.length; i++) {
+          if (values[i - 1] - values[i] >= 20) {
+            warnDiv.innerHTML += `
+              <div class="alert alert-warning p-2 my-1">
+                ⚠️ <strong>${trait.label}</strong> ${reports[i - 1].date} → ${reports[i].date} arasında 
+                %${values[i - 1] - values[i]} düştü!
+              </div>`;
+          }
         }
       });
-    </script>
+    } catch (err) {
+      console.error("Analiz yüklenemedi:", err);
+    }
+  }
+
+  // sayfa açıldığında yükle
+  loadGameAnalysis();
+});
+
+   </script>
+     
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   </body>

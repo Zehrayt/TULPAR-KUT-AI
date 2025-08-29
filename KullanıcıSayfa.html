@@ -253,57 +253,27 @@
                   </div>
                   <div id="report-status-container" class="mt-4"></div>
                 </div>
-              <div class="tab-pane fade" id="analizler" role="tabpanel">
-  <h4 class="mb-4">Oyun Analizi</h4>
-  <p class="text-muted">Oyun sonu raporlarınıza göre gelişim grafikleri</p>
-
-  <div class="row">
-    <!-- Dışadönüklük -->
-    <div class="col-md-6 mb-4">
-      <div class="card border-0 shadow-sm h-100">
-        <div class="card-body">
-          <h5 class="card-title">Dışadönüklük</h5>
-          <canvas id="chart-Disadonukluk"></canvas>
-          <div id="warn-Disadonukluk" class="mt-2"></div>
-        </div>
-      </div>
+              <!-- Analizler Tab -->
+<div class="tab-pane fade" id="analizler" role="tabpanel">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="mb-0">Psikolojik Analizlerim</h4>
+    <div>
+      <button class="btn btn-sm btn-outline-primary me-2" id="btn-general-analysis">
+        <i class="bi bi-graph-up"></i> Genel Analiz
+      </button>
+      <button class="btn btn-sm btn-outline-secondary" id="load-analyses-btn">
+        <i class="bi bi-bar-chart-line"></i> Rapor Bazlı Analiz
+      </button>
     </div>
-
-    <!-- Uyumluluk -->
-    <div class="col-md-6 mb-4">
-      <div class="card border-0 shadow-sm h-100">
-        <div class="card-body">
-          <h5 class="card-title">Uyumluluk</h5>
-          <canvas id="chart-Uyumluluk"></canvas>
-          <div id="warn-Uyumluluk" class="mt-2"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Sorumluluk -->
-    <div class="col-md-6 mb-4">
-      <div class="card border-0 shadow-sm h-100">
-        <div class="card-body">
-          <h5 class="card-title">Sorumluluk</h5>
-          <canvas id="chart-Sorumluluk"></canvas>
-          <div id="warn-Sorumluluk" class="mt-2"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Duygusal Denge -->
-    <div class="col-md-6 mb-4">
-      <div class="card border-0 shadow-sm h-100">
-        <div class="card-body">
-          <h5 class="card-title">Duygusal Denge</h5>
-          <canvas id="chart-DuygusalDenge"></canvas>
-          <div id="warn-DuygusalDenge" class="mt-2"></div>
-        </div>
-      </div>
+  </div>
+  <div id="analyses-container" class="row">
+    <div class="col-12 text-center py-5">
+      <div class="spinner-border"></div>
+      <p class="mt-2 text-muted">Analiz yükleniyor...</p>
     </div>
   </div>
 </div>
-
+          
           
             </div>
           </div>
@@ -480,88 +450,112 @@
        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-  const username = localStorage.getItem('username');
+ // ==========================================================
+// GENEL ANALİZ (Çizgi grafik + %20 düşüş uyarısı)
+// ==========================================================
+async function showGeneralAnalysis() {
+  const analysesContainer = document.getElementById("analyses-container");
+  analysesContainer.innerHTML = `<div class="col-12 text-center py-5"><div class="spinner-border"></div></div>`;
+
+  const username = localStorage.getItem("username");
   if (!username) return;
 
-  async function loadGameAnalysis() {
-    try {
-      const response = await fetch(`https://unity-choice-api-production-8a70.up.railway.app/api/user-report/${username}`);
-      const data = await response.json();
-      const reports = data.reports || [];
-      if (!reports.length) return;
+  try {
+    const response = await fetch(`https://unity-choice-api-production-8a70.up.railway.app/api/user-report/${username}`);
+    const data = await response.json();
 
-      const labels = reports.map(r => r.date);
-
-      const traits = [
-        { key: "Disadonukluk", label: "Dışadönüklük", color: "#0d6efd" },
-        { key: "Uyumluluk", label: "Uyumluluk", color: "#198754" },
-        { key: "Sorumluluk", label: "Sorumluluk", color: "#fd7e14" },
-        { key: "DuygusalDenge", label: "Duygusal Denge", color: "#dc3545" }
-      ];
-
-      traits.forEach(trait => {
-        const values = reports.map(r => r[trait.key]);
-        const ctx = document.getElementById(`chart-${trait.key}`);
-        if (!ctx) return;
-
-        // Chart.js ile çiz
-        new Chart(ctx, {
-          type: "line",
-          data: {
-            labels,
-            datasets: [{
-              label: trait.label,
-              data: values,
-              borderColor: trait.color,
-              backgroundColor: trait.color,
-              tension: 0.3,
-              pointRadius: 5,
-              pointHoverRadius: 7,
-              fill: false
-            }]
-          },
-          options: {
-            responsive: true,
-            plugins: {
-              tooltip: {
-                callbacks: {
-                  label: (ctx) => `${ctx.dataset.label}: ${ctx.formattedValue}%`
-                }
-              }
-            },
-            scales: {
-              y: {
-                beginAtZero: true,
-                max: 100,
-                ticks: { callback: v => v + "%" }
-              }
-            }
-          }
-        });
-
-        // %20 düşüş uyarısı
-        const warnDiv = document.getElementById(`warn-${trait.key}`);
-        for (let i = 1; i < values.length; i++) {
-          if (values[i - 1] - values[i] >= 20) {
-            warnDiv.innerHTML += `
-              <div class="alert alert-warning p-2 my-1">
-                ⚠️ <strong>${trait.label}</strong> ${reports[i - 1].date} → ${reports[i].date} arasında 
-                %${values[i - 1] - values[i]} düştü!
-              </div>`;
-          }
-        }
-      });
-    } catch (err) {
-      console.error("Analiz yüklenemedi:", err);
+    if (!response.ok || !data.reports) {
+      analysesContainer.innerHTML = `<p class="text-danger">Rapor bulunamadı.</p>`;
+      return;
     }
-  }
 
-  // sayfa açıldığında yükle
-  loadGameAnalysis();
+    const reports = data.reports;
+    const labels = reports.map(r => r.date);
+
+    const traits = [
+      { key: "Disadonukluk", label: "Dışadönüklük", color: "#0d6efd" },
+      { key: "Uyumluluk", label: "Uyumluluk", color: "#198754" },
+      { key: "Sorumluluk", label: "Sorumluluk", color: "#fd7e14" },
+      { key: "DuygusalDenge", label: "Duygusal Denge", color: "#dc3545" }
+    ];
+
+    analysesContainer.innerHTML = `
+      <div class="col-12 mb-4">
+        <div class="card border-0 shadow-sm h-100">
+          <div class="card-body">
+            <h5 class="card-title">Genel Analiz</h5>
+            <canvas id="chart-general"></canvas>
+            <div id="general-warnings" class="mt-3"></div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    new Chart(document.getElementById("chart-general"), {
+      type: "line",
+      data: {
+        labels,
+        datasets: traits.map(trait => ({
+          label: trait.label,
+          data: reports.map(r => r[trait.key]),
+          borderColor: trait.color,
+          backgroundColor: trait.color,
+          tension: 0.3,
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          fill: false
+        }))
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: { beginAtZero: true, max: 100, ticks: { callback: v => v + "%" } }
+        }
+      }
+    });
+
+    // %20 düşüş kontrolü
+    const warnDiv = document.getElementById("general-warnings");
+    traits.forEach(trait => {
+      const values = reports.map(r => r[trait.key]);
+      for (let i = 1; i < values.length; i++) {
+        if (values[i - 1] - values[i] >= 20) {
+          warnDiv.innerHTML += `
+            <div class="alert alert-warning p-2 my-1">
+              ⚠️ <strong>${trait.label}</strong> ${reports[i - 1].date} → ${reports[i].date} arasında 
+              %${values[i - 1] - values[i]} düştü!
+            </div>`;
+        }
+      }
+    });
+
+  } catch (err) {
+    console.error("Genel analiz hata:", err);
+    analysesContainer.innerHTML = `<p class="text-danger">Sunucu hatası.</p>`;
+  }
+}
+
+// ==========================================================
+// BUTON EVENTLERİ
+// ==========================================================
+document.addEventListener("DOMContentLoaded", () => {
+  // İlk açılışta Genel Analiz çalışsın
+  showGeneralAnalysis();
+
+  // Genel Analiz butonu
+  document.getElementById("btn-general-analysis").addEventListener("click", showGeneralAnalysis);
+
+  // Rapor Bazlı Analiz butonu
+  const loadAnalysesBtn = document.getElementById("load-analyses-btn");
+  if (loadAnalysesBtn) {
+    loadAnalysesBtn.addEventListener("click", () => {
+      // senin mevcut createAnalyses() fonksiyonun çalışacak
+      createAnalyses();
+    });
+  }
 });
 
-   </script>
+</script>
      
 
 

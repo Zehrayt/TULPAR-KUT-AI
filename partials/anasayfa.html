@@ -230,7 +230,7 @@ document.getElementById("overlay").addEventListener("click", (e) => {
         </div>
 
       </div>
-      <button class="carousel-control next-btn" data-dir="next">
+      <button class="carousel-control next-btn" data-dir="next" >
         <i class="bi bi-chevron-right"></i>
       </button>
     </div>
@@ -531,11 +531,7 @@ document.getElementById("overlay").addEventListener("click", (e) => {
 
             window.addEventListener("scroll", checkScroll);
             checkScroll(); // Sayfa yüklendiğinde bir kez çalıştır
-            });
-
-
-
-document.addEventListener("DOMContentLoaded", function () {
+      
     const carousel = document.querySelector(".character-carousel");
     const cards = document.querySelectorAll(".character-card");
     const prevBtn = document.querySelector(".prev-btn");
@@ -566,6 +562,15 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+
+    if (prevBtn) prevBtn.addEventListener("click", function() {
+    console.log("Geri butonuna tıklandı");
+    goPrev();
+});
+if (nextBtn) nextBtn.addEventListener("click", function() {
+    console.log("İleri butonuna tıklandı");
+    goNext();
+});
 
     function goPrev() {
         if (currentIndex > 0) {

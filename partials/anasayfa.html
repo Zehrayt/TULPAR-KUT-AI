@@ -535,8 +535,7 @@ document.getElementById("overlay").addEventListener("click", (e) => {
 
 
 
-
-          document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
     const carousel = document.querySelector(".character-carousel");
     const cards = document.querySelectorAll(".character-card");
     const prevBtn = document.querySelector(".prev-btn");
@@ -547,9 +546,8 @@ document.getElementById("overlay").addEventListener("click", (e) => {
 
     function updateCarousel() {
         if (cards.length === 0) return;
-        const cardWidth = cards[0].offsetWidth + 20; // Kart genişliği + margin
+        const cardWidth = cards[0].offsetWidth + 20;
         const maxIndex = cardCount - cardsPerPage;
-        // currentIndex'i sınırla
         if (currentIndex < 0) currentIndex = 0;
         if (currentIndex > maxIndex) currentIndex = maxIndex;
 
@@ -583,19 +581,14 @@ document.getElementById("overlay").addEventListener("click", (e) => {
         }
     }
 
-    prevBtn.addEventListener("click", goPrev);
-    nextBtn.addEventListener("click", goNext);
+    if (prevBtn) prevBtn.addEventListener("click", goPrev);
+    if (nextBtn) nextBtn.addEventListener("click", goNext);
 
-    function initializeCarousel() {
-        updateCarousel();
-    }
-
-    window.addEventListener("resize", initializeCarousel);
-    initializeCarousel();
-});
+    window.addEventListener("resize", updateCarousel);
+    updateCarousel();
 
    
-              document.addEventListener('DOMContentLoaded', function () {
+              
               const btnOyna = document.getElementById('btnoyna');
               if (btnOyna) {
                 btnOyna.addEventListener('click', function (e) {
@@ -620,5 +613,4 @@ document.getElementById("overlay").addEventListener("click", (e) => {
               }
             });
 
-        </script>
 

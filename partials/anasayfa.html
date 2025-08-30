@@ -534,57 +534,103 @@ document.getElementById("overlay").addEventListener("click", (e) => {
             });
 
 
+document.addEventListener("DOMContentLoaded", function () {
+    const carousel = document.querySelector(".character-carousel");
+    const cards = document.querySelectorAll(".character-card");
+    const prevBtn = document.querySelector(".prev-btn");
+    const nextBtn = document.querySelector(".next-btn");
+    const cardCount = cards.length;
+    let currentIndex = 0;
+    const cardsPerPage = 2;
+
+    console.log("Prev:", prevBtn, "Next:", nextBtn, "Cards:", cardCount);
+
+    function updateCarousel() {
+        if (cards.length === 0) return;
+
+        const cardWidth = cards[0].getBoundingClientRect().width + 20;
+        const translateValue = -(currentIndex * cardWidth);
+        carousel.style.transform = `translateX(${translateValue}px)`;
+
+        cards.forEach((card, index) => {
+            if (index >= currentIndex && index < currentIndex + cardsPerPage) {
+                card.classList.add("active");
+            } else {
+                card.classList.remove("active");
+            }
+        });
+    }
+
+    function goPrev() {
+    if (currentIndex > 0) {
+        currentIndex--; // Sadece 1 azalt
+        updateCarousel();
+    }
+}
+
+function goNext() {
+    if (currentIndex < cardCount - cardsPerPage) {
+        currentIndex++; // Sadece 1 artır
+        updateCarousel();
+    }
+}
+
+    if (prevBtn) prevBtn.addEventListener("click", goPrev);
+    if (nextBtn) nextBtn.addEventListener("click", goNext);
+
+    updateCarousel();
+  // ==========================================================
+          // GİRİŞ YAPAN KULLANICI BİLGİLERİNİ SAYFAYA YAZDIRMA
+       
+
+       // ==========================================================
+          const loggedInUsername = localStorage.getItem('username');
+          const loggedInUserEmail = localStorage.getItem('userEmail'); 
+          
+          if (loggedInUsername) {
+              // Sidebar'daki ismi bul ve güncelle
+              const sidebarNameElement = document.querySelector('.card-body.text-center h5.mb-1');
+              if (sidebarNameElement) {
+                  sidebarNameElement.textContent = loggedInUsername;
+              }
+    
+              // Navbar'daki butonun metnini güncelle
+              const dropdownButton = document.getElementById('dropdownMenuButton');
+              if(dropdownButton) {
+                  dropdownButton.innerHTML = `<i class="bi bi-person-circle me-1"></i> ${loggedInUsername}`;
+              } else {
+                  // Eğer dropdown yoksa, sağ üstteki genel "Kullanıcı" butonunu bul
+                  const userButton = document.querySelector('a.btn.btn-outline-primary');
+                  if (userButton && userButton.textContent.includes('Kullanıcı')) {
+                      userButton.innerHTML = `<i class="bi bi-person-circle"></i> ${loggedInUsername}`;
+                  }
+              }
+          }
+    
+          if (loggedInUserEmail) {
+              // Sidebar'daki e-postayı bul ve güncelle
+              const emailElement = document.querySelector('.card-body.text-center p.text-muted.small');
+              if (emailElement) {
+                  emailElement.textContent = loggedInUserEmail;
+              }
+          }
+    
+          // ==========================================================
+          // ÇIKIŞ YAPMA İŞLEVSELLİĞİ
+          // ==========================================================
+          const logoutLink = document.querySelector('a[href="index.html"].text-danger');
+          if (logoutLink) {
+              logoutLink.addEventListener('click', function(event) {
+                  event.preventDefault();
+                  localStorage.clear();
+                  alert('Başarıyla çıkış yaptınız.');
+                  window.location.href = 'index.html';
+              });
+          }
+      });
 
 
-            document.addEventListener("DOMContentLoaded", function () {
-                const carousel = document.querySelector(".character-carousel");
-                const cards = document.querySelectorAll(".character-card");
-                const prevBtn = document.querySelector(".prev-btn");
-                const nextBtn = document.querySelector(".next-btn");
-                const cardCount = cards.length;
-                let currentIndex = 0;
-                const cardsPerPage = 1;
-
-                function updateCarousel() {
-                const cardWidth = cards[0].offsetWidth + 20; // Kart genişliği + margin
-                const translateValue = -currentIndex * cardWidth;
-
-                carousel.style.transform = `translateX(${translateValue}px)`;
-
-                cards.forEach((card, index) => {
-                    if (index === currentIndex) {
-                    card.classList.add("active");
-                    card.style.opacity = 1;
-                    card.style.transform = "scale(1)";
-                    } else {
-                    card.classList.remove("active");
-                    card.style.opacity = 0.5;
-                    card.style.transform = "scale(0.95)";
-                    }
-                });
-                }
-
-                function goPrev() {
-                currentIndex = (currentIndex - 1 + cardCount) % cardCount;
-                updateCarousel();
-                }
-
-                function goNext() {
-                currentIndex = (currentIndex + 1) % cardCount;
-                updateCarousel();
-                }
-
-                prevBtn.addEventListener("click", goPrev);
-                nextBtn.addEventListener("click", goNext);
-
-                function initializeCarousel() {
-                updateCarousel();
-                }
-
-                window.addEventListener("resize", initializeCarousel);
-                initializeCarousel();
-            });
-
+        
             
         </script>
 

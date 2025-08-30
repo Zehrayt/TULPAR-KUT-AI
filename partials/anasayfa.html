@@ -483,55 +483,48 @@ document.getElementById("overlay").addEventListener("click", (e) => {
     
    
        
-        <script>
-    
-            document.addEventListener("DOMContentLoaded", function () {
-            const elements = document.querySelectorAll(".animate-on-scroll");
-            const oyunHakkindaLink = document.querySelector('a[href="#oyunkonusu"]');
-            const oyunHakkindaSection = document.getElementById("oyunkonusu");
+ <script>
+document.addEventListener("DOMContentLoaded", function () {
+    // --- ANİMASYON KISMI ---
+    const elements = document.querySelectorAll(".animate-on-scroll");
+    const oyunHakkindaLink = document.querySelector('a[href="#oyunkonusu"]');
+    const oyunHakkindaSection = document.getElementById("oyunkonusu");
 
-            function isElementInViewport(el) {
-                const rect = el.getBoundingClientRect();
-                return (
-                rect.top < window.innerHeight && rect.bottom > 0
-                );
+    function isElementInViewport(el) {
+        const rect = el.getBoundingClientRect();
+        return (rect.top < window.innerHeight && rect.bottom > 0);
+    }
+
+    function checkScroll() {
+        elements.forEach((element) => {
+            if (isElementInViewport(element)) {
+                element.classList.add("active");
+            } else {
+                element.classList.remove("active");
             }
+        });
+    }
 
-            function checkScroll() {
-                elements.forEach((element) => {
-                if (isElementInViewport(element)) {
-                    element.classList.add("active");
-                } else {
-                    element.classList.remove("active");
-                }
-                });
-            }
+    if (oyunHakkindaSection && isElementInViewport(oyunHakkindaSection)) {
+        const animatedElements = oyunHakkindaSection.querySelectorAll(".animate-on-scroll");
+        animatedElements.forEach((el) => el.classList.add("active"));
+    }
 
-            // Sayfa yüklendiğinde: eğer oyun-hakkinda görünüyorsa
-            if (oyunHakkindaSection && isElementInViewport(oyunHakkindaSection)) {
+    if (oyunHakkindaLink) {
+        oyunHakkindaLink.addEventListener("click", function (event) {
+            event.preventDefault();
+            oyunHakkindaSection.scrollIntoView({ behavior: "smooth" });
+            setTimeout(() => {
                 const animatedElements = oyunHakkindaSection.querySelectorAll(".animate-on-scroll");
                 animatedElements.forEach((el) => el.classList.add("active"));
-            }
+            }, 500);
+        });
+    }
 
-            // Navbar'dan tıklanınca smooth scroll + animasyon
-            if (oyunHakkindaLink) {
-                oyunHakkindaLink.addEventListener("click", function (event) {
-                event.preventDefault();
+    window.addEventListener("scroll", checkScroll);
+    checkScroll();
 
-                oyunHakkindaSection.scrollIntoView({ behavior: "smooth" });
-
-                // Scroll tamamlanmadan önce animasyon başlatmak gecikmeli olabilir,
-                // bu yüzden hafif gecikme koyabiliriz:
-                setTimeout(() => {
-                    const animatedElements = oyunHakkindaSection.querySelectorAll(".animate-on-scroll");
-                    animatedElements.forEach((el) => el.classList.add("active"));
-                }, 500); // scrollIntoView tamamlanmadan biraz sonra
-                });
-            }
-
-            window.addEventListener("scroll", checkScroll);
-            checkScroll(); // Sayfa yüklendiğinde bir kez çalıştır
-      
+    // --- CAROUSEL KISMI ---
     const carousel = document.querySelector(".character-carousel");
     const cards = document.querySelectorAll(".character-card");
     const prevBtn = document.querySelector(".prev-btn");
@@ -563,16 +556,8 @@ document.getElementById("overlay").addEventListener("click", (e) => {
         });
     }
 
-    if (prevBtn) prevBtn.addEventListener("click", function() {
-    console.log("Geri butonuna tıklandı");
-    goPrev();
-});
-if (nextBtn) nextBtn.addEventListener("click", function() {
-    console.log("İleri butonuna tıklandı");
-    goNext();
-});
-
     function goPrev() {
+        console.log("Geri butonuna tıklandı");
         if (currentIndex > 0) {
             currentIndex--;
             updateCarousel();
@@ -580,6 +565,7 @@ if (nextBtn) nextBtn.addEventListener("click", function() {
     }
 
     function goNext() {
+        console.log("İleri butonuna tıklandı");
         if (currentIndex < cardCount - cardsPerPage) {
             currentIndex++;
             updateCarousel();
@@ -592,30 +578,20 @@ if (nextBtn) nextBtn.addEventListener("click", function() {
     window.addEventListener("resize", updateCarousel);
     updateCarousel();
 
-   
-              
-              const btnOyna = document.getElementById('btnoyna');
-              if (btnOyna) {
-                btnOyna.addEventListener('click', function (e) {
-                  e.preventDefault();
-
-                  const userId = localStorage.getItem('userId');
-
-                  // Domaini al (örn: https://xn--kuta-oza.com)
-                  let baseUrl = window.location.origin;
-
-                  // Eğer punycode ise düzelt → "kutaı.com"
-                  baseUrl = baseUrl.replace("xn--kuta-oza.com", "kutaı.com");
-
-                  // /oyun linkini hazırla
-                  let oyunUrl = `${baseUrl}/oyun`;
-                  if (userId) {
-                    oyunUrl += `?userId=${userId}`;
-                  }
-
-                  window.open(oyunUrl, '_blank');
-                });
-              }
-            });
-
-
+    // --- OYUNA BAŞLA BUTONU ---
+    const btnOyna = document.getElementById('btnoyna');
+    if (btnOyna) {
+        btnOyna.addEventListener('click', function (e) {
+            e.preventDefault();
+            const userId = localStorage.getItem('userId');
+            let baseUrl = window.location.origin;
+            baseUrl = baseUrl.replace("xn--kuta-oza.com", "kutaı.com");
+            let oyunUrl = `${baseUrl}/oyun`;
+            if (userId) {
+                oyunUrl += `?userId=${userId}`;
+            }
+            window.open(oyunUrl, '_blank');
+        });
+    }
+});
+</script>

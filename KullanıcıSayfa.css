@@ -19,7 +19,7 @@
             position: fixed;
             width: var(--sidebar-width);
             min-height: 100vh;
-            background: linear-gradient(180deg, var(--primary-color) 0%, #91a7e9 100%);
+            background: linear-gradient(180deg, var(--primary-color) 0%, #9fa5b4 100%);
             color: white;
             transition: all 0.3s;
             z-index: 1000;
@@ -46,7 +46,7 @@
         
         .sidebar-user-info h5 {
             font-weight: 600;
-            margin-bottom: 5px;
+            margin-bottom: 15px;
         }
         
         .sidebar-user-info p {

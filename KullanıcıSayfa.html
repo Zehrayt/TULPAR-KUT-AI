@@ -717,14 +717,38 @@
             );
             const data = await response.json();
 
-            if (response.ok && data.reportLink) {
-              const reportDateCell =
-                document.querySelector(".report-date-cell");
-              if (reportDateCell) {
-                reportDateCell.textContent = data.generatedAt
-                  ? new Date(data.generatedAt).toLocaleDateString("tr-TR")
+            // API'den raporların geldiğini kontrol et
+            const reports = data.reports || [];
+            const tbody = document.querySelector("#raporlar-content tbody");
+            tbody.innerHTML = ""; // önce tabloyu temizle
+
+            if (reports.length > 0) {
+              reports.forEach((report, index) => {
+                const createdDate = report.generatedAt
+                  ? new Date(report.generatedAt).toLocaleDateString("tr-TR")
                   : "--";
-              }
+
+                const row = `
+          <tr>
+            <td>${report.name || "Psikolojik Rapor " + (index + 1)}</td>
+            <td>${createdDate}</td>
+            <td>
+              <a href="${
+                report.reportLink
+              }" target="_blank" class="btn btn-sm btn-outline-primary">
+                Görüntüle
+              </a>
+            </td>
+          </tr>
+        `;
+                tbody.insertAdjacentHTML("beforeend", row);
+              });
+            } else {
+              tbody.innerHTML = `
+        <tr>
+          <td colspan="3" class="text-center text-muted">Hiç rapor bulunamadı.</td>
+        </tr>
+      `;
             }
           } catch (err) {
             console.error("Rapor yükleme hatası:", err);
@@ -733,148 +757,165 @@
 
         // Sayfa açıldığında raporları yükle
         loadReports();
- 
 
-      // ==========================================================
-      //  ANALİZ BUTONU
-      // ==========================================================
+        // ==========================================================
+        //  ANALİZ BUTONU
+        // ==========================================================
 
-      // IPIP Kişilik Özellikleri Grafiği
-         // IPIP Kişilik Özellikleri Grafiği
-            const ipipCtx = document.getElementById('ipipChart').getContext('2d');
-            const ipipChart = new Chart(ipipCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['Nevrotiklik', 'Dışadönüklük', 'Açıklık', 'Uyumluluk', 'Vicdanlılık'],
-                    datasets: [{
-                        label: 'Seviye (%)',
-                        data: [68, 42, 55, 76, 63],
-                        backgroundColor: [
-                            'rgba(231, 74, 59, 0.7)',
-                            'rgba(78, 115, 223, 0.7)',
-                            'rgba(246, 194, 62, 0.7)',
-                            'rgba(28, 200, 138, 0.7)',
-                            'rgba(54, 185, 204, 0.7)'
-                        ],
-                        borderColor: [
-                            'rgba(231, 74, 59, 1)',
-                            'rgba(78, 115, 223, 1)',
-                            'rgba(246, 194, 62, 1)',
-                            'rgba(28, 200, 138, 1)',
-                            'rgba(54, 185, 204, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
+        // IPIP Kişilik Özellikleri Grafiği
+        // IPIP Kişilik Özellikleri Grafiği
+        const ipipCtx = document.getElementById("ipipChart").getContext("2d");
+        const ipipChart = new Chart(ipipCtx, {
+          type: "bar",
+          data: {
+            labels: [
+              "Nevrotiklik",
+              "Dışadönüklük",
+              "Açıklık",
+              "Uyumluluk",
+              "Vicdanlılık",
+            ],
+            datasets: [
+              {
+                label: "Seviye (%)",
+                data: [68, 42, 55, 76, 63],
+                backgroundColor: [
+                  "rgba(231, 74, 59, 0.7)",
+                  "rgba(78, 115, 223, 0.7)",
+                  "rgba(246, 194, 62, 0.7)",
+                  "rgba(28, 200, 138, 0.7)",
+                  "rgba(54, 185, 204, 0.7)",
+                ],
+                borderColor: [
+                  "rgba(231, 74, 59, 1)",
+                  "rgba(78, 115, 223, 1)",
+                  "rgba(246, 194, 62, 1)",
+                  "rgba(28, 200, 138, 1)",
+                  "rgba(54, 185, 204, 1)",
+                ],
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+                max: 100,
+                ticks: {
+                  callback: function (value) {
+                    return value + "%";
+                  },
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 100,
-                            ticks: {
-                                callback: function(value) {
-                                    return value + '%';
-                                }
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    }
-                }
-            });
-
-            // GAD-7 Anksiyete Grafiği
-            const gad7Ctx = document.getElementById('gad7Chart').getContext('2d');
-            const gad7Chart = new Chart(gad7Ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Hafif', 'Orta', 'Şiddetli'],
-                    datasets: [{
-                        data: [30, 50, 20],
-                        backgroundColor: [
-                            'rgba(28, 200, 138, 0.7)',
-                            'rgba(246, 194, 62, 0.7)',
-                            'rgba(231, 74, 59, 0.7)'
-                        ],
-                        borderColor: [
-                            'rgba(28, 200, 138, 1)',
-                            'rgba(246, 194, 62, 1)',
-                            'rgba(231, 74, 59, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '70%',
-                    plugins: {
-                        legend: {
-                            position: 'bottom'
-                        }
-                    }
-                }
-            });
-
-            // Kariyer Önerileri Radar Grafiği
-            const careerCtx = document.getElementById('careerChart').getContext('2d');
-            const careerChart = new Chart(careerCtx, {
-                type: 'radar',
-                data: {
-                    labels: ['Sosyal Beceri', 'Analitik Düşünce', 'Yaratıcılık', 'Liderlik', 'Empati'],
-                    datasets: [{
-                        label: 'Mevcut Seviye',
-                        data: [75, 60, 55, 50, 80],
-                        backgroundColor: 'rgba(78, 115, 223, 0.2)',
-                        borderColor: 'rgba(78, 115, 223, 1)',
-                        pointBackgroundColor: 'rgba(78, 115, 223, 1)',
-                        pointBorderColor: '#fff',
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: 'rgba(78, 115, 223, 1)'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        r: {
-                            angleLines: {
-                                display: true
-                            },
-                            suggestedMin: 0,
-                            suggestedMax: 100
-                        }
-                    }
-                }
-            });
-
-
-            if (loggedInUsername) {
-                const sidebarNameElement = document.querySelector('.user-name-display');
-                if (sidebarNameElement) {
-                    sidebarNameElement.textContent = loggedInUsername;
-                }
-
-                const dropdownButton = document.getElementById('dropdownMenuButton');
-                if(dropdownButton) {
-                    dropdownButton.innerHTML = `<i class="bi bi-person-circle me-1"></i> ${loggedInUsername}`;
-                }
-            }
-
-            if (loggedInUserEmail) {
-                const emailElement = document.querySelector('.user-email-display');
-                if (emailElement) {
-                    emailElement.textContent = loggedInUserEmail;
-                }
-            }
-
-         
+              },
+            },
+            plugins: {
+              legend: {
+                display: false,
+              },
+            },
+          },
         });
+
+        // GAD-7 Anksiyete Grafiği
+        const gad7Ctx = document.getElementById("gad7Chart").getContext("2d");
+        const gad7Chart = new Chart(gad7Ctx, {
+          type: "doughnut",
+          data: {
+            labels: ["Hafif", "Orta", "Şiddetli"],
+            datasets: [
+              {
+                data: [30, 50, 20],
+                backgroundColor: [
+                  "rgba(28, 200, 138, 0.7)",
+                  "rgba(246, 194, 62, 0.7)",
+                  "rgba(231, 74, 59, 0.7)",
+                ],
+                borderColor: [
+                  "rgba(28, 200, 138, 1)",
+                  "rgba(246, 194, 62, 1)",
+                  "rgba(231, 74, 59, 1)",
+                ],
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: "70%",
+            plugins: {
+              legend: {
+                position: "bottom",
+              },
+            },
+          },
+        });
+
+        // Kariyer Önerileri Radar Grafiği
+        const careerCtx = document
+          .getElementById("careerChart")
+          .getContext("2d");
+        const careerChart = new Chart(careerCtx, {
+          type: "radar",
+          data: {
+            labels: [
+              "Sosyal Beceri",
+              "Analitik Düşünce",
+              "Yaratıcılık",
+              "Liderlik",
+              "Empati",
+            ],
+            datasets: [
+              {
+                label: "Mevcut Seviye",
+                data: [75, 60, 55, 50, 80],
+                backgroundColor: "rgba(78, 115, 223, 0.2)",
+                borderColor: "rgba(78, 115, 223, 1)",
+                pointBackgroundColor: "rgba(78, 115, 223, 1)",
+                pointBorderColor: "#fff",
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              r: {
+                angleLines: {
+                  display: true,
+                },
+                suggestedMin: 0,
+                suggestedMax: 100,
+              },
+            },
+          },
+        });
+
+        if (loggedInUsername) {
+          const sidebarNameElement =
+            document.querySelector(".user-name-display");
+          if (sidebarNameElement) {
+            sidebarNameElement.textContent = loggedInUsername;
+          }
+
+          const dropdownButton = document.getElementById("dropdownMenuButton");
+          if (dropdownButton) {
+            dropdownButton.innerHTML = `<i class="bi bi-person-circle me-1"></i> ${loggedInUsername}`;
+          }
+        }
+
+        if (loggedInUserEmail) {
+          const emailElement = document.querySelector(".user-email-display");
+          if (emailElement) {
+            emailElement.textContent = loggedInUserEmail;
+          }
+        }
+      });
     </script>
   </body>
 </html>

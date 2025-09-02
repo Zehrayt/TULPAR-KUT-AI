@@ -168,10 +168,38 @@
             transition: all 0.3s;
         }
         
-        /* Progress Bar Stilleri */
-        .progress {
-            height: 10px;
+          .progress {
             border-radius: 10px;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 250px;
+        }
+        
+        .analysis-card {
+            transition: transform 0.3s;
+        }
+        
+        .analysis-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .trait-icon {
+            font-size: 1.5rem;
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+        
+        .score-badge {
+            font-size: 0.85rem;
+            padding: 0.35rem 0.65rem;
+            border-radius: 50rem;
+        }
+        
+        .radar-chart-container {
+            max-width: 400px;
+            margin: 0 auto;
         }
         
         /* Responsive */

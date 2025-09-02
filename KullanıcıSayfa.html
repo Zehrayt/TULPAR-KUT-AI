@@ -563,359 +563,150 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        // ==========================================================
-        // GİRİŞ YAPAN KULLANICI BİLGİLERİNİ SAYFAYA YAZDIRMA
-        // ==========================================================
-        const loggedInUsername = localStorage.getItem("username");
-        const loggedInUserEmail = localStorage.getItem("userEmail");
 
-        if (loggedInUsername) {
-          // Sidebar'daki ismi bul ve güncelle
-          const sidebarNameElements = document.querySelectorAll(
-            ".user-username-display"
-          );
-          sidebarNameElements.forEach((el) => {
-            el.textContent = loggedInUsername;
-          });
+document.addEventListener("DOMContentLoaded", function () {
+  // ==========================================================
+  // GİRİŞ YAPAN KULLANICI BİLGİLERİNİ SAYFAYA YAZDIRMA
+  // ==========================================================
+  const loggedInUsername = localStorage.getItem("username");
+  const loggedInUserEmail = localStorage.getItem("userEmail");
 
-          // Navbar'daki butonun metnini güncelle
-          const dropdownButton = document.getElementById("dropdownMenuButton");
-          if (dropdownButton) {
-            dropdownButton.innerHTML = `<i class="bi bi-person-circle me-1"></i> ${loggedInUsername}`;
-          }
-        }
+  if (loggedInUsername) {
+    const sidebarNameElements = document.querySelectorAll(".user-username-display");
+    sidebarNameElements.forEach((el) => el.textContent = loggedInUsername);
 
-        // ==========================================================
-        // ÇIKIŞ YAPMA İŞLEVSELLİĞİ
-        // ==========================================================
-        const logoutLink = document.getElementById("logout-link");
-        if (logoutLink) {
-          logoutLink.addEventListener("click", function (event) {
-            event.preventDefault();
-            localStorage.clear();
-            alert("Başarıyla çıkış yaptınız.");
-            window.location.href = "index.html";
-          });
-        }
+    const dropdownButton = document.getElementById("dropdownMenuButton");
+    if (dropdownButton) {
+      dropdownButton.innerHTML = `<i class="bi bi-person-circle me-1"></i> ${loggedInUsername}`;
+    }
+  }
 
-        // ==========================================================
-        // OYUN OYNAMA BUTONU İŞLEVSELLİĞİ
-        // ==========================================================
-        const oynaButonlari = document.querySelectorAll("#btnoyna, #btnoyna2");
-        oynaButonlari.forEach((btn) => {
-          btn.addEventListener("click", function () {
-            const loggedInUserId = localStorage.getItem("userId");
-            if (loggedInUserId) {
-              const baseUrl = window.location.origin;
-              window.location.href = `${baseUrl}/oyun?userId=${loggedInUserId}`;
-            } else {
-              alert("Oyun oynamak için giriş yapmalısınız.");
-              window.location.href = "index.html";
-            }
-          });
-        });
+  // ==========================================================
+  // ÇIKIŞ YAPMA İŞLEVSELLİĞİ
+  // ==========================================================
+  const logoutLink = document.getElementById("logout-link");
+  if (logoutLink) {
+    logoutLink.addEventListener("click", function (event) {
+      event.preventDefault();
+      localStorage.clear();
+      alert("Başarıyla çıkış yaptınız.");
+      window.location.href = "index.html";
+    });
+  }
 
-        // ==========================================================
-        // SIDEBAR NAVİGASYON
-        // ==========================================================
-        const navLinks = document.querySelectorAll(
-          ".sidebar-nav a[data-content]"
-        );
-        const contentSections = document.querySelectorAll(".content-section");
+  // ==========================================================
+  // OYUN OYNAMA BUTONU İŞLEVSELLİĞİ
+  // ==========================================================
+  const oynaButonlari = document.querySelectorAll("#btnoyna, #btnoyna2");
+  oynaButonlari.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const loggedInUserId = localStorage.getItem("userId");
+      if (loggedInUserId) {
+        const baseUrl = window.location.origin;
+        window.location.href = `${baseUrl}/oyun?userId=${loggedInUserId}`;
+      } else {
+        alert("Oyun oynamak için giriş yapmalısınız.");
+        window.location.href = "index.html";
+      }
+    });
+  });
 
-        navLinks.forEach((link) => {
-          link.addEventListener("click", function (e) {
-            e.preventDefault();
+  // ==========================================================
+  // SIDEBAR NAVİGASYON
+  // ==========================================================
+  const navLinks = document.querySelectorAll(".sidebar-nav a[data-content]");
+  const contentSections = document.querySelectorAll(".content-section");
 
-            // Aktif linki güncelle
-            navLinks.forEach((l) => l.classList.remove("active"));
-            this.classList.add("active");
+  navLinks.forEach((link) => {
+    link.addEventListener("click", function (e) {
+      e.preventDefault();
+      navLinks.forEach((l) => l.classList.remove("active"));
+      this.classList.add("active");
 
-            // İlgili içeriği göster, diğerlerini gizle
-            const targetContent = this.getAttribute("data-content");
-            contentSections.forEach((section) => {
-              section.classList.add("d-none");
-            });
-            document
-              .getElementById(`${targetContent}-content`)
-              .classList.remove("d-none");
-          });
-        });
+      const targetContent = this.getAttribute("data-content");
+      contentSections.forEach((section) => section.classList.add("d-none"));
+      document.getElementById(`${targetContent}-content`).classList.remove("d-none");
+    });
+  });
 
-        // ==========================================================
-        // PSİKOLOJİK RAPOR GÖRÜNTÜLEME İŞLEVSELLİĞİ
-        // ==========================================================
-        const viewReportButton = document.getElementById(
-          "view-psychology-report-btn"
-        );
-        const reportStatusContainer = document.getElementById(
-          "report-status-container"
-        );
+  // ==========================================================
+  // PSİKOLOJİK RAPOR GÖRÜNTÜLEME
+  // ==========================================================
+  const viewReportButton = document.getElementById('view-psychology-report-btn');
+  const reportStatusContainer = document.getElementById('report-status-container');
+  const raporlarTableBody = document.querySelector('#raporlar table tbody');
 
-        if (viewReportButton && reportStatusContainer) {
-          viewReportButton.addEventListener("click", async () => {
-            const currentUserId = localStorage.getItem("userId");
+  async function loadReports() {
+    const username = localStorage.getItem('username');
+    if (!username || !raporlarTableBody) return;
 
-            if (!currentUserId) {
-              alert("Bu işlem için giriş yapmış olmalısınız.");
-              return;
-            }
+    try {
+      const response = await fetch(`https://unity-choice-api-production-8a70.up.railway.app/api/user-report/${username}`);
+      const data = await response.json();
+      raporlarTableBody.innerHTML = "";
 
-            viewReportButton.disabled = true;
-            viewReportButton.innerHTML =
-              '<span class="spinner-border spinner-border-sm"></span> Aranıyor...';
-            reportStatusContainer.innerHTML = "";
-
-            try {
-              const response = await fetch(
-                "/.netlify/functions/generate-report",
-                {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({ playerId: currentUserId }),
-                }
-              );
-
-              const result = await response.json();
-
-              if (response.ok && result.success) {
-                reportStatusContainer.innerHTML = `
-                                <div class="alert alert-success d-flex justify-content-between align-items-center">
-                                    <span>${result.message}</span>
-                                    <a href="${result.pdfLink}" target="_blank" class="btn btn-success btn-sm">PDF'i Aç</a>
-                                </div>
-                            `;
-              } else {
-                reportStatusContainer.innerHTML = `
-                                <div class="alert alert-warning">${
-                                  result.message || "Bir hata oluştu."
-                                }</div>
-                            `;
-              }
-            } catch (error) {
-              reportStatusContainer.innerHTML = `
-                            <div class="alert alert-danger">Sunucu ile iletişim kurulamadı. Lütfen tekrar deneyin.</div>
-                        `;
-            } finally {
-              viewReportButton.disabled = false;
-              viewReportButton.innerHTML = "Görüntüle";
-            }
-          });
-        }
-
-        // ==========================================================
-        // RAPORLARIM TABLOSUNU DOLDURMA
-        // ==========================================================
-        async function loadReports() {
-          const username = localStorage.getItem("username");
-          if (!username) return;
-
-          try {
-            const response = await fetch(
-              `https://unity-choice-api-production-8a70.up.railway.app/api/user-report/${username}`
-            );
-            const data = await response.json();
-
-            // API'den raporların geldiğini kontrol et
-            const reports = data.reports || [];
-            const tbody = document.querySelector("#raporlar-content tbody");
-            tbody.innerHTML = ""; // önce tabloyu temizle
-
-            if (reports.length > 0) {
-              reports.forEach((report, index) => {
-                const createdDate = report.generatedAt
-                  ? new Date(report.generatedAt).toLocaleDateString("tr-TR")
-                  : "--";
-
-                const row = `
-          <tr>
-            <td>${report.name || "Psikolojik Rapor " + (index + 1)}</td>
-            <td>${createdDate}</td>
-            <td>
-              <a href="${
-                report.reportLink
-              }" target="_blank" class="btn btn-sm btn-outline-primary">
-                Görüntüle
-              </a>
-            </td>
-          </tr>
+      if (response.ok && data.reportLink) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>Psikolojik Değerlendirme Raporu</td>
+          <td>${data.generatedAt ? new Date(data.generatedAt).toLocaleDateString("tr-TR") : "--"}</td>
+          <td>
+            <a href="${data.reportLink}" target="_blank" class="btn btn-sm btn-outline-primary">Görüntüle</a>
+            <a href="${data.reportLink}?download=${encodeURIComponent('rapor.pdf')}" class="btn btn-sm btn-outline-danger">İndir</a>
+          </td>
         `;
-                tbody.insertAdjacentHTML("beforeend", row);
-              });
-            } else {
-              tbody.innerHTML = `
-        <tr>
-          <td colspan="3" class="text-center text-muted">Hiç rapor bulunamadı.</td>
-        </tr>
-      `;
-            }
-          } catch (err) {
-            console.error("Rapor yükleme hatası:", err);
-          }
-        }
+        raporlarTableBody.appendChild(tr);
+      } else {
+        raporlarTableBody.innerHTML = `<tr><td colspan="3">Rapor bulunamadı.</td></tr>`;
+      }
+    } catch (err) {
+      console.error("Rapor yükleme hatası:", err);
+      raporlarTableBody.innerHTML = `<tr><td colspan="3">Sunucu hatası.</td></tr>`;
+    }
+  }
 
-        // Sayfa açıldığında raporları yükle
-        loadReports();
+  if (viewReportButton && reportStatusContainer) {
+    viewReportButton.addEventListener('click', async () => {
+      const currentUserId = localStorage.getItem('userId');
+      if (!currentUserId) {
+        alert("Bu işlem için giriş yapmış olmalısınız.");
+        return;
+      }
 
-        // ==========================================================
-        //  ANALİZ BUTONU
-        // ==========================================================
+      viewReportButton.disabled = true;
+      viewReportButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Aranıyor...';
+      reportStatusContainer.innerHTML = '';
 
-        // IPIP Kişilik Özellikleri Grafiği
-        // IPIP Kişilik Özellikleri Grafiği
-        const ipipCtx = document.getElementById("ipipChart").getContext("2d");
-        const ipipChart = new Chart(ipipCtx, {
-          type: "bar",
-          data: {
-            labels: [
-              "Nevrotiklik",
-              "Dışadönüklük",
-              "Açıklık",
-              "Uyumluluk",
-              "Vicdanlılık",
-            ],
-            datasets: [
-              {
-                label: "Seviye (%)",
-                data: [68, 42, 55, 76, 63],
-                backgroundColor: [
-                  "rgba(231, 74, 59, 0.7)",
-                  "rgba(78, 115, 223, 0.7)",
-                  "rgba(246, 194, 62, 0.7)",
-                  "rgba(28, 200, 138, 0.7)",
-                  "rgba(54, 185, 204, 0.7)",
-                ],
-                borderColor: [
-                  "rgba(231, 74, 59, 1)",
-                  "rgba(78, 115, 223, 1)",
-                  "rgba(246, 194, 62, 1)",
-                  "rgba(28, 200, 138, 1)",
-                  "rgba(54, 185, 204, 1)",
-                ],
-                borderWidth: 1,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-              y: {
-                beginAtZero: true,
-                max: 100,
-                ticks: {
-                  callback: function (value) {
-                    return value + "%";
-                  },
-                },
-              },
-            },
-            plugins: {
-              legend: {
-                display: false,
-              },
-            },
-          },
+      try {
+        const response = await fetch("/.netlify/functions/generate-report", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ playerId: currentUserId })
         });
 
-        // GAD-7 Anksiyete Grafiği
-        const gad7Ctx = document.getElementById("gad7Chart").getContext("2d");
-        const gad7Chart = new Chart(gad7Ctx, {
-          type: "doughnut",
-          data: {
-            labels: ["Hafif", "Orta", "Şiddetli"],
-            datasets: [
-              {
-                data: [30, 50, 20],
-                backgroundColor: [
-                  "rgba(28, 200, 138, 0.7)",
-                  "rgba(246, 194, 62, 0.7)",
-                  "rgba(231, 74, 59, 0.7)",
-                ],
-                borderColor: [
-                  "rgba(28, 200, 138, 1)",
-                  "rgba(246, 194, 62, 1)",
-                  "rgba(231, 74, 59, 1)",
-                ],
-                borderWidth: 1,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            cutout: "70%",
-            plugins: {
-              legend: {
-                position: "bottom",
-              },
-            },
-          },
-        });
-
-        // Kariyer Önerileri Radar Grafiği
-        const careerCtx = document
-          .getElementById("careerChart")
-          .getContext("2d");
-        const careerChart = new Chart(careerCtx, {
-          type: "radar",
-          data: {
-            labels: [
-              "Sosyal Beceri",
-              "Analitik Düşünce",
-              "Yaratıcılık",
-              "Liderlik",
-              "Empati",
-            ],
-            datasets: [
-              {
-                label: "Mevcut Seviye",
-                data: [75, 60, 55, 50, 80],
-                backgroundColor: "rgba(78, 115, 223, 0.2)",
-                borderColor: "rgba(78, 115, 223, 1)",
-                pointBackgroundColor: "rgba(78, 115, 223, 1)",
-                pointBorderColor: "#fff",
-                pointHoverBackgroundColor: "#fff",
-                pointHoverBorderColor: "rgba(78, 115, 223, 1)",
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-              r: {
-                angleLines: {
-                  display: true,
-                },
-                suggestedMin: 0,
-                suggestedMax: 100,
-              },
-            },
-          },
-        });
-
-        if (loggedInUsername) {
-          const sidebarNameElement =
-            document.querySelector(".user-name-display");
-          if (sidebarNameElement) {
-            sidebarNameElement.textContent = loggedInUsername;
-          }
-
-          const dropdownButton = document.getElementById("dropdownMenuButton");
-          if (dropdownButton) {
-            dropdownButton.innerHTML = `<i class="bi bi-person-circle me-1"></i> ${loggedInUsername}`;
-          }
+        const result = await response.json();
+        if (response.ok && result.success) {
+          reportStatusContainer.innerHTML = `
+            <div class="alert alert-success d-flex justify-content-between align-items-center">
+              <span>${result.message}</span>
+              <a href="${result.pdfLink}" target="_blank" class="btn btn-success btn-sm">PDF'i Aç</a>
+            </div>
+          `;
+          loadReports();
+        } else {
+          reportStatusContainer.innerHTML = `<div class="alert alert-warning">${result.message || 'Bir hata oluştu.'}</div>`;
         }
+      } catch (error) {
+        reportStatusContainer.innerHTML = `<div class="alert alert-danger">Sunucu ile iletişim kurulamadı. Lütfen tekrar deneyin.</div>`;
+      }
+      viewReportButton.disabled = false;
+      viewReportButton.innerHTML = 'Raporu Görüntüle';
+    });
+  }
 
-        if (loggedInUserEmail) {
-          const emailElement = document.querySelector(".user-email-display");
-          if (emailElement) {
-            emailElement.textContent = loggedInUserEmail;
-          }
-        }
-      });
-    </script>
-  </body>
+
+  loadReports();
+});
+</script>
+</body>
 </html>

@@ -1,5 +1,5 @@
      :root {
-            --primary-color: #4e73df;
+            --primary-color: #4c73e7;
             --secondary-color: #f8f9fc;
             --accent-color: #36b9cc;
             --text-dark: #5a5c69;
@@ -19,7 +19,7 @@
             position: fixed;
             width: var(--sidebar-width);
             min-height: 100vh;
-            background: linear-gradient(180deg, var(--primary-color) 0%, #224abe 100%);
+            background: linear-gradient(180deg, var(--primary-color) 0%, #91a7e9 100%);
             color: white;
             transition: all 0.3s;
             z-index: 1000;

@@ -629,64 +629,103 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // ==========================================================
-  // PSİKOLOJİK RAPOR GÖRÜNTÜLEME FONKSİYONU
-  // ==========================================================
-  const raporlarTableBody = document.querySelector('#raporlar table tbody');
-  const reportStatusContainer = document.getElementById('report-status-container');
+         
+          // ==========================================================
+          // PSİKOLOJİK RAPOR GÖRÜNTÜLEME İŞLEVSELLİĞİ
+          // ==========================================================
+          const viewReportButton = document.getElementById('#raporlar table tbody'); // HTML'de <button id="view-psychology-report-btn">...
+          const reportStatusContainer = document.getElementById('report-status-container'); // HTML'de <div id="report-status-container">...
+          
+          if (viewReportButton && reportStatusContainer) {
+              viewReportButton.addEventListener('click', async () => {
+                  const currentUserId = localStorage.getItem('userId');
+          
+                  if (!currentUserId) {
+                      alert("Bu işlem için giriş yapmış olmalısınız.");
+                      return;
+                  }
+          
+                  viewReportButton.disabled = true;
+                  viewReportButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Aranıyor...';
+                  reportStatusContainer.innerHTML = '';
+          
+                  try {
+                      const response = await fetch("/.netlify/functions/generate-report", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({ playerId: currentUserId }) 
+                      });
+          
+                      const result = await response.json();
+          
+                      if (response.ok && result.success) {
+                          reportStatusContainer.innerHTML = `
+                              <div class="alert alert-success d-flex justify-content-between align-items-center">
+                                  <span>${result.message}</span>
+                                  <a href="${result.pdfLink}" target="_blank" class="btn btn-success btn-sm">PDF'i Aç</a>
+                              </div>
+                          `;
+                      } else {
+                          reportStatusContainer.innerHTML = `
+                              <div class="alert alert-warning">${result.message || 'Bir hata oluştu.'}</div>
+                          `;
+                      }
+          
+                  } catch (error) {
+                      reportStatusContainer.innerHTML = `
+                          <div class="alert alert-danger">Sunucu ile iletişim kurulamadı. Lütfen tekrar deneyin.</div>
+                      `;
+                  } finally {
+                      viewReportButton.disabled = false;
+                      viewReportButton.innerHTML = 'Görüntüle';
+                  }
+              });
+          }
 
-  async function loadReports() {
-    const username = localStorage.getItem('username');
-    if (!username || !raporlarTableBody) return;
+          // ==========================================================
+          // RAPORLARIM TABLOSUNU DOLDURMA
+          // ==========================================================
+          const raporlarTableBody = document.querySelector('#raporlar table tbody');
 
-    try {
-      const response = await fetch(`https://unity-choice-api-production-8a70.up.railway.app/api/user-report/${username}`);
-      const data = await response.json();
+          async function loadReports() {
+          const username = localStorage.getItem('username');
+          if (!username) return;
 
-      raporlarTableBody.innerHTML = "";
+          try {
+            const response = await fetch(`https://unity-choice-api-production-8a70.up.railway.app/api/user-report/${username}`);
+            const data = await response.json();
 
-      if (response.ok && data.reportLink) {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>Psikolojik Değerlendirme Raporu</td>
-          <td>${data.generatedAt ? new Date(data.generatedAt).toLocaleDateString("tr-TR") : "--"}</td>
-          <td>
-            <a href="${data.reportLink}" target="_blank" class="btn btn-sm btn-outline-primary">Görüntüle</a>
-            <a href="${data.reportLink}?download=${encodeURIComponent('rapor.pdf')}" class="btn btn-sm btn-outline-danger">İndir</a>
-          </td>
-        `;
-        raporlarTableBody.appendChild(tr);
-      } else {
-        raporlarTableBody.innerHTML = `<tr><td colspan="3">Rapor bulunamadı.</td></tr>`;
-      }
-    } catch (err) {
-      console.error("Rapor yükleme hatası:", err);
-      raporlarTableBody.innerHTML = `<tr><td colspan="3">Sunucu hatası.</td></tr>`;
-    }
-  }
+            raporlarTableBody.innerHTML = "";
 
-  // ==========================================================
-  // SIDEBAR TIKLANDIĞINDA İLGİLİ SEKSİYONU GÖSTERME VE RAPORLARI YÜKLEME
-  // ==========================================================
-  navLinks.forEach((link) => {
-    link.addEventListener("click", function (e) {
-      e.preventDefault();
-      navLinks.forEach((l) => l.classList.remove("active"));
-      this.classList.add("active");
+            if (response.ok && data.reportLink) {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+              <td>Psikolojik Değerlendirme Raporu</td>
+              <td>${
+                data.generatedAt 
+                  ? new Date(data.generatedAt).toLocaleDateString("tr-TR") 
+                  : "--"
+              }</td>
+              
+              <td>
+                <a href="${data.reportLink}" target="_blank" class="btn btn-sm btn-outline-primary">Görüntüle</a>
+                <a href="${data.reportLink}?download=${encodeURIComponent('rapor.pdf')}" class="btn btn-sm btn-outline-danger">İndir</a>
+              </td>
+            `;
+            raporlarTableBody.appendChild(tr);
+          } else {
+            raporlarTableBody.innerHTML = `<tr><td colspan="3">Rapor bulunamadı.</td></tr>`;
+          }
+          } catch (err) {
+            console.error("Rapor yükleme hatası:", err);
+            raporlarTableBody.innerHTML = `<tr><td colspan="3">Sunucu hatası.</td></tr>`;
+          }
+        }
 
-      const targetContent = this.getAttribute("data-content");
-      contentSections.forEach((section) => section.classList.add("d-none"));
-      const activeSection = document.getElementById(`${targetContent}-content`);
-      activeSection.classList.remove("d-none");
+          // Sayfa açıldığında raporları yükle
+          loadReports();
 
-      // Eğer Raporlar sekmesine tıklandıysa raporları yükle
-      if (targetContent === "raporlar") {
-        loadReports();
-      }
-    });
-  });
-});
-
+      });
  // ==========================================================
   // ANALİZLERİN GRAFİKLERİ
   // ==========================================================

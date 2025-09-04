@@ -261,7 +261,7 @@
             </div>
           </div>
 
-          <div id="raporlar" class="content-section d-none">
+          <div id="raporlar-content" class="content-section d-none">
             <div class="d-flex justify-content-between align-items-center mb-4">
               <h4 class="mb-0">Raporlarım</h4>
               <button class="btn btn-sm btn-outline-primary">
@@ -632,9 +632,9 @@ document.addEventListener("DOMContentLoaded", function () {
           // ==========================================================
           // PSİKOLOJİK RAPOR GÖRÜNTÜLEME İŞLEVSELLİĞİ
           // ==========================================================
-          const viewReportButton = document.getElementById('#raporlar table tbody'); // HTML'de <button id="view-psychology-report-btn">...
-          
-          
+          const viewReportButton = document.querySelector('#raporlar-content table tbody'); // HTML'de <button id="view-psychology-report-btn">...
+
+
           if (viewReportButton && reportStatusContainer) {
               viewReportButton.addEventListener('click', async () => {
                   const currentUserId = localStorage.getItem('userId');

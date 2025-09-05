@@ -1,694 +1,920 @@
 <!DOCTYPE html>
 <html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Öğretmen Paneli - Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="OgretmenSayfa.css">
-</head>
-<body>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="OgretmenSayfa.css" />
+  </head>
+  <body>
     <div class="d-flex">
-        <!-- Sidebar -->
-        <nav id="sidebar">
-            <div class="sidebar-header">
-                <h3>Kut-AI</h3>
-            </div>
-
-            <div class="sidebar-user-info">
-                <h5 class="user-username-display">Öğretmen Adı</h5>
-                <span class="badge bg-info">Öğretmen</span>
-            </div>
-
-            <ul class="sidebar-nav">
-                <li>
-                    <a href="#dashboard" class="active" data-content="dashboard">
-                        <i class="bi bi-speedometer2"></i> Dashboard
-                    </a>
-                </li>
-                <li>
-                    <a href="#ogrenciler" data-content="ogrenciler">
-                        <i class="bi bi-people-fill"></i> Öğrenciler
-                    </a>
-                </li>
-                <li>
-                    <a href="#siniflarim" data-content="siniflarim">
-                        <i class="bi bi-building"></i> Sınıflarım
-                    </a>
-                </li>
-                <li>
-                    <a href="#raporlar" data-content="raporlar">
-                        <i class="bi bi-file-text"></i> Raporlar
-                    </a>
-                </li>
-                <li>
-                    <a href="#analizler" data-content="analizler">
-                        <i class="bi bi-bar-chart"></i> Analizler
-                    </a>
-                </li>
-            </ul>
-
-            <div class="sidebar-footer">
-                <ul class="sidebar-nav">
-                    <li>
-                        <a href="#ayarlar" data-content="ayarlar">
-                            <i class="bi bi-gear"></i> Ayarlar
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" id="logout-link">
-                            <i class="bi bi-box-arrow-right"></i> Çıkış Yap
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
-        <!-- Ana İçerik -->
-        <div id="content">
-            <!-- Topbar -->
-            <div class="topbar mb-4">
-                <div class="d-flex align-items-center">
-                    <a href="javascript:history.back()" class="back-button">
-                        <i class="bi bi-arrow-left"></i>
-                    </a>
-                    <h4 class="mb-0">Öğretmen Paneli</h4>
-                </div>
-            </div>
-
-            <!-- İçerik Alanı -->
-            <div class="container-fluid">
-                <!-- Dashboard İçeriği -->
-                <div id="dashboard-content" class="content-section">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="card dashboard-card">
-                                <div class="card-body">
-                                    <h4 class="card-title">Hoş Geldiniz, <span class="user-username-display">Öğretmen Adı</span>!</h4>
-                                    <p class="card-text">
-                                        Kut-AI öğretmen yönetim paneline hoş geldiniz. Buradan öğrencilerinizi yönetebilir, 
-                                        raporlarını görüntüleyebilir ve analizleri inceleyebilirsiniz.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="card dashboard-card">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold">Sınıf İstatistikleri</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="card bg-primary text-white mb-4">
-                                                <div class="card-body">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div>
-                                                            <div class="text-white-50 small">Toplam Öğrenci</div>
-                                                            <div class="fs-4 fw-bold" id="total-students">0</div>
-                                                        </div>
-                                                        <i class="bi bi-people-fill fs-1"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="card bg-success text-white mb-4">
-                                                <div class="card-body">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div>
-                                                            <div class="text-white-50 small">Tamamlanan Raporlar</div>
-                                                            <div class="fs-4 fw-bold" id="total-reports">0</div>
-                                                        </div>
-                                                        <i class="bi bi-file-text fs-1"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="card dashboard-card">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold">Son Eklenen Öğrenciler</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="list-group list-group-flush" id="latest-students">
-                                        <div class="alert alert-info" id="no-students-alert">
-                                            Henüz öğrenci eklenmemiş. <a href="#ogrenciler" data-content="ogrenciler" class="alert-link">Öğrenci eklemek için tıklayın</a>.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Öğrenciler İçeriği -->
-                <div id="ogrenciler-content" class="content-section d-none">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h4 class="mb-0">Öğrenci Yönetimi</h4>
-                        <div>
-                            <button class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#sinifEkleModal">
-                                <i class="bi bi-plus-circle"></i> Sınıf Ekle
-                            </button>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ogrenciEkleModal">
-                                <i class="bi bi-plus-circle"></i> Yeni Öğrenci Ekle
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="card dashboard-card">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold">Öğrenci Listesi</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Ad Soyad</th>
-                                            <th>Kullanıcı Adı</th>
-                                            <th>Sınıf</th>
-                                            <th>İşlemler</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="students-table-body">
-                                        <!-- Öğrenci listesi JavaScript ile buraya eklenecek -->
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div id="no-students-message" class="alert alert-info mt-3 d-none">
-                                Henüz öğrenci eklenmemiş. <a href="#" data-bs-toggle="modal" data-bs-target="#ogrenciEkleModal" class="alert-link">İlk öğrenciyi eklemek için tıklayın</a>.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sınıflarım İçeriği -->
-                <div id="siniflarim-content" class="content-section d-none">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h4 class="mb-0">Sınıf Yönetimi</h4>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sinifEkleModal">
-                            <i class="bi bi-plus-circle"></i> Yeni Sınıf Ekle
-                        </button>
-                    </div>
-
-                    <div class="card dashboard-card">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold">Sınıf Listesi</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="row" id="classes-container">
-                                <!-- Sınıf kartları JavaScript ile buraya eklenecek -->
-                            </div>
-                            <div id="no-classes-message" class="alert alert-info mt-3">
-                                Henüz sınıf eklenmemiş. <a href="#" data-bs-toggle="modal" data-bs-target="#sinifEkleModal" class="alert-link">İlk sınıfı eklemek için tıklayın</a>.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Raporlar İçeriği -->
-                <div id="raporlar-content" class="content-section d-none">
-                    <h4 class="mb-4">Öğrenci Raporları</h4>
-
-                    <div class="filter-section mb-4">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label for="sinifFilter" class="form-label">Sınıf Filtresi</label>
-                                <select class="form-select" id="sinifFilter">
-                                    <option value="">Tüm Sınıflar</option>
-                                    <!-- Sınıf seçenekleri JavaScript ile buraya eklenecek -->
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="ogrenciAra" class="form-label">Öğrenci Ara</label>
-                                <input type="text" class="form-control" id="ogrenciAra" placeholder="Öğrenci adı veya kullanıcı adı">
-                            </div>
-                            <div class="col-md-4 d-flex align-items-end">
-                                <button class="btn btn-primary" id="filter-reports">Filtrele</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card dashboard-card">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold">Rapor Listesi</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Ad Soyad</th>
-                                            <th>Kullanıcı Adı</th>
-                                            <th>Sınıf</th>
-                                            <th>Rapor Tarihi</th>
-                                            <th>İşlemler</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="reports-table-body">
-                                        <!-- Rapor listesi JavaScript ile buraya eklenecek -->
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div id="no-reports-message" class="alert alert-info mt-3 d-none">
-                                Henüz rapor bulunmamaktadır.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Analizler İçeriği -->
-                <div id="analizler-content" class="content-section d-none">
-                    <h4 class="mb-4">Öğrenci Analizleri</h4>
-
-                    <div class="filter-section mb-4">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label for="analizSinifFilter" class="form-label">Sınıf Filtresi</label>
-                                <select class="form-select" id="analizSinifFilter">
-                                    <option value="">Tüm Sınıflar</option>
-                                    <!-- Sınıf seçenekleri JavaScript ile buraya eklenecek -->
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="analizOgrenciAra" class="form-label">Öğrenci Ara</label>
-                                <input type="text" class="form-control" id="analizOgrenciAra" placeholder="Öğrenci adı veya kullanıcı adı">
-                            </div>
-                            <div class="col-md-4 d-flex align-items-end">
-                                <button class="btn btn-primary" id="filter-analysis">Filtrele</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card dashboard-card">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold">Analiz Listesi</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Ad Soyad</th>
-                                            <th>Kullanıcı Adı</th>
-                                            <th>Sınıf</th>
-                                            <th>Son Analiz Tarihi</th>
-                                            <th>İşlemler</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="analysis-table-body">
-                                        <!-- Analiz listesi JavaScript ile buraya eklenecek -->
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div id="no-analysis-message" class="alert alert-info mt-3 d-none">
-                                Henüz analiz bulunmamaktadır.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Ayarlar İçeriği -->
-                <div id="ayarlar-content" class="content-section d-none">
-                    <div class="card dashboard-card">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold">Hesap Ayarları</h6>
-                        </div>
-                        <div class="card-body">
-                            <form>
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="firstName" class="form-label">Ad</label>
-                                        <input type="text" class="form-control" id="firstName" value="Öğretmen">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="lastName" class="form-label">Soyad</label>
-                                        <input type="text" class="form-control" id="lastName" value="Adı">
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">E-posta</label>
-                                    <input type="email" class="form-control" id="email" value="ogretmen@okul.edu.tr">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">Yeni Şifre</label>
-                                    <input type="password" class="form-control" id="password" placeholder="Şifrenizi değiştirmek için buraya yazın">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="confirmPassword" class="form-label">Şifreyi Onayla</label>
-                                    <input type="password" class="form-control" id="confirmPassword" placeholder="Yeni şifrenizi tekrar girin">
-                                </div>
-                                <button type="submit" class="btn btn-primary">Değişiklikleri Kaydet</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <!-- Sidebar -->
+      <nav id="sidebar">
+        <div class="sidebar-header">
+          <h3>Kut-AI</h3>
         </div>
-    </div>
+
+        <div class="sidebar-user-info">
+          <h5 class="user-username-display">Öğretmen Adı</h5>
+          <span class="badge bg-info">Öğretmen</span>
+        </div>
+
+        <ul class="sidebar-nav">
+          <li>
+            <a href="#dashboard" class="active" data-content="dashboard">
+              <i class="bi bi-speedometer2"></i> Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="#ogrenciler" data-content="ogrenciler">
+              <i class="bi bi-people-fill"></i> Öğrenciler
+            </a>
+          </li>
+          <li>
+            <a href="#siniflarim" data-content="siniflarim">
+              <i class="bi bi-building"></i> Sınıflarım
+            </a>
+          </li>
+          <li>
+            <a href="#raporlar" data-content="raporlar">
+              <i class="bi bi-file-text"></i> Raporlar
+            </a>
+          </li>
+          <li>
+            <a href="#analizler" data-content="analizler">
+              <i class="bi bi-bar-chart"></i> Analizler
+            </a>
+          </li>
+        </ul>
+
+        <div class="sidebar-footer">
+          <ul class="sidebar-nav">
+            <li>
+              <a href="#ayarlar" data-content="ayarlar">
+                <i class="bi bi-gear"></i> Ayarlar
+              </a>
+            </li>
+            <li>
+              <a href="#" id="logout-link">
+                <i class="bi bi-box-arrow-right"></i> Çıkış Yap
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Ana İçerik -->
+      <div id="content">
+        <!-- Topbar -->
+        <div class="topbar mb-4">
+          <div class="d-flex align-items-center">
+            <a href="javascript:history.back()" class="back-button">
+              <i class="bi bi-arrow-left"></i>
+            </a>
+            <h4 class="mb-0">Öğretmen Paneli</h4>
+          </div>
+        </div>
+
+        <!-- İçerik Alanı -->
+        <div class="container-fluid">
+          <!-- Dashboard İçeriği -->
+          <div id="dashboard-content" class="content-section">
+            <div class="row">
+              <div class="col-md-8">
+                <div class="card dashboard-card">
+                  <div class="card-body">
+                    <h4 class="card-title">
+                      Hoş Geldiniz,
+                      <span class="user-username-display">Öğretmen Adı</span>!
+                    </h4>
+                    <p class="card-text">
+                      Kut-AI öğretmen yönetim paneline hoş geldiniz. Buradan
+                      öğrencilerinizi yönetebilir, raporlarını görüntüleyebilir
+                      ve analizleri inceleyebilirsiniz.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="card dashboard-card">
+                  <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold">Sınıf İstatistikleri</h6>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="card bg-primary text-white mb-4">
+                          <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                              <div>
+                                <div class="text-white-50 small">
+                                  Toplam Öğrenci
+                                </div>
+                                <div class="fs-4 fw-bold" id="total-students">
+                                  0
+                                </div>
+                              </div>
+                              <i class="bi bi-people-fill fs-1"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="card bg-success text-white mb-4">
+                          <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                              <div>
+                                <div class="text-white-50 small">
+                                  Tamamlanan Raporlar
+                                </div>
+                                <div class="fs-4 fw-bold" id="total-reports">
+                                  0
+                                </div>
+                              </div>
+                              <i class="bi bi-file-text fs-1"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="card dashboard-card">
+                  <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold">Son Eklenen Öğrenciler</h6>
+                  </div>
+                  <div class="card-body">
+                    <div
+                      class="list-group list-group-flush"
+                      id="latest-students"
+                    >
+                      <div class="alert alert-info" id="no-students-alert">
+                        Henüz öğrenci eklenmemiş.
+                        <a
+                          href="#ogrenciler"
+                          data-content="ogrenciler"
+                          class="alert-link"
+                          >Öğrenci eklemek için tıklayın</a
+                        >.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Öğrenciler İçeriği -->
+          <div id="ogrenciler-content" class="content-section d-none">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h4 class="mb-0">Öğrenci Yönetimi</h4>
+              <div>
+                <button
+                  class="btn btn-outline-primary me-2"
+                  data-bs-toggle="modal"
+                  data-bs-target="#sinifEkleModal"
+                >
+                  <i class="bi bi-plus-circle"></i> Sınıf Ekle
+                </button>
+                <button
+                  class="btn btn-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#ogrenciEkleModal"
+                >
+                  <i class="bi bi-plus-circle"></i> Yeni Öğrenci Ekle
+                </button>
+              </div>
+            </div>
+
+            <div class="card dashboard-card">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold">Öğrenci Listesi</h6>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>Ad Soyad</th>
+                        <th>Kullanıcı Adı</th>
+                        <th>Sınıf</th>
+                        <th>İşlemler</th>
+                      </tr>
+                    </thead>
+                    <tbody id="students-table-body">
+                      <!-- Öğrenci listesi JavaScript ile buraya eklenecek -->
+                    </tbody>
+                  </table>
+                </div>
+                <div
+                  id="no-students-message"
+                  class="alert alert-info mt-3 d-none"
+                >
+                  Henüz öğrenci eklenmemiş.
+                  <a
+                    href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#ogrenciEkleModal"
+                    class="alert-link"
+                    >İlk öğrenciyi eklemek için tıklayın</a
+                  >.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sınıflarım İçeriği -->
+          <div id="siniflarim-content" class="content-section d-none">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h4 class="mb-0">Sınıf Yönetimi</h4>
+              <button
+                class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#sinifEkleModal"
+              >
+                <i class="bi bi-plus-circle"></i> Yeni Sınıf Ekle
+              </button>
+            </div>
+
+            <div class="card dashboard-card">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold">Sınıf Listesi</h6>
+              </div>
+              <div class="card-body">
+                <div class="row" id="classes-container">
+                  <!-- Sınıf kartları JavaScript ile buraya eklenecek -->
+                </div>
+                <div id="no-classes-message" class="alert alert-info mt-3">
+                  Henüz sınıf eklenmemiş.
+                  <a
+                    href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#sinifEkleModal"
+                    class="alert-link"
+                    >İlk sınıfı eklemek için tıklayın</a
+                  >.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Raporlar İçeriği -->
+          <div id="raporlar-content" class="content-section d-none">
+            <h4 class="mb-4">Öğrenci Raporları</h4>
+
+            <div class="filter-section mb-4">
+              <div class="row">
+                <div class="col-md-4">
+                  <label for="sinifFilter" class="form-label"
+                    >Sınıf Filtresi</label
+                  >
+                  <select class="form-select" id="sinifFilter">
+                    <option value="">Tüm Sınıflar</option>
+                    <!-- Sınıf seçenekleri JavaScript ile buraya eklenecek -->
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label for="ogrenciAra" class="form-label">Öğrenci Ara</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="ogrenciAra"
+                    placeholder="Öğrenci adı veya kullanıcı adı"
+                  />
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                  <button class="btn btn-primary" id="filter-reports">
+                    Filtrele
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="card dashboard-card">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold">Rapor Listesi</h6>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>Ad Soyad</th>
+                        <th>Kullanıcı Adı</th>
+                        <th>Sınıf</th>
+                        <th>Rapor Tarihi</th>
+                        <th>İşlemler</th>
+                      </tr>
+                    </thead>
+                    <tbody id="reports-table-body">
+                      <!-- Rapor listesi JavaScript ile buraya eklenecek -->
+                    </tbody>
+                  </table>
+                </div>
+                <div
+                  id="no-reports-message"
+                  class="alert alert-info mt-3 d-none"
+                >
+                  Henüz rapor bulunmamaktadır.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Analizler İçeriği -->
+          <div id="analizler-content" class="content-section d-none">
+            <h4 class="mb-4">Öğrenci Analizleri</h4>
+
+            <div class="filter-section mb-4">
+              <div class="row">
+                <div class="col-md-4">
+                  <label for="analizSinifFilter" class="form-label"
+                    >Sınıf Filtresi</label
+                  >
+                  <select class="form-select" id="analizSinifFilter">
+                    <option value="">Tüm Sınıflar</option>
+                    <!-- Sınıf seçenekleri JavaScript ile buraya eklenecek -->
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label for="analizOgrenciAra" class="form-label"
+                    >Öğrenci Ara</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="analizOgrenciAra"
+                    placeholder="Öğrenci adı veya kullanıcı adı"
+                  />
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                  <button class="btn btn-primary" id="filter-analysis">
+                    Filtrele
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="card dashboard-card">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold">Analiz Listesi</h6>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>Ad Soyad</th>
+                        <th>Kullanıcı Adı</th>
+                        <th>Sınıf</th>
+                        <th>Son Analiz Tarihi</th>
+                        <th>İşlemler</th>
+                      </tr>
+                    </thead>
+                    <tbody id="analysis-table-body">
+                      <!-- Analiz listesi JavaScript ile buraya eklenecek -->
+                    </tbody>
+                  </table>
+                </div>
+                <div
+                  id="no-analysis-message"
+                  class="alert alert-info mt-3 d-none"
+                >
+                  Henüz analiz bulunmamaktadır.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ayarlar İçeriği -->
+          <div id="ayarlar-content" class="content-section d-none">
+            <div class="card dashboard-card">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold">Hesap Ayarları</h6>
+              </div>
+              <div class="card-body">
+                <form>
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+                      <label for="firstName" class="form-label">Ad</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="firstName"
+                        value="Öğretmen"
+                      />
+                    </div>
+                    <div class="col-md-6">
+                      <label for="lastName" class="form-label">Soyad</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="lastName"
+                        value="Adı"
+                      />
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="email" class="form-label">E-posta</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="email"
+                      value="ogretmen@okul.edu.tr"
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="password" class="form-label">Yeni Şifre</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="password"
+                      placeholder="Şifrenizi değiştirmek için buraya yazın"
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="confirmPassword" class="form-label"
+                      >Şifreyi Onayla</label
+                    >
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="confirmPassword"
+                      placeholder="Yeni şifrenizi tekrar girin"
+                    />
+                  </div>
+                  <button type="submit" class="btn btn-primary">
+                    Değişiklikleri Kaydet
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+   
 
     <!-- Öğrenci Ekle Modal -->
-    <div class="modal fade" id="ogrenciEkleModal" tabindex="-1" aria-labelledby="ogrenciEkleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="ogrenciEkleModalLabel">Yeni Öğrenci Ekle</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="ogrenciEkleForm">
-                        <div class="mb-3">
-                            <label for="ogrenciAd" class="form-label">Öğrenci Adı</label>
-                            <input type="text" class="form-control" id="ogrenciAd" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="ogrenciSoyad" class="form-label">Öğrenci Soyadı</label>
-                            <input type="text" class="form-control" id="ogrenciSoyad" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="ogrenciKullaniciAdi" class="form-label">Kullanıcı Adı</label>
-                            <input type="text" class="form-control" id="ogrenciKullaniciAdi" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="ogrenciSinif" class="form-label">Sınıf</label>
-                            <select class="form-select" id="ogrenciSinif" required>
-                                <option value="">Sınıf Seçin</option>
-                                <!-- Sınıf seçenekleri JavaScript ile buraya eklenecek -->
-                            </select>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
-                    <button type="button" class="btn btn-primary" id="ogrenciKaydet">Kaydet</button>
-                </div>
-            </div>
+    <div
+      class="modal fade"
+      id="ogrenciEkleModal"
+      tabindex="-1"
+      aria-labelledby="ogrenciEkleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="ogrenciEkleModalLabel">
+              Yeni Öğrenci Ekle
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="ogrenciEkleForm">
+              <div class="mb-3">
+                <label for="ogrenciAd" class="form-label">Öğrenci Adı</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="ogrenciAd"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="ogrenciSoyad" class="form-label"
+                  >Öğrenci Soyadı</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="ogrenciSoyad"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="ogrenciKullaniciAdi" class="form-label"
+                  >Kullanıcı Adı</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="ogrenciKullaniciAdi"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="ogrenciSinif" class="form-label">Sınıf</label>
+                <select class="form-select" id="ogrenciSinif" required>
+                  <option value="">Sınıf Seçin</option>
+                  <!-- Sınıf seçenekleri JavaScript ile buraya eklenecek -->
+                </select>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              İptal
+            </button>
+            <button type="button" class="btn btn-primary" id="ogrenciKaydet">
+              Kaydet
+            </button>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- Sınıf Ekle Modal -->
-    <div class="modal fade" id="sinifEkleModal" tabindex="-1" aria-labelledby="sinifEkleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="sinifEkleModalLabel">Yeni Sınıf Ekle</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="sinifEkleForm">
-                        <div class="mb-3">
-                            <label for="sinifAdi" class="form-label">Sınıf Adı</label>
-                            <input type="text" class="form-control" id="sinifAdi" placeholder="Örn: 10-A" required>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
-                    <button type="button" class="btn btn-primary" id="sinifKaydet">Kaydet</button>
-                </div>
-            </div>
+    <div
+      class="modal fade"
+      id="sinifEkleModal"
+      tabindex="-1"
+      aria-labelledby="sinifEkleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="sinifEkleModalLabel">
+              Yeni Sınıf Ekle
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="sinifEkleForm">
+              <div class="mb-3">
+                <label for="sinifAdi" class="form-label">Sınıf Adı</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="sinifAdi"
+                  placeholder="Örn: 10-A"
+                  required
+                />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              İptal
+            </button>
+            <button type="button" class="btn btn-primary" id="sinifKaydet">
+              Kaydet
+            </button>
+          </div>
         </div>
+      </div>
     </div>
-
+ </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-
       document.addEventListener("DOMContentLoaded", function () {
-    // ==========================================================
-    // GİRİŞ YAPAN KULLANICI BİLGİLERİNİ SAYFAYA YAZDIRMA
-    // ==========================================================
-    const loggedInUsername = localStorage.getItem("username");
+        // ==========================================================
+        // GİRİŞ YAPAN KULLANICI BİLGİLERİNİ SAYFAYA YAZDIRMA
+        // ==========================================================
+        const loggedInUsername = localStorage.getItem("username");
 
-   
-
-// Bu kullanıcının özel key’leri
-const studentKey = `${loggedInUsername}_students`;
-const classKey   = `${loggedInUsername}_classes`;
-const reportKey  = `${loggedInUsername}_reports`;
+         if (loggedInUsername) {
+        const sidebarNameElements = document.querySelectorAll(".user-username-display");
+        sidebarNameElements.forEach((el) => el.textContent = loggedInUsername);
+         }
 
 
+        // Bu kullanıcının özel key’leri
+        const studentKey = `${loggedInUsername}_students`;
+        const classKey = `${loggedInUsername}_classes`;
+        const reportKey = `${loggedInUsername}_reports`;
 
-// Örnek: öğrenci ekleme sonrası kaydetme
-function saveData() {
-    localStorage.setItem(studentKey, JSON.stringify(students));
-    localStorage.setItem(classKey, JSON.stringify(classes));
-    localStorage.setItem(reportKey, JSON.stringify(reports));
-}
+        // Örnek: öğrenci ekleme sonrası kaydetme
+        function saveData() {
+          localStorage.setItem(studentKey, JSON.stringify(students));
+          localStorage.setItem(classKey, JSON.stringify(classes));
+          localStorage.setItem(reportKey, JSON.stringify(reports));
+        }
 
- 
         // Veri yönetimi için nesneler
-        let students = JSON.parse(localStorage.getItem('teacher_students')) || [];
-        let classes = JSON.parse(localStorage.getItem('teacher_classes')) || [];
-        let reports = JSON.parse(localStorage.getItem('teacher_reports')) || [];
+        let students =
+          JSON.parse(localStorage.getItem("teacher_students")) || [];
+        let classes = JSON.parse(localStorage.getItem("teacher_classes")) || [];
+        let reports = JSON.parse(localStorage.getItem("teacher_reports")) || [];
 
         document.addEventListener("DOMContentLoaded", function () {
-            // Sayfa yüklendiğinde verileri yükle
-            loadInitialData();
-            
-            // Sidebar navigasyonu
-            const navLinks = document.querySelectorAll("nav#sidebar a[data-content]");
-            const contentSections = document.querySelectorAll(".content-section");
+          // Sayfa yüklendiğinde verileri yükle
+          loadInitialData();
 
-            navLinks.forEach((link) => {
-                link.addEventListener("click", function (e) {
-                    e.preventDefault();
-                    navLinks.forEach((l) => l.classList.remove("active"));
-                    this.classList.add("active");
+          // Sidebar navigasyonu
+          const navLinks = document.querySelectorAll(
+            "nav#sidebar a[data-content]"
+          );
+          const contentSections = document.querySelectorAll(".content-section");
 
-                    const targetContent = this.getAttribute("data-content");
-                    contentSections.forEach((section) => section.classList.add("d-none"));
-                    document.getElementById(`${targetContent}-content`).classList.remove("d-none");
-                    
-                    // İlgili sayfa yüklendiğinde verileri güncelle
-                    if (targetContent === 'ogrenciler') {
-                        updateStudentsTable();
-                    } else if (targetContent === 'siniflarim') {
-                        updateClassesView();
-                    } else if (targetContent === 'raporlar') {
-                        updateReportsTable();
-                    } else if (targetContent === 'analizler') {
-                        updateAnalysisTable();
-                    }
-                });
+          navLinks.forEach((link) => {
+            link.addEventListener("click", function (e) {
+              e.preventDefault();
+              navLinks.forEach((l) => l.classList.remove("active"));
+              this.classList.add("active");
+
+              const targetContent = this.getAttribute("data-content");
+              contentSections.forEach((section) =>
+                section.classList.add("d-none")
+              );
+              document
+                .getElementById(`${targetContent}-content`)
+                .classList.remove("d-none");
+
+              // İlgili sayfa yüklendiğinde verileri güncelle
+              if (targetContent === "ogrenciler") {
+                updateStudentsTable();
+              } else if (targetContent === "siniflarim") {
+                updateClassesView();
+              } else if (targetContent === "raporlar") {
+                updateReportsTable();
+              } else if (targetContent === "analizler") {
+                updateAnalysisTable();
+              }
             });
+          });
 
-            // Çıkış yapma işlevi
-            const logoutLink = document.getElementById("logout-link");
-            if (logoutLink) {
-                logoutLink.addEventListener("click", function (event) {
-                    event.preventDefault();
-                    localStorage.clear();
-                    alert("Başarıyla çıkış yaptınız.");
-                    window.location.href = "index.html";
-                });
-            }
+          // Çıkış yapma işlevi
+          const logoutLink = document.getElementById("logout-link");
+          if (logoutLink) {
+            logoutLink.addEventListener("click", function (event) {
+              event.preventDefault();
+              localStorage.clear();
+              alert("Başarıyla çıkış yaptınız.");
+              window.location.href = "index.html";
+            });
+          }
 
-            // Öğrenci ekleme formu
-            const ogrenciKaydetBtn = document.getElementById("ogrenciKaydet");
-            if (ogrenciKaydetBtn) {
-                ogrenciKaydetBtn.addEventListener("click", function() {
-                    const ogrenciAd = document.getElementById("ogrenciAd").value;
-                    const ogrenciSoyad = document.getElementById("ogrenciSoyad").value;
-                    const ogrenciKullaniciAdi = document.getElementById("ogrenciKullaniciAdi").value;
-                    const ogrenciSinif = document.getElementById("ogrenciSinif").value;
+          // Öğrenci ekleme formu
+          const ogrenciKaydetBtn = document.getElementById("ogrenciKaydet");
+          if (ogrenciKaydetBtn) {
+            ogrenciKaydetBtn.addEventListener("click", function () {
+              const ogrenciAd = document.getElementById("ogrenciAd").value;
+              const ogrenciSoyad =
+                document.getElementById("ogrenciSoyad").value;
+              const ogrenciKullaniciAdi = document.getElementById(
+                "ogrenciKullaniciAdi"
+              ).value;
+              const ogrenciSinif =
+                document.getElementById("ogrenciSinif").value;
 
-                    async function addStudent() {
-  const studentUsername = document.getElementById("studentUsername").value.trim();
-  if (!studentUsername) {
-    alert("Lütfen öğrenci kullanıcı adını girin.");
-    return;
-  }
+              async function addStudent() {
+                const studentUsername = document
+                  .getElementById("studentUsername")
+                  .value.trim();
+                if (!studentUsername) {
+                  alert("Lütfen öğrenci kullanıcı adını girin.");
+                  return;
+                }
 
-  try {
-    // Backend'e sor: böyle bir kullanıcı var mı?
-    const response = await fetch("/.netlify/functions/checkUser", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username: studentUsername, userType: "student" })
-    });
-
-    const result = await response.json();
-
-    if (response.ok && result.exists) {
-      // Kullanıcı var → öğretmenin öğrencilerine ekle
-      const teacherUsername = localStorage.getItem("username");
-      const studentKey = `${teacherUsername}_students`;
-
-      let students = JSON.parse(localStorage.getItem(studentKey)) || [];
-      if (!students.includes(studentUsername)) {
-        students.push(studentUsername);
-        localStorage.setItem(studentKey, JSON.stringify(students));
-        alert("Öğrenci başarıyla eklendi!");
-      } else {
-        alert("Bu öğrenci zaten listenizde var.");
-      }
-    } else {
-      alert("Böyle bir öğrenci bulunamadı.");
-    }
-  } catch (err) {
-    console.error("Öğrenci ekleme hatası:", err);
-    alert("Sunucuya bağlanırken hata oluştu.");
-  }
-}
-
-                    
-                    if (ogrenciAd && ogrenciSoyad && ogrenciKullaniciAdi && ogrenciSinif) {
-                        // Yeni öğrenci oluştur
-                        const newStudent = {
-                            id: Date.now(),
-                            name: ogrenciAd,
-                            surname: ogrenciSoyad,
-                            username: ogrenciKullaniciAdi,
-                            class: ogrenciSinif,
-                            createdAt: new Date().toISOString()
-                        };
-                        
-                        // Öğrenciyi listeye ekle
-                        students.push(newStudent);
-                        localStorage.setItem('teacher_students', JSON.stringify(students));
-                        
-                        // Dashboard'u güncelle
-                        updateDashboard();
-                        
-                        // Modal'ı kapat
-                        const modal = bootstrap.Modal.getInstance(document.getElementById('ogrenciEkleModal'));
-                        modal.hide();
-                        
-                        // Formu temizle
-                        document.getElementById("ogrenciEkleForm").reset();
-                        
-                        alert(`${ogrenciAd} ${ogrenciSoyad} (${ogrenciKullaniciAdi}) ${ogrenciSinif} sınıfına eklendi!`);
-                    } else {
-                        alert("Lütfen tüm alanları doldurun!");
+                try {
+                  // Backend'e sor: böyle bir kullanıcı var mı?
+                  const response = await fetch(
+                    "/.netlify/functions/checkUser",
+                    {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        username: studentUsername,
+                        userType: "student",
+                      }),
                     }
-                });
-            }
-            
-            // Sınıf ekleme formu
-            const sinifKaydetBtn = document.getElementById("sinifKaydet");
-            if (sinifKaydetBtn) {
-                sinifKaydetBtn.addEventListener("click", function() {
-                    const sinifAdi = document.getElementById("sinifAdi").value;
-                    
-                    if (sinifAdi) {
-                        // Yeni sınıf oluştur
-                        const newClass = {
-                            id: Date.now(),
-                            name: sinifAdi
-                        };
-                        
-                        // Sınıfı listeye ekle
-                        classes.push(newClass);
-                        localStorage.setItem('teacher_classes', JSON.stringify(classes));
-                        
-                        // Sınıf seçeneklerini güncelle
-                        updateClassOptions();
-                        
-                        // Modal'ı kapat
-                        const modal = bootstrap.Modal.getInstance(document.getElementById('sinifEkleModal'));
-                        modal.hide();
-                        
-                        // Formu temizle
-                        document.getElementById("sinifEkleForm").reset();
-                        
-                        alert(`${sinifAdi} sınıfı eklendi!`);
+                  );
+
+                  const result = await response.json();
+
+                  if (response.ok && result.exists) {
+                    // Kullanıcı var → öğretmenin öğrencilerine ekle
+                    const teacherUsername = localStorage.getItem("username");
+                    const studentKey = `${teacherUsername}_students`;
+
+                    let students =
+                      JSON.parse(localStorage.getItem(studentKey)) || [];
+                    if (!students.includes(studentUsername)) {
+                      students.push(studentUsername);
+                      localStorage.setItem(
+                        studentKey,
+                        JSON.stringify(students)
+                      );
+                      alert("Öğrenci başarıyla eklendi!");
                     } else {
-                        alert("Lütfen sınıf adını girin!");
+                      alert("Bu öğrenci zaten listenizde var.");
                     }
-                });
-            }
+                  } else {
+                    alert("Böyle bir öğrenci bulunamadı.");
+                  }
+                } catch (err) {
+                  console.error("Öğrenci ekleme hatası:", err);
+                  alert("Sunucuya bağlanırken hata oluştu.");
+                }
+              }
+
+              if (
+                ogrenciAd &&
+                ogrenciSoyad &&
+                ogrenciKullaniciAdi &&
+                ogrenciSinif
+              ) {
+                // Yeni öğrenci oluştur
+                const newStudent = {
+                  id: Date.now(),
+                  name: ogrenciAd,
+                  surname: ogrenciSoyad,
+                  username: ogrenciKullaniciAdi,
+                  class: ogrenciSinif,
+                  createdAt: new Date().toISOString(),
+                };
+
+                // Öğrenciyi listeye ekle
+                students.push(newStudent);
+                localStorage.setItem(
+                  "teacher_students",
+                  JSON.stringify(students)
+                );
+
+                // Dashboard'u güncelle
+                updateDashboard();
+
+                // Modal'ı kapat
+                const modal = bootstrap.Modal.getInstance(
+                  document.getElementById("ogrenciEkleModal")
+                );
+                modal.hide();
+
+                // Formu temizle
+                document.getElementById("ogrenciEkleForm").reset();
+
+                alert(
+                  `${ogrenciAd} ${ogrenciSoyad} (${ogrenciKullaniciAdi}) ${ogrenciSinif} sınıfına eklendi!`
+                );
+              } else {
+                alert("Lütfen tüm alanları doldurun!");
+              }
+            });
+          }
+
+          // Sınıf ekleme formu
+          const sinifKaydetBtn = document.getElementById("sinifKaydet");
+          if (sinifKaydetBtn) {
+            sinifKaydetBtn.addEventListener("click", function () {
+              const sinifAdi = document.getElementById("sinifAdi").value;
+
+              if (sinifAdi) {
+                // Yeni sınıf oluştur
+                const newClass = {
+                  id: Date.now(),
+                  name: sinifAdi,
+                };
+
+                // Sınıfı listeye ekle
+                classes.push(newClass);
+                localStorage.setItem(
+                  "teacher_classes",
+                  JSON.stringify(classes)
+                );
+
+                // Sınıf seçeneklerini güncelle
+                updateClassOptions();
+
+                // Modal'ı kapat
+                const modal = bootstrap.Modal.getInstance(
+                  document.getElementById("sinifEkleModal")
+                );
+                modal.hide();
+
+                // Formu temizle
+                document.getElementById("sinifEkleForm").reset();
+
+                alert(`${sinifAdi} sınıfı eklendi!`);
+              } else {
+                alert("Lütfen sınıf adını girin!");
+              }
+            });
+          }
         });
-        
+
         // İlk veri yükleme
         function loadInitialData() {
-            // Varsayılan sınıflar (eğer yoksa)
-            if (classes.length === 0) {
-                classes = [
-                    { id: 1, name: "10-A" },
-                    { id: 2, name: "10-B" },
-                    { id: 3, name: "11-A" }
-                ];
-                localStorage.setItem('teacher_classes', JSON.stringify(classes));
-            }
-            
-            // Sınıf seçeneklerini güncelle
-            updateClassOptions();
-            
-            // Dashboard'u güncelle
-            updateDashboard();
-            
-            // Öğrenci tablosunu güncelle
-            updateStudentsTable();
-            
-            // Sınıf görünümünü güncelle
-            updateClassesView();
+          // Varsayılan sınıflar (eğer yoksa)
+          if (classes.length === 0) {
+            classes = [
+              { id: 1, name: "10-A" },
+              { id: 2, name: "10-B" },
+              { id: 3, name: "11-A" },
+            ];
+            localStorage.setItem("teacher_classes", JSON.stringify(classes));
+          }
+
+          // Sınıf seçeneklerini güncelle
+          updateClassOptions();
+
+          // Dashboard'u güncelle
+          updateDashboard();
+
+          // Öğrenci tablosunu güncelle
+          updateStudentsTable();
+
+          // Sınıf görünümünü güncelle
+          updateClassesView();
         }
-        
+
         // Sınıf seçeneklerini güncelleme
         function updateClassOptions() {
-            const classSelects = [
-                document.getElementById('ogrenciSinif'),
-                document.getElementById('sinifFilter'),
-                document.getElementById('analizSinifFilter')
-            ];
-            
-            classSelects.forEach(select => {
-                if (select) {
-                    // Mevcut seçili değeri sakla
-                    const currentValue = select.value;
-                    
-                    // Seçenekleri temizle (ilk seçenek hariç)
-                    while (select.options.length > 1) {
-                        select.remove(1);
-                    }
-                    
-                    // Yeni sınıf seçeneklerini ekle
-                    classes.forEach(cls => {
-                        const option = document.createElement('option');
-                        option.value = cls.name;
-                        option.textContent = cls.name;
-                        select.appendChild(option);
-                    });
-                    
-                    // Önceki değeri geri yükle (eğer hala geçerliyse)
-                    if (currentValue && Array.from(select.options).some(opt => opt.value === currentValue)) {
-                        select.value = currentValue;
-                    }
-                }
-            });
+          const classSelects = [
+            document.getElementById("ogrenciSinif"),
+            document.getElementById("sinifFilter"),
+            document.getElementById("analizSinifFilter"),
+          ];
+
+          classSelects.forEach((select) => {
+            if (select) {
+              // Mevcut seçili değeri sakla
+              const currentValue = select.value;
+
+              // Seçenekleri temizle (ilk seçenek hariç)
+              while (select.options.length > 1) {
+                select.remove(1);
+              }
+
+              // Yeni sınıf seçeneklerini ekle
+              classes.forEach((cls) => {
+                const option = document.createElement("option");
+                option.value = cls.name;
+                option.textContent = cls.name;
+                select.appendChild(option);
+              });
+
+              // Önceki değeri geri yükle (eğer hala geçerliyse)
+              if (
+                currentValue &&
+                Array.from(select.options).some(
+                  (opt) => opt.value === currentValue
+                )
+              ) {
+                select.value = currentValue;
+              }
+            }
+          });
         }
-        
+
         // Dashboard'u güncelleme
         function updateDashboard() {
-            // Toplam öğrenci sayısı
-            document.getElementById('total-students').textContent = students.length;
-            
-            // Toplam rapor sayısı
-            document.getElementById('total-reports').textContent = reports.length;
-            
-            // Son eklenen öğrenciler
-            const latestStudentsContainer = document.getElementById('latest-students');
-            const noStudentsAlert = document.getElementById('no-students-alert');
-            
-            if (students.length === 0) {
-                noStudentsAlert.classList.remove('d-none');
-                latestStudentsContainer.innerHTML = '';
-                latestStudentsContainer.appendChild(noStudentsAlert);
-            } else {
-                noStudentsAlert.classList.add('d-none');
-                
-                // Son 3 öğrenciyi al
-                const latestStudents = [...students].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 3);
-                
-                let html = '';
-                latestStudents.forEach(student => {
-                    html += `
+          // Toplam öğrenci sayısı
+          document.getElementById("total-students").textContent =
+            students.length;
+
+          // Toplam rapor sayısı
+          document.getElementById("total-reports").textContent = reports.length;
+
+          // Son eklenen öğrenciler
+          const latestStudentsContainer =
+            document.getElementById("latest-students");
+          const noStudentsAlert = document.getElementById("no-students-alert");
+
+          if (students.length === 0) {
+            noStudentsAlert.classList.remove("d-none");
+            latestStudentsContainer.innerHTML = "";
+            latestStudentsContainer.appendChild(noStudentsAlert);
+          } else {
+            noStudentsAlert.classList.add("d-none");
+
+            // Son 3 öğrenciyi al
+            const latestStudents = [...students]
+              .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+              .slice(0, 3);
+
+            let html = "";
+            latestStudents.forEach((student) => {
+              html += `
                         <div class="list-group-item d-flex align-items-center p-2">
                             <div class="flex-fill">
                                 <div class="fw-bold">${student.name} ${student.surname}</div>
@@ -697,26 +923,28 @@ function saveData() {
                             <span class="badge bg-primary">${student.class}</span>
                         </div>
                     `;
-                });
-                
-                latestStudentsContainer.innerHTML = html;
-            }
+            });
+
+            latestStudentsContainer.innerHTML = html;
+          }
         }
-        
+
         // Öğrenci tablosunu güncelleme
         function updateStudentsTable() {
-            const tbody = document.getElementById('students-table-body');
-            const noStudentsMessage = document.getElementById('no-students-message');
-            
-            if (students.length === 0) {
-                tbody.innerHTML = '';
-                noStudentsMessage.classList.remove('d-none');
-            } else {
-                noStudentsMessage.classList.add('d-none');
-                
-                let html = '';
-                students.forEach(student => {
-                    html += `
+          const tbody = document.getElementById("students-table-body");
+          const noStudentsMessage = document.getElementById(
+            "no-students-message"
+          );
+
+          if (students.length === 0) {
+            tbody.innerHTML = "";
+            noStudentsMessage.classList.remove("d-none");
+          } else {
+            noStudentsMessage.classList.add("d-none");
+
+            let html = "";
+            students.forEach((student) => {
+              html += `
                         <tr>
                             <td>${student.name} ${student.surname}</td>
                             <td>${student.username}</td>
@@ -726,29 +954,32 @@ function saveData() {
                             </td>
                         </tr>
                     `;
-                });
-                
-                tbody.innerHTML = html;
-            }
+            });
+
+            tbody.innerHTML = html;
+          }
         }
-        
+
         // Sınıf görünümünü güncelleme
         function updateClassesView() {
-            const classesContainer = document.getElementById('classes-container');
-            const noClassesMessage = document.getElementById('no-classes-message');
-            
-            if (classes.length === 0) {
-                classesContainer.innerHTML = '';
-                noClassesMessage.classList.remove('d-none');
-            } else {
-                noClassesMessage.classList.add('d-none');
-                
-                let html = '';
-                classes.forEach(cls => {
-                    // Bu sınıftaki öğrenci sayısını hesapla
-                    const studentCount = students.filter(s => s.class === cls.name).length;
-                    
-                    html += `
+          const classesContainer = document.getElementById("classes-container");
+          const noClassesMessage =
+            document.getElementById("no-classes-message");
+
+          if (classes.length === 0) {
+            classesContainer.innerHTML = "";
+            noClassesMessage.classList.remove("d-none");
+          } else {
+            noClassesMessage.classList.add("d-none");
+
+            let html = "";
+            classes.forEach((cls) => {
+              // Bu sınıftaki öğrenci sayısını hesapla
+              const studentCount = students.filter(
+                (s) => s.class === cls.name
+              ).length;
+
+              html += `
                         <div class="col-md-4 mb-3">
                             <div class="card">
                                 <div class="card-body">
@@ -759,62 +990,64 @@ function saveData() {
                             </div>
                         </div>
                     `;
-                });
-                
-                classesContainer.innerHTML = html;
-            }
+            });
+
+            classesContainer.innerHTML = html;
+          }
         }
-        
+
         // Rapor tablosunu güncelleme
         function updateReportsTable() {
-            // Bu fonksiyon rapor verilerine göre doldurulacak
-            console.log("Rapor tablosu güncellendi");
+          // Bu fonksiyon rapor verilerine göre doldurulacak
+          console.log("Rapor tablosu güncellendi");
         }
-        
+
         // Analiz tablosunu güncelleme
         function updateAnalysisTable() {
-            // Bu fonksiyon analiz verilerine göre doldurulacak
-            console.log("Analiz tablosu güncellendi");
+          // Bu fonksiyon analiz verilerine göre doldurulacak
+          console.log("Analiz tablosu güncellendi");
         }
-        
+
         // Öğrenci silme fonksiyonu
         function deleteStudent(studentId) {
-            if (confirm('Bu öğrenciyi silmek istediğinize emin misiniz?')) {
-                students = students.filter(s => s.id !== studentId);
-                localStorage.setItem('teacher_students', JSON.stringify(students));
-                
-                // Dashboard ve tabloyu güncelle
-                updateDashboard();
-                updateStudentsTable();
-                
-                alert('Öğrenci başarıyla silindi.');
-            }
+          if (confirm("Bu öğrenciyi silmek istediğinize emin misiniz?")) {
+            students = students.filter((s) => s.id !== studentId);
+            localStorage.setItem("teacher_students", JSON.stringify(students));
+
+            // Dashboard ve tabloyu güncelle
+            updateDashboard();
+            updateStudentsTable();
+
+            alert("Öğrenci başarıyla silindi.");
+          }
         }
-        
+
         // Sınıf silme fonksiyonu
         function deleteClass(classId) {
-            const cls = classes.find(c => c.id === classId);
-            
-            // Bu sınıfta öğrenci var mı kontrol et
-            const studentsInClass = students.filter(s => s.class === cls.name);
-            
-            if (studentsInClass.length > 0) {
-                alert('Bu sınıfta öğrenciler bulunmaktadır. Önce öğrencileri başka bir sınıfa taşımalısınız.');
-                return;
-            }
-            
-            if (confirm('Bu sınıfı silmek istediğinize emin misiniz?')) {
-                classes = classes.filter(c => c.id !== classId);
-                localStorage.setItem('teacher_classes', JSON.stringify(classes));
-                
-                // Sınıf seçeneklerini ve görünümü güncelle
-                updateClassOptions();
-                updateClassesView();
-                
-                alert('Sınıf başarıyla silindi.');
-            }
+          const cls = classes.find((c) => c.id === classId);
+
+          // Bu sınıfta öğrenci var mı kontrol et
+          const studentsInClass = students.filter((s) => s.class === cls.name);
+
+          if (studentsInClass.length > 0) {
+            alert(
+              "Bu sınıfta öğrenciler bulunmaktadır. Önce öğrencileri başka bir sınıfa taşımalısınız."
+            );
+            return;
+          }
+
+          if (confirm("Bu sınıfı silmek istediğinize emin misiniz?")) {
+            classes = classes.filter((c) => c.id !== classId);
+            localStorage.setItem("teacher_classes", JSON.stringify(classes));
+
+            // Sınıf seçeneklerini ve görünümü güncelle
+            updateClassOptions();
+            updateClassesView();
+
+            alert("Sınıf başarıyla silindi.");
+          }
         }
       });
     </script>
-</body>
+  </body>
 </html>

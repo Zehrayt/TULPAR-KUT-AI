@@ -620,313 +620,301 @@
           );
         }
 
-        // Bu kullanıcının özel key’leri
+       
+
+        // Bu öğretmene özel key'ler
         const studentKey = `${loggedInUsername}_students`;
         const classKey = `${loggedInUsername}_classes`;
         const reportKey = `${loggedInUsername}_reports`;
 
-        // Örnek: öğrenci ekleme sonrası kaydetme
+        // Verileri yükle
+        let students = JSON.parse(localStorage.getItem(studentKey)) || [];
+        let classes = JSON.parse(localStorage.getItem(classKey)) || [];
+        let reports = JSON.parse(localStorage.getItem(reportKey)) || [];
+
+        // Kaydetme fonksiyonu
         function saveData() {
           localStorage.setItem(studentKey, JSON.stringify(students));
           localStorage.setItem(classKey, JSON.stringify(classes));
           localStorage.setItem(reportKey, JSON.stringify(reports));
         }
 
-        // Veri yönetimi için nesneler
-        let students =
-          JSON.parse(localStorage.getItem("teacher_students")) || [];
-        let classes = JSON.parse(localStorage.getItem("teacher_classes")) || [];
-        let reports = JSON.parse(localStorage.getItem("teacher_reports")) || [];
+        // Sayfa yüklendiğinde verileri yükle
+        loadInitialData();
 
-      
-          // Sayfa yüklendiğinde verileri yükle
-          loadInitialData();
+        // Sidebar navigasyonu
+        const navLinks = document.querySelectorAll(
+          "nav#sidebar a[data-content]"
+        );
+        const contentSections = document.querySelectorAll(".content-section");
 
-          // Sidebar navigasyonu
-          const navLinks = document.querySelectorAll(
-            "nav#sidebar a[data-content]"
-          );
-          const contentSections = document.querySelectorAll(".content-section");
+        navLinks.forEach((link) => {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+            navLinks.forEach((l) => l.classList.remove("active"));
+            this.classList.add("active");
 
-          navLinks.forEach((link) => {
-            link.addEventListener("click", function (e) {
-              e.preventDefault();
-              navLinks.forEach((l) => l.classList.remove("active"));
-              this.classList.add("active");
+            const targetContent = this.getAttribute("data-content");
+            contentSections.forEach((section) =>
+              section.classList.add("d-none")
+            );
+            document
+              .getElementById(`${targetContent}-content`)
+              .classList.remove("d-none");
 
-              const targetContent = this.getAttribute("data-content");
-              contentSections.forEach((section) =>
-                section.classList.add("d-none")
-              );
-              document
-                .getElementById(`${targetContent}-content`)
-                .classList.remove("d-none");
-
-              // İlgili sayfa yüklendiğinde verileri güncelle
-              if (targetContent === "ogrenciler") {
-                updateStudentsTable();
-              } else if (targetContent === "siniflarim") {
-                updateClassesView();
-              } else if (targetContent === "raporlar") {
-                updateReportsTable();
-              } else if (targetContent === "analizler") {
-                updateAnalysisTable();
-              }
-            });
+            // İlgili sayfa yüklendiğinde verileri güncelle
+            if (targetContent === "ogrenciler") {
+              updateStudentsTable();
+            } else if (targetContent === "siniflarim") {
+              updateClassesView();
+            } else if (targetContent === "raporlar") {
+              updateReportsTable();
+            } else if (targetContent === "analizler") {
+              updateAnalysisTable();
+            }
           });
-
-          // Çıkış yapma işlevi
-          const logoutLink = document.getElementById("logout-link");
-          if (logoutLink) {
-            logoutLink.addEventListener("click", function (event) {
-              event.preventDefault();
-              localStorage.clear();
-              alert("Başarıyla çıkış yaptınız.");
-              window.location.href = "index.html";
-            });
-          }
-
-          // Öğrenci ekleme formu
-          const ogrenciKaydetBtn = document.getElementById("ogrenciKaydet");
-          if (ogrenciKaydetBtn) {
-            ogrenciKaydetBtn.addEventListener("click", function () {
-              const ogrenciAd = document.getElementById("ogrenciAd").value;
-              const ogrenciSoyad =
-                document.getElementById("ogrenciSoyad").value;
-              const ogrenciKullaniciAdi = document.getElementById(
-                "ogrenciKullaniciAdi"
-              ).value;
-              const ogrenciSinif =
-                document.getElementById("ogrenciSinif").value;
-
-              async function addStudent() {
-                const studentUsername = document
-                  .getElementById("studentUsername")
-                  .value.trim();
-                if (!studentUsername) {
-                  alert("Lütfen öğrenci kullanıcı adını girin.");
-                  return;
-                }
-
-                try {
-                  // Backend'e sor: böyle bir kullanıcı var mı?
-                  const response = await fetch(
-                    "/.netlify/functions/checkUser",
-                    {
-                      method: "POST",
-                      headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify({
-                        username: studentUsername,
-                        userType: "student",
-                      }),
-                    }
-                  );
-
-                  const result = await response.json();
-
-                  if (response.ok && result.exists) {
-                    // Kullanıcı var → öğretmenin öğrencilerine ekle
-                    const teacherUsername = localStorage.getItem("username");
-                    const studentKey = `${teacherUsername}_students`;
-
-                    let students =
-                      JSON.parse(localStorage.getItem(studentKey)) || [];
-                    if (!students.includes(studentUsername)) {
-                      students.push(studentUsername);
-                      localStorage.setItem(
-                        studentKey,
-                        JSON.stringify(students)
-                      );
-                      alert("Öğrenci başarıyla eklendi!");
-                    } else {
-                      alert("Bu öğrenci zaten listenizde var.");
-                    }
-                  } else {
-                    alert("Böyle bir öğrenci bulunamadı.");
-                  }
-                } catch (err) {
-                  console.error("Öğrenci ekleme hatası:", err);
-                  alert("Sunucuya bağlanırken hata oluştu.");
-                }
-              }
-
-              if (
-                ogrenciAd &&
-                ogrenciSoyad &&
-                ogrenciKullaniciAdi &&
-                ogrenciSinif
-              ) {
-                // Yeni öğrenci oluştur
-                const newStudent = {
-                  id: Date.now(),
-                  name: ogrenciAd,
-                  surname: ogrenciSoyad,
-                  username: ogrenciKullaniciAdi,
-                  class: ogrenciSinif,
-                  createdAt: new Date().toISOString(),
-                };
-
-                // Öğrenciyi listeye ekle
-                students.push(newStudent);
-                localStorage.setItem(
-                  "teacher_students",
-                  JSON.stringify(students)
-                );
-
-                // Dashboard'u güncelle
-                updateDashboard();
-
-                // Modal'ı kapat
-                const modal = bootstrap.Modal.getInstance(
-                  document.getElementById("ogrenciEkleModal")
-                );
-                modal.hide();
-
-                // Formu temizle
-                document.getElementById("ogrenciEkleForm").reset();
-
-                alert(
-                  `${ogrenciAd} ${ogrenciSoyad} (${ogrenciKullaniciAdi}) ${ogrenciSinif} sınıfına eklendi!`
-                );
-              } else {
-                alert("Lütfen tüm alanları doldurun!");
-              }
-            });
-          }
-
-          // Sınıf ekleme formu
-          const sinifKaydetBtn = document.getElementById("sinifKaydet");
-          if (sinifKaydetBtn) {
-            sinifKaydetBtn.addEventListener("click", function () {
-              const sinifAdi = document.getElementById("sinifAdi").value;
-
-              if (sinifAdi) {
-                // Yeni sınıf oluştur
-                const newClass = {
-                  id: Date.now(),
-                  name: sinifAdi,
-                };
-
-                // Sınıfı listeye ekle
-                classes.push(newClass);
-                localStorage.setItem(
-                  "teacher_classes",
-                  JSON.stringify(classes)
-                );
-
-                // Sınıf seçeneklerini güncelle
-                updateClassOptions();
-
-                // Modal'ı kapat
-                const modal = bootstrap.Modal.getInstance(
-                  document.getElementById("sinifEkleModal")
-                );
-                modal.hide();
-
-                // Formu temizle
-                document.getElementById("sinifEkleForm").reset();
-
-                alert(`${sinifAdi} sınıfı eklendi!`);
-              } else {
-                alert("Lütfen sınıf adını girin!");
-              }
-            });
-          }
         });
 
-        // İlk veri yükleme
-        function loadInitialData() {
-          // Varsayılan sınıflar (eğer yoksa)
-          if (classes.length === 0) {
-            classes = [
-              { id: 1, name: "10-A" },
-              { id: 2, name: "10-B" },
-              { id: 3, name: "11-A" },
-            ];
-            localStorage.setItem("teacher_classes", JSON.stringify(classes));
-          }
-
-          // Sınıf seçeneklerini güncelle
-          updateClassOptions();
-
-          // Dashboard'u güncelle
-          updateDashboard();
-
-          // Öğrenci tablosunu güncelle
-          updateStudentsTable();
-
-          // Sınıf görünümünü güncelle
-          updateClassesView();
+        // Çıkış yapma işlevi
+        const logoutLink = document.getElementById("logout-link");
+        if (logoutLink) {
+          logoutLink.addEventListener("click", function (event) {
+            event.preventDefault();
+            localStorage.clear();
+            alert("Başarıyla çıkış yaptınız.");
+            window.location.href = "index.html";
+          });
         }
 
-        // Sınıf seçeneklerini güncelleme
-        function updateClassOptions() {
-          const classSelects = [
-            document.getElementById("ogrenciSinif"),
-            document.getElementById("sinifFilter"),
-            document.getElementById("analizSinifFilter"),
-          ];
+        // Öğrenci ekleme formu
+        const ogrenciKaydetBtn = document.getElementById("ogrenciKaydet");
+        if (ogrenciKaydetBtn) {
+          ogrenciKaydetBtn.addEventListener("click", function () {
+            const ogrenciAd = document.getElementById("ogrenciAd").value;
+            const ogrenciSoyad = document.getElementById("ogrenciSoyad").value;
+            const ogrenciKullaniciAdi = document.getElementById(
+              "ogrenciKullaniciAdi"
+            ).value;
+            const ogrenciSinif = document.getElementById("ogrenciSinif").value;
 
-          classSelects.forEach((select) => {
-            if (select) {
-              // Mevcut seçili değeri sakla
-              const currentValue = select.value;
-
-              // Seçenekleri temizle (ilk seçenek hariç)
-              while (select.options.length > 1) {
-                select.remove(1);
+            async function addStudent() {
+              const studentUsername = document
+                .getElementById("studentUsername")
+                .value.trim();
+              if (!studentUsername) {
+                alert("Lütfen öğrenci kullanıcı adını girin.");
+                return;
               }
 
-              // Yeni sınıf seçeneklerini ekle
-              classes.forEach((cls) => {
-                const option = document.createElement("option");
-                option.value = cls.name;
-                option.textContent = cls.name;
-                select.appendChild(option);
-              });
+              try {
+                // Backend'e sor: böyle bir kullanıcı var mı?
+                const response = await fetch("/.netlify/functions/checkUser", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    username: studentUsername,
+                    userType: "student",
+                  }),
+                });
 
-              // Önceki değeri geri yükle (eğer hala geçerliyse)
-              if (
-                currentValue &&
-                Array.from(select.options).some(
-                  (opt) => opt.value === currentValue
-                )
-              ) {
-                select.value = currentValue;
+                const result = await response.json();
+
+                if (response.ok && result.exists) {
+                  // Kullanıcı var → öğretmenin öğrencilerine ekle
+                  const teacherUsername = localStorage.getItem("username");
+                  const studentKey = `${teacherUsername}_students`;
+
+                  let students =
+                    JSON.parse(localStorage.getItem(studentKey)) || [];
+                  if (!students.includes(studentUsername)) {
+                    students.push(studentUsername);
+                    localStorage.setItem(studentKey, JSON.stringify(students));
+                    alert("Öğrenci başarıyla eklendi!");
+                  } else {
+                    alert("Bu öğrenci zaten listenizde var.");
+                  }
+                } else {
+                  alert("Böyle bir öğrenci bulunamadı.");
+                }
+              } catch (err) {
+                console.error("Öğrenci ekleme hatası:", err);
+                alert("Sunucuya bağlanırken hata oluştu.");
               }
+            }
+
+            if (
+              ogrenciAd &&
+              ogrenciSoyad &&
+              ogrenciKullaniciAdi &&
+              ogrenciSinif
+            ) {
+              // Yeni öğrenci oluştur
+              const newStudent = {
+                id: Date.now(),
+                name: ogrenciAd,
+                surname: ogrenciSoyad,
+                username: ogrenciKullaniciAdi,
+                class: ogrenciSinif,
+                createdAt: new Date().toISOString(),
+              };
+
+              // Öğrenciyi listeye ekle
+              students.push(newStudent);
+              localStorage.setItem(
+                "teacher_students",
+                JSON.stringify(students)
+              );
+
+              // Dashboard'u güncelle
+              updateDashboard();
+
+              // Modal'ı kapat
+              const modal = bootstrap.Modal.getInstance(
+                document.getElementById("ogrenciEkleModal")
+              );
+              modal.hide();
+
+              // Formu temizle
+              document.getElementById("ogrenciEkleForm").reset();
+
+              alert(
+                `${ogrenciAd} ${ogrenciSoyad} (${ogrenciKullaniciAdi}) ${ogrenciSinif} sınıfına eklendi!`
+              );
+            } else {
+              alert("Lütfen tüm alanları doldurun!");
             }
           });
         }
 
-        // Dashboard'u güncelleme
-        function updateDashboard() {
-          // Toplam öğrenci sayısı
-          document.getElementById("total-students").textContent =
-            students.length;
+        // Sınıf ekleme formu
+        const sinifKaydetBtn = document.getElementById("sinifKaydet");
+        if (sinifKaydetBtn) {
+          sinifKaydetBtn.addEventListener("click", function () {
+            const sinifAdi = document.getElementById("sinifAdi").value;
 
-          // Toplam rapor sayısı
-          document.getElementById("total-reports").textContent = reports.length;
+            if (sinifAdi) {
+              // Yeni sınıf oluştur
+              const newClass = {
+                id: Date.now(),
+                name: sinifAdi,
+              };
 
-          // Son eklenen öğrenciler
-          const latestStudentsContainer =
-            document.getElementById("latest-students");
-          const noStudentsAlert = document.getElementById("no-students-alert");
+              // Sınıfı listeye ekle
+              classes.push(newClass);
+              localStorage.setItem("teacher_classes", JSON.stringify(classes));
 
-          if (students.length === 0) {
-            noStudentsAlert.classList.remove("d-none");
-            latestStudentsContainer.innerHTML = "";
-            latestStudentsContainer.appendChild(noStudentsAlert);
-          } else {
-            noStudentsAlert.classList.add("d-none");
+              // Sınıf seçeneklerini güncelle
+              updateClassOptions();
 
-            // Son 3 öğrenciyi al
-            const latestStudents = [...students]
-              .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-              .slice(0, 3);
+              // Modal'ı kapat
+              const modal = bootstrap.Modal.getInstance(
+                document.getElementById("sinifEkleModal")
+              );
+              modal.hide();
 
-            let html = "";
-            latestStudents.forEach((student) => {
-              html += `
+              // Formu temizle
+              document.getElementById("sinifEkleForm").reset();
+
+              alert(`${sinifAdi} sınıfı eklendi!`);
+            } else {
+              alert("Lütfen sınıf adını girin!");
+            }
+          });
+        }
+      });
+
+      // İlk veri yükleme
+      function loadInitialData() {
+        // Varsayılan sınıflar (eğer yoksa)
+        if (classes.length === 0) {
+          classes = [
+            { id: 1, name: "10-A" },
+            { id: 2, name: "10-B" },
+            { id: 3, name: "11-A" },
+          ];
+          localStorage.setItem("teacher_classes", JSON.stringify(classes));
+        }
+
+        // Sınıf seçeneklerini güncelle
+        updateClassOptions();
+
+        // Dashboard'u güncelle
+        updateDashboard();
+
+        // Öğrenci tablosunu güncelle
+        updateStudentsTable();
+
+        // Sınıf görünümünü güncelle
+        updateClassesView();
+      }
+
+      // Sınıf seçeneklerini güncelleme
+      function updateClassOptions() {
+        const classSelects = [
+          document.getElementById("ogrenciSinif"),
+          document.getElementById("sinifFilter"),
+          document.getElementById("analizSinifFilter"),
+        ];
+
+        classSelects.forEach((select) => {
+          if (select) {
+            // Mevcut seçili değeri sakla
+            const currentValue = select.value;
+
+            // Seçenekleri temizle (ilk seçenek hariç)
+            while (select.options.length > 1) {
+              select.remove(1);
+            }
+
+            // Yeni sınıf seçeneklerini ekle
+            classes.forEach((cls) => {
+              const option = document.createElement("option");
+              option.value = cls.name;
+              option.textContent = cls.name;
+              select.appendChild(option);
+            });
+
+            // Önceki değeri geri yükle (eğer hala geçerliyse)
+            if (
+              currentValue &&
+              Array.from(select.options).some(
+                (opt) => opt.value === currentValue
+              )
+            ) {
+              select.value = currentValue;
+            }
+          }
+        });
+      }
+
+      // Dashboard'u güncelleme
+      function updateDashboard() {
+        // Toplam öğrenci sayısı
+        document.getElementById("total-students").textContent = students.length;
+
+        // Toplam rapor sayısı
+        document.getElementById("total-reports").textContent = reports.length;
+
+        // Son eklenen öğrenciler
+        const latestStudentsContainer =
+          document.getElementById("latest-students");
+        const noStudentsAlert = document.getElementById("no-students-alert");
+
+        if (students.length === 0) {
+          noStudentsAlert.classList.remove("d-none");
+          latestStudentsContainer.innerHTML = "";
+          latestStudentsContainer.appendChild(noStudentsAlert);
+        } else {
+          noStudentsAlert.classList.add("d-none");
+
+          // Son 3 öğrenciyi al
+          const latestStudents = [...students]
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+            .slice(0, 3);
+
+          let html = "";
+          latestStudents.forEach((student) => {
+            html += `
                         <div class="list-group-item d-flex align-items-center p-2">
                             <div class="flex-fill">
                                 <div class="fw-bold">${student.name} ${student.surname}</div>
@@ -935,28 +923,28 @@
                             <span class="badge bg-primary">${student.class}</span>
                         </div>
                     `;
-            });
+          });
 
-            latestStudentsContainer.innerHTML = html;
-          }
+          latestStudentsContainer.innerHTML = html;
         }
+      }
 
-        // Öğrenci tablosunu güncelleme
-        function updateStudentsTable() {
-          const tbody = document.getElementById("students-table-body");
-          const noStudentsMessage = document.getElementById(
-            "no-students-message"
-          );
+      // Öğrenci tablosunu güncelleme
+      function updateStudentsTable() {
+        const tbody = document.getElementById("students-table-body");
+        const noStudentsMessage = document.getElementById(
+          "no-students-message"
+        );
 
-          if (students.length === 0) {
-            tbody.innerHTML = "";
-            noStudentsMessage.classList.remove("d-none");
-          } else {
-            noStudentsMessage.classList.add("d-none");
+        if (students.length === 0) {
+          tbody.innerHTML = "";
+          noStudentsMessage.classList.remove("d-none");
+        } else {
+          noStudentsMessage.classList.add("d-none");
 
-            let html = "";
-            students.forEach((student) => {
-              html += `
+          let html = "";
+          students.forEach((student) => {
+            html += `
                         <tr>
                             <td>${student.name} ${student.surname}</td>
                             <td>${student.username}</td>
@@ -966,32 +954,31 @@
                             </td>
                         </tr>
                     `;
-            });
+          });
 
-            tbody.innerHTML = html;
-          }
+          tbody.innerHTML = html;
         }
+      }
 
-        // Sınıf görünümünü güncelleme
-        function updateClassesView() {
-          const classesContainer = document.getElementById("classes-container");
-          const noClassesMessage =
-            document.getElementById("no-classes-message");
+      // Sınıf görünümünü güncelleme
+      function updateClassesView() {
+        const classesContainer = document.getElementById("classes-container");
+        const noClassesMessage = document.getElementById("no-classes-message");
 
-          if (classes.length === 0) {
-            classesContainer.innerHTML = "";
-            noClassesMessage.classList.remove("d-none");
-          } else {
-            noClassesMessage.classList.add("d-none");
+        if (classes.length === 0) {
+          classesContainer.innerHTML = "";
+          noClassesMessage.classList.remove("d-none");
+        } else {
+          noClassesMessage.classList.add("d-none");
 
-            let html = "";
-            classes.forEach((cls) => {
-              // Bu sınıftaki öğrenci sayısını hesapla
-              const studentCount = students.filter(
-                (s) => s.class === cls.name
-              ).length;
+          let html = "";
+          classes.forEach((cls) => {
+            // Bu sınıftaki öğrenci sayısını hesapla
+            const studentCount = students.filter(
+              (s) => s.class === cls.name
+            ).length;
 
-              html += `
+            html += `
                         <div class="col-md-4 mb-3">
                             <div class="card">
                                 <div class="card-body">
@@ -1002,64 +989,63 @@
                             </div>
                         </div>
                     `;
-            });
+          });
 
-            classesContainer.innerHTML = html;
-          }
+          classesContainer.innerHTML = html;
+        }
+      }
+
+      // Rapor tablosunu güncelleme
+      function updateReportsTable() {
+        // Bu fonksiyon rapor verilerine göre doldurulacak
+        console.log("Rapor tablosu güncellendi");
+      }
+
+      // Analiz tablosunu güncelleme
+      function updateAnalysisTable() {
+        // Bu fonksiyon analiz verilerine göre doldurulacak
+        console.log("Analiz tablosu güncellendi");
+      }
+
+      // Öğrenci silme fonksiyonu
+      function deleteStudent(studentId) {
+        if (confirm("Bu öğrenciyi silmek istediğinize emin misiniz?")) {
+          students = students.filter((s) => s.id !== studentId);
+          localStorage.setItem("teacher_students", JSON.stringify(students));
+
+          // Dashboard ve tabloyu güncelle
+          updateDashboard();
+          updateStudentsTable();
+
+          alert("Öğrenci başarıyla silindi.");
+        }
+      }
+
+      // Sınıf silme fonksiyonu
+      function deleteClass(classId) {
+        const cls = classes.find((c) => c.id === classId);
+
+        // Bu sınıfta öğrenci var mı kontrol et
+        const studentsInClass = students.filter((s) => s.class === cls.name);
+
+        if (studentsInClass.length > 0) {
+          alert(
+            "Bu sınıfta öğrenciler bulunmaktadır. Önce öğrencileri başka bir sınıfa taşımalısınız."
+          );
+          return;
         }
 
-        // Rapor tablosunu güncelleme
-        function updateReportsTable() {
-          // Bu fonksiyon rapor verilerine göre doldurulacak
-          console.log("Rapor tablosu güncellendi");
+        if (confirm("Bu sınıfı silmek istediğinize emin misiniz?")) {
+          classes = classes.filter((c) => c.id !== classId);
+          localStorage.setItem("teacher_classes", JSON.stringify(classes));
+
+          // Sınıf seçeneklerini ve görünümü güncelle
+          updateClassOptions();
+          updateClassesView();
+
+          alert("Sınıf başarıyla silindi.");
         }
-
-        // Analiz tablosunu güncelleme
-        function updateAnalysisTable() {
-          // Bu fonksiyon analiz verilerine göre doldurulacak
-          console.log("Analiz tablosu güncellendi");
-        }
-
-        // Öğrenci silme fonksiyonu
-        function deleteStudent(studentId) {
-          if (confirm("Bu öğrenciyi silmek istediğinize emin misiniz?")) {
-            students = students.filter((s) => s.id !== studentId);
-            localStorage.setItem("teacher_students", JSON.stringify(students));
-
-            // Dashboard ve tabloyu güncelle
-            updateDashboard();
-            updateStudentsTable();
-
-            alert("Öğrenci başarıyla silindi.");
-          }
-        }
-
-        // Sınıf silme fonksiyonu
-        function deleteClass(classId) {
-          const cls = classes.find((c) => c.id === classId);
-
-          // Bu sınıfta öğrenci var mı kontrol et
-          const studentsInClass = students.filter((s) => s.class === cls.name);
-
-          if (studentsInClass.length > 0) {
-            alert(
-              "Bu sınıfta öğrenciler bulunmaktadır. Önce öğrencileri başka bir sınıfa taşımalısınız."
-            );
-            return;
-          }
-
-          if (confirm("Bu sınıfı silmek istediğinize emin misiniz?")) {
-            classes = classes.filter((c) => c.id !== classId);
-            localStorage.setItem("teacher_classes", JSON.stringify(classes));
-
-            // Sınıf seçeneklerini ve görünümü güncelle
-            updateClassOptions();
-            updateClassesView();
-
-            alert("Sınıf başarıyla silindi.");
-          }
-        }
-   
+      }
     </script>
   </body>
 </html>

@@ -60,7 +60,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 contentContainer.appendChild(section);
                 window.scrollTo({ top: contentContainer.offsetTop, behavior: "smooth" });
                 if (sectionId === "#oyunkonusu") attachOyunKonusuEvents();
-                if (sectionId === "#stats" || sectionId === "#psikolojik-tahlil") startStatsCounters();
             } else {
                 throw new Error("Bölüm bulunamadı.");
             }

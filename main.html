@@ -72,12 +72,10 @@
                 
                 <!-- main.html içindeki dropdown div'ini bu kodla değiştirin -->
 
-                <div class="nav-item dropdown"> <!-- div'i li.nav-item.dropdown ile değiştirebiliriz ama bu da çalışır -->
-                    <button class="btn btn-outline-primary rounded-pill dropdown-toggle px-3" type="button" data-bs-toggle="dropdown">
-                        <i class="bi bi-person-circle me-1"></i>
-                         <li><a class="dropdown-item" href="KullanıcıSayfa.html">Kullanıcı Paneli</a></li>
-                    </button>
-                </div>
+             <a href="KullanıcıSayfa.html" 
+         class="btn btn-outline-primary rounded-pill px-3 d-flex align-items-center">
+        <i class="bi bi-person-circle me-1"></i> Kullanıcı Paneli
+          </a>
 
             </div>
         </div>
@@ -116,14 +114,49 @@
             </div>
           </div>
 
-          <div>
-        <form id="contact-form">
-  <input type="text" name="from_name" placeholder="Ad Soyad" required />
-  <input type="email" name="from_email" placeholder="E-posta" required />
-  <input type="text" name="subject" placeholder="Konu Başlığı" required />
-  <textarea name="message" placeholder="Mesajınız" required></textarea>
-  <button type="submit">Gönder</button>
-</form>
+     
+
+          <div class="col-lg-3 col-md-6 mb-4">
+            <h5>Bize Ulaşın</h5>
+            <form class="contact-form">
+              <input
+                type="text"
+                name="from_name"
+                class="form-control rounded-0"
+                placeholder="Adınız Soyadınız"
+                required
+              />
+              <input
+                type="email"
+                name="from_email" 
+                class="form-control rounded-0"
+                placeholder="E-posta"
+                required
+              />
+              <input
+                type="text"
+                name="subject"
+                class="form-control rounded-0"
+                placeholder="Konu Başlığı"
+                required
+              />
+              <textarea
+                id="footer-message"
+                name="message"
+                class="form-control rounded-0"
+                rows="3"
+                placeholder="Mesajınız"
+                required
+              ></textarea>
+              <button type="submit" class="btn btn-danger rounded-0">
+                Gönder
+              </button>
+            </form>
+          </div>
+        </div>
+
+
+
         </div>
 
         <div class="row">
@@ -131,17 +164,17 @@
             <p>&copy; 2025 Kut-AI. Tüm hakları saklıdır.</p>
           </div>
         </div>
-      </div>
+    
     </footer>
 
   
       <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 <script>
-emailjs.init("xHU7n5w1ELHAhU9ldO6_s"); 
+emailjs.init("gqVRKit_pxzhQY5aD"); 
 
 document.getElementById('contact-form').addEventListener('submit', function(e) {
   e.preventDefault();
-  emailjs.sendForm("service_3ico5lb","template_id",this)
+  emailjs.sendForm("service_3ico5lb","template_m9uw09i",this)
     .then(() => alert("Mesaj gönderildi!"), (err) => alert("Hata: " + err));
 });
 </script>

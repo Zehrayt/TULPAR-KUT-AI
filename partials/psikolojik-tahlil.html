@@ -1,5 +1,3 @@
-
- 
 <main>
   <section class="bg-section" style="background-color: #e9ecef;  height: 92.9vh;" id="psikoloji">
      <div class="container align-items-center">
@@ -131,14 +129,6 @@
     </div>
   </section>
 
-   
-
-      
-
-
-
-   
-    
 
   <script>
    
@@ -187,37 +177,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   window.addEventListener("scroll", checkScroll);
   checkScroll(); 
+
+
+  
+
 });
-
-
-</script>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const counters = [
-      { id: 'counter1', startVal: 0 ,endVal: 10 },
-      { id: 'counter2', startVal : 0 , endVal: 1 },
-      { id: 'counter3', startVal : 0 , endVal: 9999 }
-    ];
-
-    const options = {
-      duration: 3, 
-      separator: ','
-    };
-
-    counters.forEach(counter => {
-      const el = document.getElementById(counter.id);
-      const countUp = new CountUp.CountUp(el, counter.endVal, options);
-      if (!countUp.error) {
-        countUp.start();
-      } else {
-        console.error(countUp.error);
-      }
-    });
-  });
-</script>
-
-
 
 
 

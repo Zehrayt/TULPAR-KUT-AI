@@ -44,7 +44,7 @@
               </ul>
               <div class="mt-4">
                 <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-                  <a href="#" class="btn btn-danger btn-lg px-4 rounded-pill">
+                  <a href="https://kutaı.com/oyun" target="_blank" class="btn btn-danger btn-lg px-4 rounded-pill">
                     <i class="bi bi-play-fill me-2"></i> Maceraya Başla
                   </a>
                 <a href="#" class="btn btn-outline-dark btn-lg px-4 rounded-pill ms-md-2 btn-float" id="open-textbox-btn">
@@ -65,7 +65,7 @@
           </div>
         </div>
       </div>
-    </section>
+   
 
 <div id="overlay">
   <div id="textbox-container">
@@ -133,9 +133,10 @@
   </div>
 </div>
 
-    <script>
-      
-document.getElementById("open-textbox-btn").addEventListener("click", () => {
+   <script>
+    
+    // --- HİKAYE METNİ KISMI ---
+    document.getElementById("open-textbox-btn").addEventListener("click", () => {
   document.getElementById("overlay").classList.add("active");
 });
 
@@ -149,8 +150,10 @@ document.getElementById("overlay").addEventListener("click", (e) => {
     e.currentTarget.classList.remove("active");
   }
 });
-    </script>
+   </script>
+      
 
+ </section>
         
 
 
@@ -482,6 +485,8 @@ document.getElementById("overlay").addEventListener("click", (e) => {
        
  <script>
 document.addEventListener("DOMContentLoaded", function () {
+
+
     // --- ANİMASYON KISMI ---
     const elements = document.querySelectorAll(".animate-on-scroll");
     const oyunHakkindaLink = document.querySelector('a[href="#oyunkonusu"]');
@@ -521,59 +526,6 @@ document.addEventListener("DOMContentLoaded", function () {
     window.addEventListener("scroll", checkScroll);
     checkScroll();
 
-    // --- CAROUSEL KISMI ---
-    const carousel = document.querySelector(".character-carousel");
-    const cards = document.querySelectorAll(".character-card");
-    const prevBtn = document.querySelector(".prev-btn");
-    const nextBtn = document.querySelector(".next-btn");
-    const cardCount = cards.length;
-    let currentIndex = 0;
-    const cardsPerPage = 1;
-
-    function updateCarousel() {
-        if (cards.length === 0) return;
-        const cardWidth = cards[0].offsetWidth + 20;
-        const maxIndex = cardCount - cardsPerPage;
-        if (currentIndex < 0) currentIndex = 0;
-        if (currentIndex > maxIndex) currentIndex = maxIndex;
-
-        const translateValue = -currentIndex * cardWidth;
-        carousel.style.transform = `translateX(${translateValue}px)`;
-
-        cards.forEach((card, index) => {
-            if (index === currentIndex) {
-                card.classList.add("active");
-                card.style.opacity = 1;
-                card.style.transform = "scale(1)";
-            } else {
-                card.classList.remove("active");
-                card.style.opacity = 0.5;
-                card.style.transform = "scale(0.95)";
-            }
-        });
-    }
-
-    function goPrev() {
-        console.log("Geri butonuna tıklandı");
-        if (currentIndex > 0) {
-            currentIndex--;
-            updateCarousel();
-        }
-    }
-
-    function goNext() {
-        console.log("İleri butonuna tıklandı");
-        if (currentIndex < cardCount - cardsPerPage) {
-            currentIndex++;
-            updateCarousel();
-        }
-    }
-
-    if (prevBtn) prevBtn.addEventListener("click", goPrev);
-    if (nextBtn) nextBtn.addEventListener("click", goNext);
-
-    window.addEventListener("resize", updateCarousel);
-    updateCarousel();
 
     // --- OYUNA BAŞLA BUTONU ---
     const btnOyna = document.getElementById('btnoyna');
@@ -590,5 +542,68 @@ document.addEventListener("DOMContentLoaded", function () {
             window.open(oyunUrl, '_blank');
         });
     }
+
+
+    const carouselWrapper = document.querySelector('.character-carousel-wrapper');
+    const carouselContainer = document.querySelector('.character-card-container');
+    const cards = Array.from(document.querySelectorAll('.character-card'));
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    let currentIndex = 1; // Başlangıçta ortadaki kart (Selin) 1. indekste
+
+    // Carousel'i başlat
+    function updateCarousel() {
+        const totalCards = cards.length;
+        // Ortadaki kartın indeksini ayarla
+        const centerIndex = currentIndex;
+        const prevIndex = (currentIndex - 1 + totalCards) % totalCards;
+        const nextIndex = (currentIndex + 1) % totalCards;
+
+        cards.forEach(card => {
+            card.classList.remove('active-center');
+            card.style.opacity = '0.6';
+            card.style.transform = 'scale(0.95)';
+            card.style.pointerEvents = 'none'; // Aktif olmayan kartlara tıklamayı engelle
+        });
+
+        // Ortadaki kartı aktifleştir
+        cards[centerIndex].classList.add('active-center');
+        cards[centerIndex].style.pointerEvents = 'auto'; // Aktif karta tıklamayı etkinleştir
+
+        // Sol ve sağ kartları göster
+        cards[prevIndex].style.opacity = '0.6';
+        cards[prevIndex].style.transform = 'scale(0.95)';
+        cards[prevIndex].style.pointerEvents = 'auto';
+
+        cards[nextIndex].style.opacity = '0.6';
+        cards[nextIndex].style.transform = 'scale(0.95)';
+        cards[nextIndex].style.pointerEvents = 'auto';
+
+        // Geri kalan kartları görünmez yap
+        for(let i = 0; i < totalCards; i++) {
+            if (i !== centerIndex && i !== prevIndex && i !== nextIndex) {
+                cards[i].style.opacity = '0';
+                cards[i].style.pointerEvents = 'none';
+            }
+        }
+
+        // Konumu kaydır
+        const cardWidth = cards[0].offsetWidth + 20; // Kart genişliği + gap
+        carouselContainer.style.transform = `translateX(-${(currentIndex - 1) * cardWidth}px)`;
+    }
+
+    // Buton tıklama olayları
+    prevBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+        updateCarousel();
+    });
+
+    nextBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % cards.length;
+        updateCarousel();
+    });
+
+    // Sayfa yüklendiğinde carousel'i başlat
+    updateCarousel();
 });
 </script>

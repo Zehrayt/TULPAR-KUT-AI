@@ -2,6 +2,7 @@ body {
   background-color: #f8f9fa;
   color: #111827;
   max-width: 100%;
+    overflow-x: hidden; /* Yatay scroll’u gizle */
 }
 
 .height {
@@ -276,29 +277,34 @@ section {
 .next-btn { right: 0; }
 
 .character-carousel {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
-  padding: 0 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px; /* Kartlar arasındaki mesafeyi artırır */
+    transition: transform 0.5s ease-in-out;
+    padding: 0 20px;
+    width: 100%;
+    overflow: hidden;
 }
 
 .character-card {
-  flex: 0 0 calc(50% - 20px);
-  min-width: calc(50% - 20px);
-  box-sizing: border-box;
-  padding: 20px;
-  background-color: white;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  margin: 0 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  opacity: 0.6;
-  transform: scale(0.95);
-  transition: all 0.4s ease;
-  min-height: auto;
+    /* flex-basis değerini artırarak kart genişliğini artırır */
+    flex: 0 0 380px;
+    min-width: 380px;
+    max-width: 420px; /* Maksimum genişlik sınırı koyar */
+    box-sizing: border-box;
+    padding: 20px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    opacity: 0.6;
+    transform: scale(0.95);
+    transition: all 0.4s ease;
+    min-height: auto;
 }
-
 .character-card.active {
   opacity: 1;
   transform: scale(1);
@@ -532,6 +538,7 @@ section {
 }
 
 
+/* FOOTER */
 footer {
   background-color: #343a40;
   color: white;
@@ -556,16 +563,6 @@ footer {
   color: #dc3545;
 }
 
-/* mainPage.css dosyasının en altına bu kuralı ekleyin */
-
-#footer-message {
-  height: auto !important;
-  min-height: 0 !important;
-  resize: none; 
-  overflow: auto;
-
-}
-
 .contact-info p {
   margin-bottom: 15px;
   color: #adb5bd;
@@ -576,6 +573,57 @@ footer {
   color: #dc3545;
 }
 
+.contact-form input,
+.contact-form textarea,
+.contact-form button {
+  width: 100%;
+  box-sizing: border-box; /* padding ve border toplam genişliğe dahil */
+  margin-bottom: 15px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  background-color: #495057;
+  border: none;
+  color: white;
+  padding: 10px;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: #adb5bd;
+}
+
+.contact-form .btn-danger {
+  width: 100%;
+}
+
+#footer-message {
+  height: auto !important;
+  min-height: 0 !important;
+  resize: none; 
+  overflow: auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.copyright {
+  border-top: 1px solid #495057;
+  padding-top: 20px;
+  margin-top: 30px;
+  color: #adb5bd;
+}
+
+/* RESPONSIVE FOOTER */
+@media (max-width: 991.98px) {
+  .footer .row > [class^="col-"] {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+/* DİĞER STİLLER (isteğe bağlı devam edebilir) */
 .social-icons a {
   color: white;
   background-color: #495057;
@@ -594,29 +642,6 @@ footer {
   transform: translateY(-3px);
 }
 
-.copyright {
-  border-top: 1px solid #495057;
-  padding-top: 20px;
-  margin-top: 30px;
-  color: #adb5bd;
-}
-
-.contact-form input,
-.contact-form textarea {
-  background-color: #495057;
-  border: none;
-  color: white;
-  margin-bottom: 15px;
-}
-
-.contact-form input::placeholder,
-.contact-form textarea::placeholder {
-  color: #adb5bd;
-}
-
-.contact-form .btn-danger {
-  width: 100%;
-}
 
 .animate-on-scroll {
   opacity: 0;

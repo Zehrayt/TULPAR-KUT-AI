@@ -26,12 +26,12 @@ body {
 }
 
 .sidebar-header {
-  padding: 20px;
+  padding: 10px;
   background: rgba(0, 0, 0, 0.2);
 }
 
 .sidebar-user-info {
-  padding: 20px 15px;
+  padding: 40px 15px;
   text-align: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
@@ -93,19 +93,39 @@ body {
   border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Ana İçerik Alanı */
+
+/* Ana İçerik Alanı - Boşluk Ekleme */
 #content {
-  margin-left: var(--sidebar-width);
-  width: calc(100% - var(--sidebar-width));
-  min-height: 100vh;
-  transition: all 0.3s;
+    margin-left: var(--sidebar-width);
+    width: calc(100% - var(--sidebar-width));
+    min-height: 100vh;
+    transition: all 0.3s;
+    padding: 20px; /* İçerik alanına genel boşluk ekler */
 }
 
+/* Üst Bar - Alt Boşluk Ekleme */
 .topbar {
-  padding: 15px 20px;
-  background: white;
-  box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+    padding: 15px 20px;
+    background: white;
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+    margin-bottom: 30px; /* Üst barın altına boşluk ekler */
 }
+
+/* Raporlar ve Anketler Sayfalarına Özgü Başlık ve Alan Düzenlemesi */
+#raporlar-content,
+#anketler-content {
+    padding-top: 20px; /* Sayfa içeriğinin üstüne boşluk ekler */
+}
+
+#raporlar-content h4,
+#anketler-content h4 {
+    margin-bottom: 20px; /* Başlıkların altına boşluk ekler */
+    font-size: 1.5rem; /* Başlık font boyutunu küçültür */
+}
+
+/* Ana İçerik Alanı */
+
+
 
 .back-button {
   color: var(--primary-color);
@@ -118,6 +138,8 @@ body {
   border-radius: 10px;
   box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
   margin-bottom: 24px;
+  margin-left: 10px;
+  transition: all 0.3s;
 }
 
 .dashboard-card .card-header {
@@ -126,6 +148,9 @@ body {
   font-weight: 700;
   color: var(--text-dark);
   border-radius: 10px 10px 0 0 !important;
+  margin-left: 10px;
+  transition: all 0.3s;
+  
 }
 
 /* Oyun Bölümü */

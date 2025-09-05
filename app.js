@@ -21,13 +21,67 @@ document.addEventListener("DOMContentLoaded", () => {
             contentContainer.innerHTML = `<div class="alert alert-danger text-center">${error.message}</div>`;
         }
     };
-    
-    // Sadece sayfa linklerini ve çıkış butonunu dinle
+
+    function attachOyunKonusuEvents() {
+        const openBtn = document.getElementById("open-textbox-btn");
+        const closeBtn = document.getElementById("close-btn");
+        const overlay = document.getElementById("overlay");
+
+        if (openBtn && overlay) {
+            openBtn.addEventListener("click", () => {
+                overlay.classList.add("active");
+            });
+        }
+
+        if (closeBtn && overlay) {
+            closeBtn.addEventListener("click", () => {
+                overlay.classList.remove("active");
+            });
+        }
+        if (overlay) {
+            overlay.addEventListener("click", (e) => {
+                if (e.target === overlay) {
+                    overlay.classList.remove("active");
+                }
+            });
+        }
+    }
+
+    const loadSection = async (sectionId) => {
+        try {
+            const response = await fetch("partials/anasayfa.html");
+            if (!response.ok) throw new Error("anasayfa.html bulunamadı.");
+            const html = await response.text();
+            const tempDiv = document.createElement("div");
+            tempDiv.innerHTML = html;
+            const section = tempDiv.querySelector(sectionId);
+            if (section) {
+                contentContainer.innerHTML = "";
+                contentContainer.appendChild(section);
+                window.scrollTo({ top: contentContainer.offsetTop, behavior: "smooth" });
+                if (sectionId === "#oyunkonusu") attachOyunKonusuEvents();
+                if (sectionId === "#stats" || sectionId === "#psikolojik-tahlil") startStatsCounters();
+            } else {
+                throw new Error("Bölüm bulunamadı.");
+            }
+        } catch (error) {
+            console.error("Bölüm Yükleme Hatası:", error);
+            contentContainer.innerHTML = `<div class="alert alert-danger text-center">${error.message}</div>`;
+        }
+    };
+
     document.body.addEventListener('click', function(e) {
         const pageLink = e.target.closest('a[data-page]');
         if (pageLink) {
             e.preventDefault();
             loadPage(pageLink.getAttribute('data-page'));
+            return;
+        }
+
+        const sectionLink = e.target.closest('a[data-section]');
+        if (sectionLink) {
+            e.preventDefault();
+            loadSection(sectionLink.getAttribute('data-section'));
             return;
         }
 

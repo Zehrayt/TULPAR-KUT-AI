@@ -418,6 +418,30 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+
+      document.addEventListener("DOMContentLoaded", function () {
+    // ==========================================================
+    // GİRİŞ YAPAN KULLANICI BİLGİLERİNİ SAYFAYA YAZDIRMA
+    // ==========================================================
+    const loggedInUsername = localStorage.getItem("username");
+
+   
+
+// Bu kullanıcının özel key’leri
+const studentKey = `${loggedInUsername}_students`;
+const classKey   = `${loggedInUsername}_classes`;
+const reportKey  = `${loggedInUsername}_reports`;
+
+
+
+// Örnek: öğrenci ekleme sonrası kaydetme
+function saveData() {
+    localStorage.setItem(studentKey, JSON.stringify(students));
+    localStorage.setItem(classKey, JSON.stringify(classes));
+    localStorage.setItem(reportKey, JSON.stringify(reports));
+}
+
+ 
         // Veri yönetimi için nesneler
         let students = JSON.parse(localStorage.getItem('teacher_students')) || [];
         let classes = JSON.parse(localStorage.getItem('teacher_classes')) || [];
@@ -473,6 +497,46 @@
                     const ogrenciSoyad = document.getElementById("ogrenciSoyad").value;
                     const ogrenciKullaniciAdi = document.getElementById("ogrenciKullaniciAdi").value;
                     const ogrenciSinif = document.getElementById("ogrenciSinif").value;
+
+                    async function addStudent() {
+  const studentUsername = document.getElementById("studentUsername").value.trim();
+  if (!studentUsername) {
+    alert("Lütfen öğrenci kullanıcı adını girin.");
+    return;
+  }
+
+  try {
+    // Backend'e sor: böyle bir kullanıcı var mı?
+    const response = await fetch("/.netlify/functions/checkUser", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username: studentUsername, userType: "student" })
+    });
+
+    const result = await response.json();
+
+    if (response.ok && result.exists) {
+      // Kullanıcı var → öğretmenin öğrencilerine ekle
+      const teacherUsername = localStorage.getItem("username");
+      const studentKey = `${teacherUsername}_students`;
+
+      let students = JSON.parse(localStorage.getItem(studentKey)) || [];
+      if (!students.includes(studentUsername)) {
+        students.push(studentUsername);
+        localStorage.setItem(studentKey, JSON.stringify(students));
+        alert("Öğrenci başarıyla eklendi!");
+      } else {
+        alert("Bu öğrenci zaten listenizde var.");
+      }
+    } else {
+      alert("Böyle bir öğrenci bulunamadı.");
+    }
+  } catch (err) {
+    console.error("Öğrenci ekleme hatası:", err);
+    alert("Sunucuya bağlanırken hata oluştu.");
+  }
+}
+
                     
                     if (ogrenciAd && ogrenciSoyad && ogrenciKullaniciAdi && ogrenciSinif) {
                         // Yeni öğrenci oluştur
@@ -750,6 +814,7 @@
                 alert('Sınıf başarıyla silindi.');
             }
         }
+      });
     </script>
 </body>
 </html>

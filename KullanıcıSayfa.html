@@ -13,6 +13,11 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     />
     <link rel="stylesheet" href="KullanıcıSayfa.css" />
+    <link rel="stylesheet" href="anketler/anketler.css"/>
+    <link rel="stylesheet" href="anketler/style-bigfive.css"/>
+    <link rel="stylesheet" href="anketler/style-kolbs.css"/>
+    <link rel="stylesheet" href="anketler/style-testler.css"/>
+
     <script></script>
   </head>
   <body>
@@ -49,13 +54,13 @@
               <i class="bi bi-bar-chart"></i> Analizler
             </a>
           </li>
-          <li>
-            <a href="#anketler" data-content="anketler">
-              <i class="bi bi-clipboard-data"></i> Anketler
-            </a>
-          </li>
-        </ul>
+         <a href="#anketler" onclick="loadPage('partials/anketler.html', 'loadAnket')" data-content="anketler">
+  <i class="bi bi-clipboard-data"></i> Anketler
+</a>
+</li>
+ </ul>
 
+       
         <div class="sidebar-footer">
           <ul class="sidebar-nav">
             <li>
@@ -71,6 +76,7 @@
           </ul>
         </div>
       </nav>
+
 
       <!-- Ana İçerik -->
       <div id="content">
@@ -200,13 +206,7 @@
 
             <!-- Status container -->
          <div id="latest-report-status" class="mt-3"></div>
-   
           </div>
-         
-
-
-               
-                
               </div>
             </div>
           </div>
@@ -265,7 +265,7 @@
           </div>
 
           <div id="analizler-content" class="content-section d-none">
-            <h4 class="mb-4">Mevcut Anketler</h4>
+            <h4 class="mb-4">Mevcut Analizler</h4>
              <div class="row">
               <!-- IPIP Analizi -->
               <div class="col-12 mb-4">
@@ -351,116 +351,16 @@
           <div id="anketler-content" class="content-section d-none">
             <h4 class="mb-4">Mevcut Anketler</h4>
 
-            <div class="row">
-              <div class="col-md-6 mb-4">
                 <div class="card border-0 shadow-sm h-100">
-                  <div class="card-body">
-                    <div
-                      class="d-flex justify-content-between align-items-start mb-3"
-                    >
-                      <h5 class="card-title mb-0">Depresyon Tarama Testi</h5>
-                      <span class="badge bg-success">Tamamlandı</span>
-                    </div>
-                    <p class="card-text text-muted small">
-                      Son tamamlanma: 15.06.2023
-                    </p>
-                    <div class="progress mb-3" style="height: 6px">
-                      <div
-                        class="progress-bar bg-success"
-                        role="progressbar"
-                        style="width: 100%"
-                      ></div>
-                    </div>
-                    <a href="#" class="btn btn-sm btn-outline-primary"
-                      >Sonuçları Görüntüle</a
-                    >
-                    <a href="#" class="btn btn-sm btn-outline-secondary ms-2"
-                      >Testi Tekrarla</a
-                    >
-                  </div>
+                  <div id="loadAnket"></div>
+               
+                    
                 </div>
               </div>
 
-              <div class="col-md-6 mb-4">
-                <div class="card border-0 shadow-sm h-100">
-                  <div class="card-body">
-                    <div
-                      class="d-flex justify-content-between align-items-start mb-3"
-                    >
-                      <h5 class="card-title mb-0">Anksiyete Ölçeği</h5>
-                      <span class="badge bg-warning text-dark"
-                        >Devam Ediyor</span
-                      >
-                    </div>
-                    <p class="card-text text-muted small">
-                      Son güncelleme: 20.06.2023
-                    </p>
-                    <div class="progress mb-3" style="height: 6px">
-                      <div
-                        class="progress-bar bg-warning"
-                        role="progressbar"
-                        style="width: 65%"
-                      ></div>
-                    </div>
-                    <a href="#" class="btn btn-sm btn-primary"
-                      >Teste Devam Et</a
-                    >
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-6 mb-4">
-                <div class="card border-0 shadow-sm h-100">
-                  <div class="card-body">
-                    <div
-                      class="d-flex justify-content-between align-items-start mb-3"
-                    >
-                      <h5 class="card-title mb-0">Kişilik Envanteri</h5>
-                      <span class="badge bg-danger">Başlanmadı</span>
-                    </div>
-                    <p class="card-text text-muted small">Son erişim: Hiç</p>
-                    <div class="progress mb-3" style="height: 6px">
-                      <div
-                        class="progress-bar bg-danger"
-                        role="progressbar"
-                        style="width: 0%"
-                      ></div>
-                    </div>
-                    <a href="#" class="btn btn-sm btn-danger">Teste Başla</a>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-6 mb-4">
-                <div class="card border-0 shadow-sm h-100">
-                  <div class="card-body">
-                    <div
-                      class="d-flex justify-content-between align-items-start mb-3"
-                    >
-                      <h5 class="card-title mb-0">Stres Düzeyi Testi</h5>
-                      <span class="badge bg-success">Tamamlandı</span>
-                    </div>
-                    <p class="card-text text-muted small">
-                      Son tamamlanma: 10.06.2023
-                    </p>
-                    <div class="progress mb-3" style="height: 6px">
-                      <div
-                        class="progress-bar bg-success"
-                        role="progressbar"
-                        style="width: 100%"
-                      ></div>
-                    </div>
-                    <a href="#" class="btn btn-sm btn-outline-primary"
-                      >Sonuçları Görüntüle</a
-                    >
-                    <a href="#" class="btn btn-sm btn-outline-secondary ms-2"
-                      >Testi Tekrarla</a
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          
+       
+         
 
           <div id="ayarlar-content" class="content-section d-none">
             <div class="card dashboard-card">
@@ -525,6 +425,8 @@
               </div>
             </div>
           </div>
+             </div>
+</div>
         </div>
       </div>
     </div>
@@ -533,6 +435,30 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
+function loadPage(page, targetId = "loadAnket") {
+    fetch(page)
+        .then(response => response.text())
+        .then(data => {
+            const container = document.getElementById(targetId);
+            container.innerHTML = data;
+
+            // Sayfadaki script taglerini çalıştır
+            const scripts = container.querySelectorAll("script");
+            scripts.forEach(oldScript => {
+                const newScript = document.createElement("script");
+                if (oldScript.src) {
+                    newScript.src = oldScript.src;
+                } else {
+                    newScript.textContent = oldScript.textContent;
+                }
+                document.body.appendChild(newScript);
+                oldScript.remove(); // eski script tagini temizle
+            });
+        })
+        .catch(error => console.error("Sayfa yüklenemedi:", error));
+}
+
+
   document.addEventListener("DOMContentLoaded", function () {
     // ==========================================================
     // GİRİŞ YAPAN KULLANICI BİLGİLERİNİ SAYFAYA YAZDIRMA
@@ -583,7 +509,7 @@
     // ==========================================================
     // SIDEBAR NAVİGASYON VE Rapor Yükleme
     // ==========================================================
-    const navLinks = document.querySelectorAll(".sidebar-nav a[data-content]");
+    const navLinks = document.querySelectorAll("nav#sidebar a[data-content]");
     const contentSections = document.querySelectorAll(".content-section");
 
     navLinks.forEach((link) => {
@@ -756,6 +682,9 @@
             }
         }
     });
+
+
+
 });
 </script>
 </body>

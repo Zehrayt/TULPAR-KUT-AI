@@ -1,226 +1,163 @@
-.bg-light-custom {
-  background-color: rgba(248, 249, 250, 0.8);
-}
+ :root {
+            --primary-color: #4c73e7;
+            --secondary-color: #f8f9fc;
+            --accent-color: #36b9cc;
+            --text-dark: #5a5c69;
+            --text-light: #b7b9cc;
+            --sidebar-width: 250px;
+        }
 
-.chat-messages {
-  background-color: #f8f9fa;
-  padding: 15px;
-}
+        body {
+            font-family: "Nunito", "Segoe UI", system-ui, sans-serif;
+            background-color: #f8f9fc;
+            overflow-x: hidden;
+            color: var(--text-dark);
+        }
 
-.message {
-  max-width: 80%;
-}
+        /* Sidebar Stilleri */
+        #sidebar {
+            position: fixed;
+            width: var(--sidebar-width);
+            min-height: 100vh;
+            background: linear-gradient(180deg, var(--primary-color) 0%, #9fa5b4 100%);
+            color: white;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
 
-.message.sent {
-  margin-left: auto;
-}
+        .sidebar-header {
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+        }
 
-.message.received {
-  margin-right: auto;
-}
+        .sidebar-user-info {
+            padding: 40px 15px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
 
-.message-content {
-  position: relative;
-  word-wrap: break-word;
-}
+        .sidebar-user-info img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
 
-.message.sent .message-content {
-  background-color: linear-gradient(135deg, #667eea, #4257e1);
-  color: white;
-}
+        .sidebar-user-info h5 {
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
 
-.message.received .message-content {
-  background-color: #e9ecef;
-}
+        .sidebar-user-info p {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
 
-/* Tab içerikleri için animasyon */
-.tab-content > .tab-pane {
-  padding: 15px 0;
-}
+        .sidebar-nav {
+            padding: 0;
+            list-style: none;
+        }
 
-/* Kart gölgeleri */
-.card {
-  transition: all 0.3s ease;
-}
+        .sidebar-nav li {
+            position: relative;
+        }
 
-.card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
-}
+        .sidebar-nav a {
+            padding: 15px 20px;
+            display: block;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
 
-:root {
-  --primary-color: #dc3545;
-  --secondary-color: #343a40;
-  --light-color: #f8f9fa;
-}
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            border-left: 3px solid white;
+        }
 
-body {
-  background-color: #f8f9fa;
-  color: #111827;
-}
+        .sidebar-nav a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
 
-.height {
-  height: 90px;
-}
+        .sidebar-footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
 
-.font {
-  font-family: sans-serif;
-}
+        /* Ana İçerik Alanı */
+        #content {
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            min-height: 100vh;
+            transition: all 0.3s;
+            padding: 20px;
+        }
 
-.navbar {
-  margin: 5px;
-  height: 8vh;
-  font-size: 17px;
-}
+        .topbar {
+            padding: 15px 20px;
+            background: white;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            margin-bottom: 30px;
+        }
 
-.nav-link {
-  position: relative;
-  padding-bottom: 5px;
-  transition: all 0.3s ease;
-  color: var(--secondary-color);
-}
+        .dashboard-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+            margin-bottom: 24px;
+            transition: all 0.3s;
+        }
 
-.navbar-center .nav-link:not(.dropdown-toggle)::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 0;
-  height: 2px;
-  background-color: #dc3545; /* Kırmızı çizgi */
-  transition: all 0.3s ease;
-  transform: translateX(-50%);
-}
+        .dashboard-card .card-header {
+            background: white;
+            border-bottom: 1px solid #e3e6f0;
+            font-weight: 700;
+            color: var(--text-dark);
+            border-radius: 10px 10px 0 0 !important;
+        }
 
-.dropdown-menu {
-  transform: translateY(10px);
-  transition: all 0.3s ease-in-out;
-}
+        .filter-section {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
 
-.dropdown-menu.show {
-  margin-right: 10px;
-  display: block;
-  opacity: 1;
-  transform: translateY(0);
-}
+        .student-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
 
-.dropdown-item {
-  transition: all 0.2s ease;
-  padding: 8px 16px;
-}
+        .class-badge {
+            cursor: pointer;
+        }
 
-.dropdown-item:hover {
-  background-color: #f8f9fa;
-  color: #dc3545;
-  font-weight: 500;
-  transform: scale(1.05);
-}
+        @media (max-width: 768px) {
+            #sidebar {
+                margin-left: -var(--sidebar-width);
+                width: var(--sidebar-width);
+            }
 
-.dropdown-toggle::after {
-  display: none !important;
-}
+            #content {
+                width: 100%;
+                margin-left: 0;
+            }
 
-.dropdown-toggle:hover::after {
-  transform: translateY(2px);
-}
+            #sidebar.active {
+                margin-left: 0;
+            }
 
-/* Navbar butonları */
-.btn-outline-primary {
-  border-color: linear-gradient(135deg, #667eea, #4257e1);
-  color: var(--light-color);
-  transition: all 0.3s ease;
-}
-
-.btn-outline-primary:hover {
-  background-color: linear-gradient(135deg, #667eea, #4257e1);
-  color: white;
-  transform: translateY(-2px);
-}
-
-.btn-danger {
-  transition: all 0.3s ease;
-}
-
-.btn-danger:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
-}
-
-/* Mobile menü için */
-@media (max-width: 991.98px) {
-  .navbar-collapse {
-    position: static;
-    transform: none;
-    text-align: center;
-    background-color: white;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    margin-top: 10px;
-  }
-
-  .navbar-nav {
-    gap: 10px !important;
-  }
-
-  .nav-link::after {
-    display: none;
-  }
-}
-.navbar-center {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.navbar-right {
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-}
-
-.dropdown-menu {
-  margin-right: 10px;
-  transform: none;
-  transition: none;
-  display: none;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.3s ease-in-out;
-}
-
-.nav-item.dropdown:hover .dropdown-menu {
-  display: block;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.team-card,
-.advisor-card {
-  transition: all 0.3s ease;
-}
-
-.team-card:hover,
-.advisor-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-/* Tab başlıkları */
-.nav-tabs .nav-link {
-  border: none;
-  color: #495057;
-  font-weight: 500;
-  padding: 12px 20px;
-}
-.nav-tabs .nav-link.active {
-  background: linear-gradient(135deg, #667eea, #4257e1);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.nav-tabs .nav-link:hover {
-  border-color: transparent;
-  color: linear-gradient(135deg, #667eea, #4257e1);
-}
+            #content.active {
+                margin-left: var(--sidebar-width);
+                width: calc(100% - var(--sidebar-width));
+            }
+        }

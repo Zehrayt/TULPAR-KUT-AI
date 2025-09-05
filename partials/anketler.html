@@ -1,0 +1,21 @@
+<main class="main-content">
+  <div class="page-title">
+    <h1>Testinizi Seçin</h1>
+    <p>
+      Kendinizi daha iyi tanımak için aşağıdaki testlerden birini
+      çözebilirsiniz.
+    </p>
+  </div>
+  <div class="test-container">
+<a href="#" class="test-box" onclick="loadPage('partials/kolbs.html', 'loadAnket')">
+  <h2>Öğrenme Stilini Keşfet!</h2>
+</a>
+
+<a href="#" class="test-box" onclick="loadPage('partials/bigfive.html', 'loadAnket')">
+  <h2>Big Five Kişilik Testi</h2>
+</a>
+  </div>
+</main>
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>

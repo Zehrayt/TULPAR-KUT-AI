@@ -441,3 +441,89 @@ input:not(:placeholder-shown) + .floating-label {
     padding: 70px 20px 30px 20px;
   }
 }
+
+
+/* FOOTER */
+footer {
+  background-color: #343a40;
+  color: white;
+  padding: 60px 0 30px;
+}
+
+.footer h5 {
+  color: #fff;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.footer-links a {
+  color: #adb5bd;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 10px;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: #dc3545;
+}
+
+.contact-info p {
+  margin-bottom: 15px;
+  color: #adb5bd;
+}
+
+.contact-info i {
+  margin-right: 10px;
+  color: #dc3545;
+}
+
+.contact-form input,
+.contact-form textarea,
+.contact-form button {
+  width: 100%;
+  box-sizing: border-box; /* padding ve border toplam genişliğe dahil */
+  margin-bottom: 15px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  background-color: #495057;
+  border: none;
+  color: white;
+  padding: 10px;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: #adb5bd;
+}
+
+.contact-form .btn-danger {
+  width: 100%;
+}
+
+#footer-message {
+  height: auto !important;
+  min-height: 0 !important;
+  resize: none; 
+  overflow: auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.copyright {
+  border-top: 1px solid #495057;
+  padding-top: 20px;
+  margin-top: 30px;
+  color: #adb5bd;
+}
+
+/* RESPONSIVE FOOTER */
+@media (max-width: 991.98px) {
+  .footer .row > [class^="col-"] {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
+}

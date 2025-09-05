@@ -1,548 +1,755 @@
-
-    <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Doktor Paneli</title>
-    <link rel="stylesheet" href="OgretmenSayfa.css" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-    />
-
-  </head>
-
-  <body class="bg-light">
-    <div style="font-size: 17px">
-      <nav
-        class="navbar navbar-expand-lg bg-white position-relative py-2 font height:10vh shadow-sm"
-      >
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">Kut-AI</a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarMain"
-          >
-      
-
-          <div class="d-flex gap-2 navbar-right">
-            <div class="dropdown">
-              <button class="btn btn-outline-secondary dropdown-toggle rounded-5 px-3" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
-                <i class="bi bi-person-circle me-1"></i>Ayşe Demir
-              </button>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="#">Profil</a></li>
-                <li><a class="dropdown-item" href="#">Ayarlar</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item text-danger" href="index.html">Çıkış Yap</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </nav>
-    </div>
-
-    <div class="container-fluid py-4">
-      <div class="row">
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Öğretmen Paneli - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="OgretmenSayfa.css">
+</head>
+<body>
+    <div class="d-flex">
         <!-- Sidebar -->
-        <div class="col-lg-3 d-none d-lg-block">
-          <div class="card shadow-sm rounded-3 border-0 mb-4">
-            <div class="card-body text-center py-4">
-          
-              <h5 class="mb-1">Ayşe Demir</h5>
-              <p class="text-muted small">pdr@example.com</p>
-              <div class="d-flex justify-content-center gap-2 mt-3">
-                <span class="badge bg-primary">Pdr Öğretmeni</span>
-                <span class="badge bg-success">Çevrimiçi</span>
-              </div>
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>Kut-AI</h3>
             </div>
-          </div>
-          
-          <div class="card shadow-sm rounded-3 border-0 mb-4">
-            <div class="card-body">
-              <h6 class="fw-bold mb-3">Öğrenci İstatistikleri</h6>
-              <div class="d-flex justify-content-between mb-2">
-                <span class="small">Toplam Öğrenci</span>
-                <span class="fw-bold">42</span>
-              </div>
-              <div class="d-flex justify-content-between mb-2">
-                <span class="small">Aktif Öğrenci</span>
-                <span class="fw-bold">18</span>
-              </div>
-              <div class="d-flex justify-content-between mb-2">
-                <span class="small">Bu Ay Yeni</span>
-                <span class="fw-bold">5</span>
-              </div>
-           
-            </div>
-          </div>
-          
-          <div class="card shadow-sm rounded-3 border-0">
-            <div class="card-body">
-              <h6 class="fw-bold mb-3">Öğrenci Ekle</h6>
-              <form>
-                <div class="mb-3">
-                  <label for="patientId" class="form-label small">Öğrenci Kullanıcı Adı</label>
-                  <input type="text" class="form-control form-control-sm" id="patientId" placeholder="Öğrenci Kullanıcı Adı girin">
-                </div>
-                <div class="mb-3">
-                  <label for="patientName" class="form-label small">Hasta Adı</label>
-                  <input type="text" class="form-control form-control-sm" id="patientName" placeholder="Ad Soyad">
-                </div>
-                <button type="submit" class="btn btn-sm btn-primary w-100">Öğrenci Ekle</button>
-              </form>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Main Content -->
-        <div class="col-lg-9">
-          <div class="card shadow-sm rounded-3 border-0 mb-4">
-            <div class="card-body p-0">
-              <ul class="nav nav-tabs" id="doctorTabs" role="tablist">
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link active" id="ogrenciler-tab" data-bs-toggle="tab" data-bs-target="#ogrenciler" type="button" role="tab">Öğrencilerim</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link " id="anketler-tab" data-bs-toggle="tab" data-bs-target="#anketler" type="button" role="tab">Anketler</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="raporlar-tab" data-bs-toggle="tab" data-bs-target="#raporlar" type="button" role="tab">Raporlar</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="mesajlar-tab" data-bs-toggle="tab" data-bs-target="#mesajlar" type="button" role="tab">Mesajlar</button>
-                </li>
 
-              </ul>
-              
-              <div class="tab-content p-4" id="teacherTabsContent">
-                <!-- Öğrenciler Tab -->
-                <div class="tab-pane fade show active" id="ogrenciler" role="tabpanel">
-                  <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="mb-0">Öğrenci Listesi</h4>
-                    <div class="input-group" style="width: 300px;">
-                      <input type="text" class="form-control" placeholder="Öğrenci ara...">
-                      <button class="btn btn-outline-secondary" type="button">
-                        <i class="bi bi-search"></i>
-                      </button>
-                    </div>
-                  </div>
-                  
-                  <div class="table-responsive">
-                    <table class="table table-hover">
-                      <thead>
-                        <tr>
-                          <th>Öğrenci Kullanıcı Adı</th>
-                          <th>Ad Soyad</th>
-                          <th>Son Görüşme</th>
-                          <th>Durum</th>
-                          <th>İşlemler</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>#STU-1001</td>
-                          <td>
-                            <div class="d-flex align-items-center">
-                           
-                              Ahmet Yılmaz
-                            </div>
-                          </td>
-                          <td>15.06.2023</td>
-                          <td><span class="badge bg-success">Aktif</span></td>
-                          <td>
-                            <button class="btn btn-sm btn-outline-primary">Profil</button>
-                            <button class="btn btn-sm btn-outline-secondary">Mesaj</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>#STU-1002</td>
-                          <td>
-                            <div class="d-flex align-items-center">
-                          
-                              Mehmet Kaya
-                            </div>
-                          </td>
-                          <td>10.06.2023</td>
-                          <td><span class="badge bg-warning text-dark">Beklemede</span></td>
-                          <td>
-                            <button class="btn btn-sm btn-outline-primary">Profil</button>
-                            <button class="btn btn-sm btn-outline-secondary">Mesaj</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>#STU-1003</td>
-                          <td>
-                            <div class="d-flex align-items-center">
-                             
-                              Zeynep Akın
-                            </div>
-                          </td>
-                          <td>05.06.2023</td>
-                          <td><span class="badge bg-danger">Pasif</span></td>
-                          <td>
-                            <button class="btn btn-sm btn-outline-primary">Profil</button>
-                            <button class="btn btn-sm btn-outline-secondary">Mesaj</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>#STU-1004</td>
-                          <td>
-                            <div class="d-flex align-items-center">
-                            
-                              Fatma Şahin
-                            </div>
-                          </td>
-                          <td>01.06.2023</td>
-                          <td><span class="badge bg-success">Aktif</span></td>
-                          <td>
-                            <button class="btn btn-sm btn-outline-primary">Profil</button>
-                            <button class="btn btn-sm btn-outline-secondary">Mesaj</button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  
-                  <nav aria-label="Page navigation">
-                    <ul class="pagination justify-content-center">
-                      <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1">Önceki</a>
-                      </li>
-                      <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                      <li class="page-item"><a class="page-link" href="#">2</a></li>
-                      <li class="page-item"><a class="page-link" href="#">3</a></li>
-                      <li class="page-item">
-                        <a class="page-link" href="#">Sonraki</a>
-                      </li>
-                    </ul>
-                  </nav>
-                </div>
-             
-                <div class="tab-pane fade " id="anketler" role="tabpanel">
-                  <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="mb-0">Öğrenci Anketleri</h4>
-                    <div class="btn-group">
-                      <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                        <i class="bi bi-filter"></i> Filtrele
-                      </button>
-                      <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#">Tüm Anketler</a></li>
-                        <li><a class="dropdown-item" href="#">Tamamlananlar</a></li>
-                        <li><a class="dropdown-item" href="#">Devam Edenler</a></li>
-                        <li><a class="dropdown-item" href="#">Başlamayanlar</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                  
-                  <div class="row">
-                    <div class="col-md-6 mb-4">
-                      <div class="card border-0 shadow-sm h-100">
-                        <div class="card-body">
-                          <div class="d-flex justify-content-between align-items-start mb-3">
-                            <div>
-                              <h5 class="card-title mb-0">Ahmet Yılmaz</h5>
-                              <p class="card-text small text-muted mb-0">#PAT-1001</p>
-                            </div>
-                            <span class="badge bg-success">Tamamlandı</span>
-                          </div>
-                          <hr>
-                          <h6 class="mb-3">Depresyon Tarama Testi</h6>
-                          <div class="progress mb-3" style="height: 6px;">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%;"></div>
-                          </div>
-                          <div class="d-flex justify-content-between small text-muted mb-3">
-                            <span>Son tamamlanma: 15.06.2023</span>
-                            <span>Skor: 14/30</span>
-                          </div>
-                          <div class="d-flex gap-2">
-                            <a href="#" class="btn btn-sm btn-outline-primary flex-grow-1">Sonuçları İncele</a>
-                            <a href="#" class="btn btn-sm btn-outline-secondary">Hasta Profili</a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div class="col-md-6 mb-4">
-                      <div class="card border-0 shadow-sm h-100">
-                        <div class="card-body">
-                          <div class="d-flex justify-content-between align-items-start mb-3">
-                            <div>
-                              <h5 class="card-title mb-0">Mehmet Kaya</h5>
-                              <p class="card-text small text-muted mb-0">#PAT-1002</p>
-                            </div>
-                            <span class="badge bg-warning text-dark">Devam Ediyor</span>
-                          </div>
-                          <hr>
-                          <h6 class="mb-3">Anksiyete Ölçeği</h6>
-                          <div class="progress mb-3" style="height: 6px;">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: 65%;"></div>
-                          </div>
-                          <div class="d-flex justify-content-between small text-muted mb-3">
-                            <span>Son güncelleme: 20.06.2023</span>
-                            <span>Skor: -</span>
-                          </div>
-                          <div class="d-flex gap-2">
-                            <a href="#" class="btn btn-sm btn-outline-primary flex-grow-1">Sonuçları İncele</a>
-                            <a href="#" class="btn btn-sm btn-outline-secondary">Hasta Profili</a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div class="col-md-6 mb-4">
-                      <div class="card border-0 shadow-sm h-100">
-                        <div class="card-body">
-                          <div class="d-flex justify-content-between align-items-start mb-3">
-                            <div>
-                              <h5 class="card-title mb-0">Zeynep Akın</h5>
-                              <p class="card-text small text-muted mb-0">#PAT-1003</p>
-                            </div>
-                            <span class="badge bg-danger">Başlamadı</span>
-                          </div>
-                          <hr>
-                          <h6 class="mb-3">Kişilik Envanteri</h6>
-                          <div class="progress mb-3" style="height: 6px;">
-                            <div class="progress-bar bg-danger" role="progressbar" style="width: 0%;"></div>
-                          </div>
-                          <div class="d-flex justify-content-between small text-muted mb-3">
-                            <span>Son erişim: Hiç</span>
-                            <span>Skor: -</span>
-                          </div>
-                          <div class="d-flex gap-2">
-                            <button class="btn btn-sm btn-outline-secondary flex-grow-1" disabled>Sonuçları İncele</button>
-                            <a href="#" class="btn btn-sm btn-outline-secondary">Hasta Profili</a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div class="col-md-6 mb-4">
-                      <div class="card border-0 shadow-sm h-100">
-                        <div class="card-body">
-                          <div class="d-flex justify-content-between align-items-start mb-3">
-                            <div>
-                              <h5 class="card-title mb-0">Fatma Şahin</h5>
-                              <p class="card-text small text-muted mb-0">#PAT-1004</p>
-                            </div>
-                            <span class="badge bg-success">Tamamlandı</span>
-                          </div>
-                          <hr>
-                          <h6 class="mb-3">Stres Düzeyi Testi</h6>
-                          <div class="progress mb-3" style="height: 6px;">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%;"></div>
-                          </div>
-                          <div class="d-flex justify-content-between small text-muted mb-3">
-                            <span>Son tamamlanma: 10.06.2023</span>
-                            <span>Skor: 22/40</span>
-                          </div>
-                          <div class="d-flex gap-2">
-                            <a href="#" class="btn btn-sm btn-outline-primary flex-grow-1">Sonuçları İncele</a>
-                            <a href="#" class="btn btn-sm btn-outline-secondary">Hasta Profili</a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                <!-- Raporlar Tab -->
-                <div class="tab-pane fade" id="raporlar" role="tabpanel">
-                  <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="mb-0">Öğrenci Raporları</h4>
-                    <div>
-                   
-                      <button class="btn btn-sm btn-outline-secondary">
-                        <i class="bi bi-download"></i> Tümünü İndir
-                      </button>
-                    </div>
-                  </div>
-                  
-                  <div class="table-responsive">
-                    <table class="table table-hover">
-                      <thead>
-                        <tr>
-                          <th>Rapor No</th>
-                          <th>Hasta</th>
-                          <th>Tarih</th>
-                          <th>Tür</th>
-                        
-                          <th>İşlemler</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>#RPT-2023-001</td>
-                          <td>Ahmet Yılmaz (#PAT-1001)</td>
-                          <td>15.06.2023</td>
-                          <td>Psikolojik Değerlendirme</td>
-                          <td>
-                            <button class="btn btn-sm btn-outline-primary">Görüntüle</button>
-                            <button class="btn btn-sm btn-outline-danger">İndir</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>#RPT-2023-002</td>
-                          <td>Mehmet Kaya (#PAT-1002)</td>
-                          <td>10.06.2023</td>
-                          <td>Terapi Süreci</td>
-                          
-                          <td>
-                            <button class="btn btn-sm btn-outline-primary">Görüntüle</button>
-                            <button class="btn btn-sm btn-outline-danger">İndir</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>#RPT-2023-003</td>
-                          <td>Zeynep Akın (#PAT-1003)</td>
-                          <td>05.06.2023</td>
-                          <td>İlk Görüşme</td>
-                          
-                          <td>
-                            <button class="btn btn-sm btn-outline-primary">Görüntüle</button>
-                            <button class="btn btn-sm btn-outline-danger">İndir</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>#RPT-2023-004</td>
-                          <td>Fatma Şahin (#PAT-1004)</td>
-                          <td>01.06.2023</td>
-                          <td>Psikolojik Değerlendirme</td>
-                        
-                          <td>
-                            <button class="btn btn-sm btn-outline-primary">Görüntüle</button>
-                            <button class="btn btn-sm btn-outline-danger">İndir</button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-                
-                <!-- Mesajlar Tab -->
-                <div class="tab-pane fade" id="mesajlar" role="tabpanel">
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="card border-0 shadow-sm h-100">
-                        <div class="card-header bg-white border-0">
-                          <h5 class="mb-0">Öğrencilerim</h5>
-                        </div>
-                        <div class="card-body p-0">
-                          <div class="list-group list-group-flush">
-                            <a href="#" class="list-group-item list-group-item-action active">
-                              <div class="d-flex align-items-center">
-                              
-                                <div>
-                                  <h6 class="mb-0">Ahmet Yılmaz</h6>
-                                  <small class="text-white-50">Son mesaj: 15 dk önce</small>
-                                </div>
-                              </div>
-                            </a>
-                            <a href="#" class="list-group-item list-group-item-action">
-                              <div class="d-flex align-items-center">
-                             
-                                <div>
-                                  <h6 class="mb-0">Mehmet Kaya</h6>
-                                  <small class="text-muted">Son mesaj: 2 gün önce</small>
-                                </div>
-                              </div>
-                            </a>
-                            <a href="#" class="list-group-item list-group-item-action">
-                              <div class="d-flex align-items-center">
-                              
-                                <div>
-                                  <h6 class="mb-0">Zeynep Akın</h6>
-                                  <small class="text-muted">Son mesaj: 1 hafta önce</small>
-                                </div>
-                              </div>
-                            </a>
-                            <a href="#" class="list-group-item list-group-item-action">
-                              <div class="d-flex align-items-center">
-                              
-                                <div>
-                                  <h6 class="mb-0">Fatma Şahin</h6>
-                                  <small class="text-muted">Son mesaj: 2 hafta önce</small>
-                                </div>
-                              </div>
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div class="col-md-8">
-                      <div class="card border-0 shadow-sm h-100">
-                        <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
-                          <div class="d-flex align-items-center">
-                       
-                            <div>
-                              <h5 class="mb-0">Ahmet Yılmaz (#PAT-1001)</h5>
-                              <small class="text-muted">Çevrimiçi</small>
-                            </div>
-                          </div>
-                          <div>
-                            <button class="btn btn-sm btn-outline-secondary">
-                              <i class="bi bi-telephone"></i>
-                            </button>
-                            <button class="btn btn-sm btn-outline-secondary ms-2">
-                              <i class="bi bi-three-dots-vertical"></i>
-                            </button>
-                          </div>
-                        </div>
-                        
-                        <div class="card-body chat-messages" style="height: 400px; overflow-y: auto;">
-                          <div class="message received mb-3">
-                            <div class="message-content bg-light p-3 rounded">
-                              <p class="mb-0">Merhaba Doktor Hanım, son test sonuçlarımı merak ediyorum. Ne zaman görüşebiliriz?</p>
-                              <small class="text-muted d-block text-end mt-1">15:30 - 15.06.2023</small>
-                            </div>
-                          </div>
-                          
-                          <div class="message sent mb-3">
-                            <div class="message-content bg-primary text-white p-3 rounded">
-                              <p class="mb-0">Merhaba Ahmet Bey, sonuçlarınızı inceledim. Yarın saat 14:00 uygun mudur?</p>
-                              <small class="text-white-50 d-block text-end mt-1">15:32 - 15.06.2023</small>
-                            </div>
-                          </div>
-                          
-                          <div class="message received mb-3">
-                            <div class="message-content bg-light p-3 rounded">
-                              <p class="mb-0">Yarın 14:00 uygun. Randevu oluşturdum. Görüşmek üzere, iyi günler.</p>
-                              <small class="text-muted d-block text-end mt-1">15:35 - 15.06.2023</small>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        <div class="card-footer bg-white border-0">
-                          <div class="input-group">
-                            <input type="text" class="form-control rounded-start" placeholder="Mesaj yazın...">
-                            <button class="btn btn-primary rounded-end" type="button">
-                              <i class="bi bi-send"></i>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
- 
-
-              </div>
+            <div class="sidebar-user-info">
+                <h5 class="user-username-display">Öğretmen Adı</h5>
+                <span class="badge bg-info">Öğretmen</span>
             </div>
-          </div>
+
+            <ul class="sidebar-nav">
+                <li>
+                    <a href="#dashboard" class="active" data-content="dashboard">
+                        <i class="bi bi-speedometer2"></i> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="#ogrenciler" data-content="ogrenciler">
+                        <i class="bi bi-people-fill"></i> Öğrenciler
+                    </a>
+                </li>
+                <li>
+                    <a href="#siniflarim" data-content="siniflarim">
+                        <i class="bi bi-building"></i> Sınıflarım
+                    </a>
+                </li>
+                <li>
+                    <a href="#raporlar" data-content="raporlar">
+                        <i class="bi bi-file-text"></i> Raporlar
+                    </a>
+                </li>
+                <li>
+                    <a href="#analizler" data-content="analizler">
+                        <i class="bi bi-bar-chart"></i> Analizler
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <ul class="sidebar-nav">
+                    <li>
+                        <a href="#ayarlar" data-content="ayarlar">
+                            <i class="bi bi-gear"></i> Ayarlar
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="logout-link">
+                            <i class="bi bi-box-arrow-right"></i> Çıkış Yap
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Ana İçerik -->
+        <div id="content">
+            <!-- Topbar -->
+            <div class="topbar mb-4">
+                <div class="d-flex align-items-center">
+                    <a href="javascript:history.back()" class="back-button">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <h4 class="mb-0">Öğretmen Paneli</h4>
+                </div>
+            </div>
+
+            <!-- İçerik Alanı -->
+            <div class="container-fluid">
+                <!-- Dashboard İçeriği -->
+                <div id="dashboard-content" class="content-section">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card dashboard-card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Hoş Geldiniz, <span class="user-username-display">Öğretmen Adı</span>!</h4>
+                                    <p class="card-text">
+                                        Kut-AI öğretmen yönetim paneline hoş geldiniz. Buradan öğrencilerinizi yönetebilir, 
+                                        raporlarını görüntüleyebilir ve analizleri inceleyebilirsiniz.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="card dashboard-card">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold">Sınıf İstatistikleri</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="card bg-primary text-white mb-4">
+                                                <div class="card-body">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div>
+                                                            <div class="text-white-50 small">Toplam Öğrenci</div>
+                                                            <div class="fs-4 fw-bold" id="total-students">0</div>
+                                                        </div>
+                                                        <i class="bi bi-people-fill fs-1"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="card bg-success text-white mb-4">
+                                                <div class="card-body">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div>
+                                                            <div class="text-white-50 small">Tamamlanan Raporlar</div>
+                                                            <div class="fs-4 fw-bold" id="total-reports">0</div>
+                                                        </div>
+                                                        <i class="bi bi-file-text fs-1"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card dashboard-card">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold">Son Eklenen Öğrenciler</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="list-group list-group-flush" id="latest-students">
+                                        <div class="alert alert-info" id="no-students-alert">
+                                            Henüz öğrenci eklenmemiş. <a href="#ogrenciler" data-content="ogrenciler" class="alert-link">Öğrenci eklemek için tıklayın</a>.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Öğrenciler İçeriği -->
+                <div id="ogrenciler-content" class="content-section d-none">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4 class="mb-0">Öğrenci Yönetimi</h4>
+                        <div>
+                            <button class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#sinifEkleModal">
+                                <i class="bi bi-plus-circle"></i> Sınıf Ekle
+                            </button>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ogrenciEkleModal">
+                                <i class="bi bi-plus-circle"></i> Yeni Öğrenci Ekle
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card dashboard-card">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold">Öğrenci Listesi</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Ad Soyad</th>
+                                            <th>Kullanıcı Adı</th>
+                                            <th>Sınıf</th>
+                                            <th>İşlemler</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="students-table-body">
+                                        <!-- Öğrenci listesi JavaScript ile buraya eklenecek -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div id="no-students-message" class="alert alert-info mt-3 d-none">
+                                Henüz öğrenci eklenmemiş. <a href="#" data-bs-toggle="modal" data-bs-target="#ogrenciEkleModal" class="alert-link">İlk öğrenciyi eklemek için tıklayın</a>.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sınıflarım İçeriği -->
+                <div id="siniflarim-content" class="content-section d-none">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4 class="mb-0">Sınıf Yönetimi</h4>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sinifEkleModal">
+                            <i class="bi bi-plus-circle"></i> Yeni Sınıf Ekle
+                        </button>
+                    </div>
+
+                    <div class="card dashboard-card">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold">Sınıf Listesi</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row" id="classes-container">
+                                <!-- Sınıf kartları JavaScript ile buraya eklenecek -->
+                            </div>
+                            <div id="no-classes-message" class="alert alert-info mt-3">
+                                Henüz sınıf eklenmemiş. <a href="#" data-bs-toggle="modal" data-bs-target="#sinifEkleModal" class="alert-link">İlk sınıfı eklemek için tıklayın</a>.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Raporlar İçeriği -->
+                <div id="raporlar-content" class="content-section d-none">
+                    <h4 class="mb-4">Öğrenci Raporları</h4>
+
+                    <div class="filter-section mb-4">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="sinifFilter" class="form-label">Sınıf Filtresi</label>
+                                <select class="form-select" id="sinifFilter">
+                                    <option value="">Tüm Sınıflar</option>
+                                    <!-- Sınıf seçenekleri JavaScript ile buraya eklenecek -->
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="ogrenciAra" class="form-label">Öğrenci Ara</label>
+                                <input type="text" class="form-control" id="ogrenciAra" placeholder="Öğrenci adı veya kullanıcı adı">
+                            </div>
+                            <div class="col-md-4 d-flex align-items-end">
+                                <button class="btn btn-primary" id="filter-reports">Filtrele</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card dashboard-card">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold">Rapor Listesi</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Ad Soyad</th>
+                                            <th>Kullanıcı Adı</th>
+                                            <th>Sınıf</th>
+                                            <th>Rapor Tarihi</th>
+                                            <th>İşlemler</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="reports-table-body">
+                                        <!-- Rapor listesi JavaScript ile buraya eklenecek -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div id="no-reports-message" class="alert alert-info mt-3 d-none">
+                                Henüz rapor bulunmamaktadır.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analizler İçeriği -->
+                <div id="analizler-content" class="content-section d-none">
+                    <h4 class="mb-4">Öğrenci Analizleri</h4>
+
+                    <div class="filter-section mb-4">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="analizSinifFilter" class="form-label">Sınıf Filtresi</label>
+                                <select class="form-select" id="analizSinifFilter">
+                                    <option value="">Tüm Sınıflar</option>
+                                    <!-- Sınıf seçenekleri JavaScript ile buraya eklenecek -->
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="analizOgrenciAra" class="form-label">Öğrenci Ara</label>
+                                <input type="text" class="form-control" id="analizOgrenciAra" placeholder="Öğrenci adı veya kullanıcı adı">
+                            </div>
+                            <div class="col-md-4 d-flex align-items-end">
+                                <button class="btn btn-primary" id="filter-analysis">Filtrele</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card dashboard-card">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold">Analiz Listesi</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Ad Soyad</th>
+                                            <th>Kullanıcı Adı</th>
+                                            <th>Sınıf</th>
+                                            <th>Son Analiz Tarihi</th>
+                                            <th>İşlemler</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="analysis-table-body">
+                                        <!-- Analiz listesi JavaScript ile buraya eklenecek -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div id="no-analysis-message" class="alert alert-info mt-3 d-none">
+                                Henüz analiz bulunmamaktadır.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ayarlar İçeriği -->
+                <div id="ayarlar-content" class="content-section d-none">
+                    <div class="card dashboard-card">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold">Hesap Ayarları</h6>
+                        </div>
+                        <div class="card-body">
+                            <form>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="firstName" class="form-label">Ad</label>
+                                        <input type="text" class="form-control" id="firstName" value="Öğretmen">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="lastName" class="form-label">Soyad</label>
+                                        <input type="text" class="form-control" id="lastName" value="Adı">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">E-posta</label>
+                                    <input type="email" class="form-control" id="email" value="ogretmen@okul.edu.tr">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Yeni Şifre</label>
+                                    <input type="password" class="form-control" id="password" placeholder="Şifrenizi değiştirmek için buraya yazın">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="confirmPassword" class="form-label">Şifreyi Onayla</label>
+                                    <input type="password" class="form-control" id="confirmPassword" placeholder="Yeni şifrenizi tekrar girin">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Değişiklikleri Kaydet</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-    
-  
+
+    <!-- Öğrenci Ekle Modal -->
+    <div class="modal fade" id="ogrenciEkleModal" tabindex="-1" aria-labelledby="ogrenciEkleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ogrenciEkleModalLabel">Yeni Öğrenci Ekle</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="ogrenciEkleForm">
+                        <div class="mb-3">
+                            <label for="ogrenciAd" class="form-label">Öğrenci Adı</label>
+                            <input type="text" class="form-control" id="ogrenciAd" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="ogrenciSoyad" class="form-label">Öğrenci Soyadı</label>
+                            <input type="text" class="form-control" id="ogrenciSoyad" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="ogrenciKullaniciAdi" class="form-label">Kullanıcı Adı</label>
+                            <input type="text" class="form-control" id="ogrenciKullaniciAdi" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="ogrenciSinif" class="form-label">Sınıf</label>
+                            <select class="form-select" id="ogrenciSinif" required>
+                                <option value="">Sınıf Seçin</option>
+                                <!-- Sınıf seçenekleri JavaScript ile buraya eklenecek -->
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="button" class="btn btn-primary" id="ogrenciKaydet">Kaydet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sınıf Ekle Modal -->
+    <div class="modal fade" id="sinifEkleModal" tabindex="-1" aria-labelledby="sinifEkleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sinifEkleModalLabel">Yeni Sınıf Ekle</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="sinifEkleForm">
+                        <div class="mb-3">
+                            <label for="sinifAdi" class="form-label">Sınıf Adı</label>
+                            <input type="text" class="form-control" id="sinifAdi" placeholder="Örn: 10-A" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="button" class="btn btn-primary" id="sinifKaydet">Kaydet</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+    <script>
+        // Veri yönetimi için nesneler
+        let students = JSON.parse(localStorage.getItem('teacher_students')) || [];
+        let classes = JSON.parse(localStorage.getItem('teacher_classes')) || [];
+        let reports = JSON.parse(localStorage.getItem('teacher_reports')) || [];
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Sayfa yüklendiğinde verileri yükle
+            loadInitialData();
+            
+            // Sidebar navigasyonu
+            const navLinks = document.querySelectorAll("nav#sidebar a[data-content]");
+            const contentSections = document.querySelectorAll(".content-section");
+
+            navLinks.forEach((link) => {
+                link.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    navLinks.forEach((l) => l.classList.remove("active"));
+                    this.classList.add("active");
+
+                    const targetContent = this.getAttribute("data-content");
+                    contentSections.forEach((section) => section.classList.add("d-none"));
+                    document.getElementById(`${targetContent}-content`).classList.remove("d-none");
+                    
+                    // İlgili sayfa yüklendiğinde verileri güncelle
+                    if (targetContent === 'ogrenciler') {
+                        updateStudentsTable();
+                    } else if (targetContent === 'siniflarim') {
+                        updateClassesView();
+                    } else if (targetContent === 'raporlar') {
+                        updateReportsTable();
+                    } else if (targetContent === 'analizler') {
+                        updateAnalysisTable();
+                    }
+                });
+            });
+
+            // Çıkış yapma işlevi
+            const logoutLink = document.getElementById("logout-link");
+            if (logoutLink) {
+                logoutLink.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    localStorage.clear();
+                    alert("Başarıyla çıkış yaptınız.");
+                    window.location.href = "index.html";
+                });
+            }
+
+            // Öğrenci ekleme formu
+            const ogrenciKaydetBtn = document.getElementById("ogrenciKaydet");
+            if (ogrenciKaydetBtn) {
+                ogrenciKaydetBtn.addEventListener("click", function() {
+                    const ogrenciAd = document.getElementById("ogrenciAd").value;
+                    const ogrenciSoyad = document.getElementById("ogrenciSoyad").value;
+                    const ogrenciKullaniciAdi = document.getElementById("ogrenciKullaniciAdi").value;
+                    const ogrenciSinif = document.getElementById("ogrenciSinif").value;
+                    
+                    if (ogrenciAd && ogrenciSoyad && ogrenciKullaniciAdi && ogrenciSinif) {
+                        // Yeni öğrenci oluştur
+                        const newStudent = {
+                            id: Date.now(),
+                            name: ogrenciAd,
+                            surname: ogrenciSoyad,
+                            username: ogrenciKullaniciAdi,
+                            class: ogrenciSinif,
+                            createdAt: new Date().toISOString()
+                        };
+                        
+                        // Öğrenciyi listeye ekle
+                        students.push(newStudent);
+                        localStorage.setItem('teacher_students', JSON.stringify(students));
+                        
+                        // Dashboard'u güncelle
+                        updateDashboard();
+                        
+                        // Modal'ı kapat
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('ogrenciEkleModal'));
+                        modal.hide();
+                        
+                        // Formu temizle
+                        document.getElementById("ogrenciEkleForm").reset();
+                        
+                        alert(`${ogrenciAd} ${ogrenciSoyad} (${ogrenciKullaniciAdi}) ${ogrenciSinif} sınıfına eklendi!`);
+                    } else {
+                        alert("Lütfen tüm alanları doldurun!");
+                    }
+                });
+            }
+            
+            // Sınıf ekleme formu
+            const sinifKaydetBtn = document.getElementById("sinifKaydet");
+            if (sinifKaydetBtn) {
+                sinifKaydetBtn.addEventListener("click", function() {
+                    const sinifAdi = document.getElementById("sinifAdi").value;
+                    
+                    if (sinifAdi) {
+                        // Yeni sınıf oluştur
+                        const newClass = {
+                            id: Date.now(),
+                            name: sinifAdi
+                        };
+                        
+                        // Sınıfı listeye ekle
+                        classes.push(newClass);
+                        localStorage.setItem('teacher_classes', JSON.stringify(classes));
+                        
+                        // Sınıf seçeneklerini güncelle
+                        updateClassOptions();
+                        
+                        // Modal'ı kapat
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('sinifEkleModal'));
+                        modal.hide();
+                        
+                        // Formu temizle
+                        document.getElementById("sinifEkleForm").reset();
+                        
+                        alert(`${sinifAdi} sınıfı eklendi!`);
+                    } else {
+                        alert("Lütfen sınıf adını girin!");
+                    }
+                });
+            }
+        });
+        
+        // İlk veri yükleme
+        function loadInitialData() {
+            // Varsayılan sınıflar (eğer yoksa)
+            if (classes.length === 0) {
+                classes = [
+                    { id: 1, name: "10-A" },
+                    { id: 2, name: "10-B" },
+                    { id: 3, name: "11-A" }
+                ];
+                localStorage.setItem('teacher_classes', JSON.stringify(classes));
+            }
+            
+            // Sınıf seçeneklerini güncelle
+            updateClassOptions();
+            
+            // Dashboard'u güncelle
+            updateDashboard();
+            
+            // Öğrenci tablosunu güncelle
+            updateStudentsTable();
+            
+            // Sınıf görünümünü güncelle
+            updateClassesView();
+        }
+        
+        // Sınıf seçeneklerini güncelleme
+        function updateClassOptions() {
+            const classSelects = [
+                document.getElementById('ogrenciSinif'),
+                document.getElementById('sinifFilter'),
+                document.getElementById('analizSinifFilter')
+            ];
+            
+            classSelects.forEach(select => {
+                if (select) {
+                    // Mevcut seçili değeri sakla
+                    const currentValue = select.value;
+                    
+                    // Seçenekleri temizle (ilk seçenek hariç)
+                    while (select.options.length > 1) {
+                        select.remove(1);
+                    }
+                    
+                    // Yeni sınıf seçeneklerini ekle
+                    classes.forEach(cls => {
+                        const option = document.createElement('option');
+                        option.value = cls.name;
+                        option.textContent = cls.name;
+                        select.appendChild(option);
+                    });
+                    
+                    // Önceki değeri geri yükle (eğer hala geçerliyse)
+                    if (currentValue && Array.from(select.options).some(opt => opt.value === currentValue)) {
+                        select.value = currentValue;
+                    }
+                }
+            });
+        }
+        
+        // Dashboard'u güncelleme
+        function updateDashboard() {
+            // Toplam öğrenci sayısı
+            document.getElementById('total-students').textContent = students.length;
+            
+            // Toplam rapor sayısı
+            document.getElementById('total-reports').textContent = reports.length;
+            
+            // Son eklenen öğrenciler
+            const latestStudentsContainer = document.getElementById('latest-students');
+            const noStudentsAlert = document.getElementById('no-students-alert');
+            
+            if (students.length === 0) {
+                noStudentsAlert.classList.remove('d-none');
+                latestStudentsContainer.innerHTML = '';
+                latestStudentsContainer.appendChild(noStudentsAlert);
+            } else {
+                noStudentsAlert.classList.add('d-none');
+                
+                // Son 3 öğrenciyi al
+                const latestStudents = [...students].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 3);
+                
+                let html = '';
+                latestStudents.forEach(student => {
+                    html += `
+                        <div class="list-group-item d-flex align-items-center p-2">
+                            <div class="flex-fill">
+                                <div class="fw-bold">${student.name} ${student.surname}</div>
+                                <div class="small text-muted">${student.username}</div>
+                            </div>
+                            <span class="badge bg-primary">${student.class}</span>
+                        </div>
+                    `;
+                });
+                
+                latestStudentsContainer.innerHTML = html;
+            }
+        }
+        
+        // Öğrenci tablosunu güncelleme
+        function updateStudentsTable() {
+            const tbody = document.getElementById('students-table-body');
+            const noStudentsMessage = document.getElementById('no-students-message');
+            
+            if (students.length === 0) {
+                tbody.innerHTML = '';
+                noStudentsMessage.classList.remove('d-none');
+            } else {
+                noStudentsMessage.classList.add('d-none');
+                
+                let html = '';
+                students.forEach(student => {
+                    html += `
+                        <tr>
+                            <td>${student.name} ${student.surname}</td>
+                            <td>${student.username}</td>
+                            <td><span class="badge bg-primary class-badge">${student.class}</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-danger" onclick="deleteStudent(${student.id})">Sil</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                tbody.innerHTML = html;
+            }
+        }
+        
+        // Sınıf görünümünü güncelleme
+        function updateClassesView() {
+            const classesContainer = document.getElementById('classes-container');
+            const noClassesMessage = document.getElementById('no-classes-message');
+            
+            if (classes.length === 0) {
+                classesContainer.innerHTML = '';
+                noClassesMessage.classList.remove('d-none');
+            } else {
+                noClassesMessage.classList.add('d-none');
+                
+                let html = '';
+                classes.forEach(cls => {
+                    // Bu sınıftaki öğrenci sayısını hesapla
+                    const studentCount = students.filter(s => s.class === cls.name).length;
+                    
+                    html += `
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">${cls.name}</h5>
+                                    <p class="card-text">${studentCount} öğrenci</p>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteClass(${cls.id})">Sınıfı Sil</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                classesContainer.innerHTML = html;
+            }
+        }
+        
+        // Rapor tablosunu güncelleme
+        function updateReportsTable() {
+            // Bu fonksiyon rapor verilerine göre doldurulacak
+            console.log("Rapor tablosu güncellendi");
+        }
+        
+        // Analiz tablosunu güncelleme
+        function updateAnalysisTable() {
+            // Bu fonksiyon analiz verilerine göre doldurulacak
+            console.log("Analiz tablosu güncellendi");
+        }
+        
+        // Öğrenci silme fonksiyonu
+        function deleteStudent(studentId) {
+            if (confirm('Bu öğrenciyi silmek istediğinize emin misiniz?')) {
+                students = students.filter(s => s.id !== studentId);
+                localStorage.setItem('teacher_students', JSON.stringify(students));
+                
+                // Dashboard ve tabloyu güncelle
+                updateDashboard();
+                updateStudentsTable();
+                
+                alert('Öğrenci başarıyla silindi.');
+            }
+        }
+        
+        // Sınıf silme fonksiyonu
+        function deleteClass(classId) {
+            const cls = classes.find(c => c.id === classId);
+            
+            // Bu sınıfta öğrenci var mı kontrol et
+            const studentsInClass = students.filter(s => s.class === cls.name);
+            
+            if (studentsInClass.length > 0) {
+                alert('Bu sınıfta öğrenciler bulunmaktadır. Önce öğrencileri başka bir sınıfa taşımalısınız.');
+                return;
+            }
+            
+            if (confirm('Bu sınıfı silmek istediğinize emin misiniz?')) {
+                classes = classes.filter(c => c.id !== classId);
+                localStorage.setItem('teacher_classes', JSON.stringify(classes));
+                
+                // Sınıf seçeneklerini ve görünümü güncelle
+                updateClassOptions();
+                updateClassesView();
+                
+                alert('Sınıf başarıyla silindi.');
+            }
+        }
+    </script>
+</body>
 </html>

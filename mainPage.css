@@ -558,6 +558,8 @@ footer {
   height: auto !important;
   min-height: 0 !important;
   resize: none; 
+  overflow: auto;
+
 }
 
 .contact-info p {

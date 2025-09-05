@@ -106,46 +106,24 @@
               <a href="main.html">Anasayfa</a>
               <a href="main.html#OyunTürü">Oyun Türü</a>
               <a href="PsikolojikTahlil.html">Psikolojik Tahlil</a>
-              <a href="#">Gizlilik Politikası</a>
-              <a href="#">Kullanım Koşulları</a>
             </div>
           </div>
 
           <div class="col-lg-3 col-md-6 mb-4">
             <h5>İletişim Bilgileri</h5>
             <div class="contact-info">
-              <p><i class="bi bi-telephone"></i> +90 555 123 45 67</p>
-              <p><i class="bi bi-envelope"></i> info@kayai.com</p>
+              <p><i class="bi bi-envelope"></i> tulpar.kutai@gmail.com</p>
             </div>
           </div>
 
-          <div class="col-lg-3 col-md-6 mb-4">
-            <h5>Bize Ulaşın</h5>
-            <form class="contact-form">
-              <input
-                type="text"
-                class="form-control rounded-0"
-                placeholder="Adınız"
-                required
-              />
-              <input
-                type="email"
-                class="form-control rounded-0"
-                placeholder="E-posta"
-                required
-              />
-              <textarea
-                id="footer-message"
-                class="form-control rounded-0"
-                rows="3"
-                placeholder="Mesajınız"
-                required
-              ></textarea>
-              <button type="submit" class="btn btn-danger rounded-0">
-                Gönder
-              </button>
-            </form>
-          </div>
+          <div>
+        <form id="contact-form">
+  <input type="text" name="from_name" placeholder="Ad Soyad" required />
+  <input type="email" name="from_email" placeholder="E-posta" required />
+  <input type="text" name="subject" placeholder="Konu Başlığı" required />
+  <textarea name="message" placeholder="Mesajınız" required></textarea>
+  <button type="submit">Gönder</button>
+</form>
         </div>
 
         <div class="row">
@@ -155,6 +133,19 @@
         </div>
       </div>
     </footer>
+
+  
+      <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+emailjs.init("xHU7n5w1ELHAhU9ldO6_s"); 
+
+document.getElementById('contact-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  emailjs.sendForm("service_3ico5lb","template_id",this)
+    .then(() => alert("Mesaj gönderildi!"), (err) => alert("Hata: " + err));
+});
+</script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="app.js"></script> 
 </body>

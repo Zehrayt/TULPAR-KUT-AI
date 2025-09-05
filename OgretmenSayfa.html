@@ -460,140 +460,149 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-   
 
-    <!-- Öğrenci Ekle Modal -->
-    <div
-      class="modal fade"
-      id="ogrenciEkleModal"
-      tabindex="-1"
-      aria-labelledby="ogrenciEkleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="ogrenciEkleModalLabel">
-              Yeni Öğrenci Ekle
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+          <!-- Öğrenci Ekle Modal -->
+          <div
+            class="modal fade"
+            id="ogrenciEkleModal"
+            tabindex="-1"
+            aria-labelledby="ogrenciEkleModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="ogrenciEkleModalLabel">
+                    Yeni Öğrenci Ekle
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <form id="ogrenciEkleForm">
+                    <div class="mb-3">
+                      <label for="ogrenciAd" class="form-label"
+                        >Öğrenci Adı</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="ogrenciAd"
+                        required
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label for="ogrenciSoyad" class="form-label"
+                        >Öğrenci Soyadı</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="ogrenciSoyad"
+                        required
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label for="ogrenciKullaniciAdi" class="form-label"
+                        >Kullanıcı Adı</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="ogrenciKullaniciAdi"
+                        required
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label for="ogrenciSinif" class="form-label">Sınıf</label>
+                      <select class="form-select" id="ogrenciSinif" required>
+                        <option value="">Sınıf Seçin</option>
+                        <!-- Sınıf seçenekleri JavaScript ile buraya eklenecek -->
+                      </select>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    İptal
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    id="ogrenciKaydet"
+                  >
+                    Kaydet
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="modal-body">
-            <form id="ogrenciEkleForm">
-              <div class="mb-3">
-                <label for="ogrenciAd" class="form-label">Öğrenci Adı</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="ogrenciAd"
-                  required
-                />
+
+          <!-- Sınıf Ekle Modal -->
+          <div
+            class="modal fade"
+            id="sinifEkleModal"
+            tabindex="-1"
+            aria-labelledby="sinifEkleModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="sinifEkleModalLabel">
+                    Yeni Sınıf Ekle
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <form id="sinifEkleForm">
+                    <div class="mb-3">
+                      <label for="sinifAdi" class="form-label">Sınıf Adı</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="sinifAdi"
+                        placeholder="Örn: 10-A"
+                        required
+                      />
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    İptal
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    id="sinifKaydet"
+                  >
+                    Kaydet
+                  </button>
+                </div>
               </div>
-              <div class="mb-3">
-                <label for="ogrenciSoyad" class="form-label"
-                  >Öğrenci Soyadı</label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  id="ogrenciSoyad"
-                  required
-                />
-              </div>
-              <div class="mb-3">
-                <label for="ogrenciKullaniciAdi" class="form-label"
-                  >Kullanıcı Adı</label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  id="ogrenciKullaniciAdi"
-                  required
-                />
-              </div>
-              <div class="mb-3">
-                <label for="ogrenciSinif" class="form-label">Sınıf</label>
-                <select class="form-select" id="ogrenciSinif" required>
-                  <option value="">Sınıf Seçin</option>
-                  <!-- Sınıf seçenekleri JavaScript ile buraya eklenecek -->
-                </select>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              İptal
-            </button>
-            <button type="button" class="btn btn-primary" id="ogrenciKaydet">
-              Kaydet
-            </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- Sınıf Ekle Modal -->
-    <div
-      class="modal fade"
-      id="sinifEkleModal"
-      tabindex="-1"
-      aria-labelledby="sinifEkleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="sinifEkleModalLabel">
-              Yeni Sınıf Ekle
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <form id="sinifEkleForm">
-              <div class="mb-3">
-                <label for="sinifAdi" class="form-label">Sınıf Adı</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="sinifAdi"
-                  placeholder="Örn: 10-A"
-                  required
-                />
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              İptal
-            </button>
-            <button type="button" class="btn btn-primary" id="sinifKaydet">
-              Kaydet
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
- </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
@@ -602,11 +611,14 @@
         // ==========================================================
         const loggedInUsername = localStorage.getItem("username");
 
-         if (loggedInUsername) {
-        const sidebarNameElements = document.querySelectorAll(".user-username-display");
-        sidebarNameElements.forEach((el) => el.textContent = loggedInUsername);
-         }
-
+        if (loggedInUsername) {
+          const sidebarNameElements = document.querySelectorAll(
+            ".user-username-display"
+          );
+          sidebarNameElements.forEach(
+            (el) => (el.textContent = loggedInUsername)
+          );
+        }
 
         // Bu kullanıcının özel key’leri
         const studentKey = `${loggedInUsername}_students`;

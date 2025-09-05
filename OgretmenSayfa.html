@@ -12,7 +12,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     />
-    <link rel="stylesheet" href="OgretmenSayfa.css" />
+  <link rel="stylesheet" href="OgretmenSayfa.css" />
   </head>
   <body>
     <div class="d-flex">
@@ -605,6 +605,14 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+      // Global değişkenleri tanımla
+      let students = [];
+      let classes = [];
+      let reports = [];
+      let studentKey = '';
+      let classKey = '';
+      let reportKey = '';
+
       document.addEventListener("DOMContentLoaded", function () {
         // ==========================================================
         // GİRİŞ YAPAN KULLANICI BİLGİLERİNİ SAYFAYA YAZDIRMA
@@ -620,17 +628,15 @@
           );
         }
 
-       
-
         // Bu öğretmene özel key'ler
-        const studentKey = `${loggedInUsername}_students`;
-        const classKey = `${loggedInUsername}_classes`;
-        const reportKey = `${loggedInUsername}_reports`;
+        studentKey = `${loggedInUsername}_students`;
+        classKey = `${loggedInUsername}_classes`;
+        reportKey = `${loggedInUsername}_reports`;
 
         // Verileri yükle
-        let students = JSON.parse(localStorage.getItem(studentKey)) || [];
-        let classes = JSON.parse(localStorage.getItem(classKey)) || [];
-        let reports = JSON.parse(localStorage.getItem(reportKey)) || [];
+        students = JSON.parse(localStorage.getItem(studentKey)) || [];
+        classes = JSON.parse(localStorage.getItem(classKey)) || [];
+        reports = JSON.parse(localStorage.getItem(reportKey)) || [];
 
         // Kaydetme fonksiyonu
         function saveData() {
@@ -697,51 +703,6 @@
             ).value;
             const ogrenciSinif = document.getElementById("ogrenciSinif").value;
 
-            async function addStudent() {
-              const studentUsername = document
-                .getElementById("studentUsername")
-                .value.trim();
-              if (!studentUsername) {
-                alert("Lütfen öğrenci kullanıcı adını girin.");
-                return;
-              }
-
-              try {
-                // Backend'e sor: böyle bir kullanıcı var mı?
-                const response = await fetch("/.netlify/functions/checkUser", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({
-                    username: studentUsername,
-                    userType: "student",
-                  }),
-                });
-
-                const result = await response.json();
-
-                if (response.ok && result.exists) {
-                  // Kullanıcı var → öğretmenin öğrencilerine ekle
-                  const teacherUsername = localStorage.getItem("username");
-                  const studentKey = `${teacherUsername}_students`;
-
-                  let students =
-                    JSON.parse(localStorage.getItem(studentKey)) || [];
-                  if (!students.includes(studentUsername)) {
-                    students.push(studentUsername);
-                    localStorage.setItem(studentKey, JSON.stringify(students));
-                    alert("Öğrenci başarıyla eklendi!");
-                  } else {
-                    alert("Bu öğrenci zaten listenizde var.");
-                  }
-                } else {
-                  alert("Böyle bir öğrenci bulunamadı.");
-                }
-              } catch (err) {
-                console.error("Öğrenci ekleme hatası:", err);
-                alert("Sunucuya bağlanırken hata oluştu.");
-              }
-            }
-
             if (
               ogrenciAd &&
               ogrenciSoyad &&
@@ -760,10 +721,7 @@
 
               // Öğrenciyi listeye ekle
               students.push(newStudent);
-              localStorage.setItem(
-                "teacher_students",
-                JSON.stringify(students)
-              );
+              localStorage.setItem(studentKey, JSON.stringify(students));
 
               // Dashboard'u güncelle
               updateDashboard();
@@ -801,7 +759,7 @@
 
               // Sınıfı listeye ekle
               classes.push(newClass);
-              localStorage.setItem("teacher_classes", JSON.stringify(classes));
+              localStorage.setItem(classKey, JSON.stringify(classes));
 
               // Sınıf seçeneklerini güncelle
               updateClassOptions();
@@ -832,7 +790,7 @@
             { id: 2, name: "10-B" },
             { id: 3, name: "11-A" },
           ];
-          localStorage.setItem("teacher_classes", JSON.stringify(classes));
+          localStorage.setItem(classKey, JSON.stringify(classes));
         }
 
         // Sınıf seçeneklerini güncelle
@@ -1011,7 +969,7 @@
       function deleteStudent(studentId) {
         if (confirm("Bu öğrenciyi silmek istediğinize emin misiniz?")) {
           students = students.filter((s) => s.id !== studentId);
-          localStorage.setItem("teacher_students", JSON.stringify(students));
+          localStorage.setItem(studentKey, JSON.stringify(students));
 
           // Dashboard ve tabloyu güncelle
           updateDashboard();
@@ -1037,7 +995,7 @@
 
         if (confirm("Bu sınıfı silmek istediğinize emin misiniz?")) {
           classes = classes.filter((c) => c.id !== classId);
-          localStorage.setItem("teacher_classes", JSON.stringify(classes));
+          localStorage.setItem(classKey, JSON.stringify(classes));
 
           // Sınıf seçeneklerini ve görünümü güncelle
           updateClassOptions();

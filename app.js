@@ -28,7 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 oldScript.parentNode.replaceChild(newScript, oldScript);
             }
 
-            // Karakterler carousel ve counter animasyonunu çalıştır
+            // Partial yüklendikten sonra gerekli eventleri başlat
+            attachOyunKonusuEvents();
             initCharacterCarousel();
             animateCounters();
         } catch (error) {
@@ -38,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // ======================================================
-    // SAYFA BÖLÜMÜ YÜKLEME
+    // SAYFA BÖLÜMÜ YÜKLEME (örn. #oyunkonusu)
     // ======================================================
     const loadSection = async (sectionId) => {
         try {
@@ -49,17 +50,37 @@ document.addEventListener("DOMContentLoaded", () => {
             tempDiv.innerHTML = html;
             const section = tempDiv.querySelector(sectionId);
             if (!section) throw new Error("Bölüm bulunamadı.");
+
             contentContainer.innerHTML = "";
             contentContainer.appendChild(section);
             window.scrollTo({ top: contentContainer.offsetTop, behavior: "smooth" });
 
-            // Karakterler carousel ve counter animasyonunu çalıştır
+            // Section yüklendikten sonra overlay eventlerini bağla
+            if (sectionId === "#oyunkonusu") attachOyunKonusuEvents();
             initCharacterCarousel();
             animateCounters();
         } catch (error) {
             console.error("Bölüm Yükleme Hatası:", error);
             contentContainer.innerHTML = `<div class="alert alert-danger text-center">${error.message}</div>`;
         }
+    };
+
+    // ======================================================
+    // HİKAYE / OYUN KONUSU OVERLAY EVENTLERİ
+    // ======================================================
+    const attachOyunKonusuEvents = () => {
+        const overlay = document.getElementById("overlay");
+        if (!overlay) return;
+
+        const openBtn = document.getElementById("open-textbox-btn");
+        const closeBtn = document.getElementById("close-btn");
+
+        if (openBtn) openBtn.addEventListener("click", () => overlay.classList.add("active"));
+        if (closeBtn) closeBtn.addEventListener("click", () => overlay.classList.remove("active"));
+
+        overlay.addEventListener("click", (e) => {
+            if (e.target === overlay) overlay.classList.remove("active");
+        });
     };
 
     // ======================================================
@@ -111,30 +132,34 @@ document.addEventListener("DOMContentLoaded", () => {
     // KARAKTERLER CAROUSEL
     // ======================================================
     const initCharacterCarousel = () => {
+        const carousel = document.querySelector(".character-carousel");
         const cards = document.querySelectorAll(".character-card");
+        if (!carousel || cards.length === 0) return;
+
         const prevBtn = document.querySelector(".prev-btn");
         const nextBtn = document.querySelector(".next-btn");
-
-        // Eğer carousel elemanları yoksa çık
-        if (!cards.length || !prevBtn || !nextBtn) return;
-
         let currentIndex = 0;
 
         const updateCarousel = () => {
             cards.forEach((card, index) => {
                 card.classList.toggle("active", index === currentIndex);
             });
+            const cardWidth = cards[0].offsetWidth + 40;
+            const offset = -(cardWidth * currentIndex - (carousel.offsetWidth - cardWidth) / 2);
+            carousel.style.transform = `translateX(${offset}px)`;
         };
 
-        prevBtn.addEventListener("click", () => {
-            currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-            updateCarousel();
-        });
+        if (prevBtn)
+            prevBtn.addEventListener("click", () => {
+                currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+                updateCarousel();
+            });
 
-        nextBtn.addEventListener("click", () => {
-            currentIndex = (currentIndex + 1) % cards.length;
-            updateCarousel();
-        });
+        if (nextBtn)
+            nextBtn.addEventListener("click", () => {
+                currentIndex = (currentIndex + 1) % cards.length;
+                updateCarousel();
+            });
 
         updateCarousel();
     };
@@ -143,6 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // NAVBAR VE MODAL EVENTLERİ
     // ======================================================
     document.body.addEventListener('click', (e) => {
+        // Sayfa linkleri
         const pageLink = e.target.closest('a[data-page]');
         if (pageLink) {
             e.preventDefault();
@@ -150,6 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        // Section linkleri
         const sectionLink = e.target.closest('a[data-section]');
         if (sectionLink) {
             e.preventDefault();
@@ -157,6 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        // Logout
         const logoutButton = e.target.closest('#logout-button');
         if (logoutButton) {
             e.preventDefault();
@@ -166,16 +194,37 @@ document.addEventListener("DOMContentLoaded", () => {
             window.location.href = 'index.html';
         }
 
+        // Kullanıcı hesabına tıklama
         const userMenu = e.target.closest('#user-menu');
         if (userMenu) {
             e.preventDefault();
             const menu = document.querySelector('#user-dropdown');
             if (menu) menu.classList.toggle('show');
         }
+
+        // Anket butonları (delegated)
+        const surveyBtn = e.target.closest(".btn-outline-primary");
+        if (surveyBtn) {
+            e.preventDefault();
+            const modalId = surveyBtn.getAttribute("data-target");
+            const modal = document.querySelector(modalId);
+            if (modal) modal.classList.add("active");
+        }
+
+        // Kapatma butonları
+        const closeBtn = e.target.closest(".close-btn");
+        if (closeBtn) {
+            const modal = closeBtn.closest(".survey-modal");
+            if (modal) modal.classList.remove("active");
+        }
+
+        // Modal arkaplanına tıklama
+        const modalBg = e.target.closest(".survey-modal");
+        if (modalBg && e.target === modalBg) modalBg.classList.remove("active");
     });
 
     // ======================================================
-    // SAYFA YÜKLEME (İLK AÇILIŞ)
+    // SAYFA İLK YÜKLEME
     // ======================================================
     loadPage("anasayfa");
 });

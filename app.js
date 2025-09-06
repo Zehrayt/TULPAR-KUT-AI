@@ -196,10 +196,53 @@ document.addEventListener("click", (e) => {
   const modalBg = e.target.closest(".survey-modal");
   if (modalBg && e.target === modalBg) modalBg.classList.remove("active");
 });
+// ======================================================
+// HİKAYE / ÖĞRETMEN OVERLAY EVENTLERİ
+// ======================================================
+const attachOverlayEvents = () => {
+  const storyOpenBtn = document.getElementById("open-textbox-btn");
+  const storyCloseBtn = document.getElementById("close-btn");
+  const storyOverlay = document.getElementById("overlay");
+
+  if (storyOpenBtn && storyOverlay) {
+    storyOpenBtn.addEventListener("click", () => storyOverlay.classList.add("active"));
+  }
+
+  if (storyCloseBtn && storyOverlay) {
+    storyCloseBtn.addEventListener("click", () => storyOverlay.classList.remove("active"));
+  }
+
+  if (storyOverlay) {
+    storyOverlay.addEventListener("click", (e) => {
+      if (e.target === storyOverlay) storyOverlay.classList.remove("active");
+    });
+  }
+
+  // Öğretmen overlay
+  const teacherOpenBtn = document.getElementById("teacher-open-btn");
+  const teacherCloseBtn = document.getElementById("teacher-close-btn");
+  const teacherOverlay = document.getElementById("teacher-overlay");
+
+  if (teacherOpenBtn && teacherOverlay) {
+    teacherOpenBtn.addEventListener("click", () => teacherOverlay.classList.add("active"));
+  }
+
+  if (teacherCloseBtn && teacherOverlay) {
+    teacherCloseBtn.addEventListener("click", () => teacherOverlay.classList.remove("active"));
+  }
+
+  if (teacherOverlay) {
+    teacherOverlay.addEventListener("click", (e) => {
+      if (e.target === teacherOverlay) teacherOverlay.classList.remove("active");
+    });
+  }
+};
 
 
   // ======================================================
   // SAYFA YÜKLEME (İLK AÇILIŞ)
   // ======================================================
-  loadPage("anasayfa");
+loadPage("anasayfa").then(() => {
+    attachOverlayEvents();
+});
 });

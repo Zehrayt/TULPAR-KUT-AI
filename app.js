@@ -125,11 +125,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    // ======================================================
+    / ======================================================
     // KARAKTERLER CAROUSEL
     // ======================================================
     const initCharacterCarousel = () => {
+        const carousel = document.querySelector(".character-carousel");
         const cards = document.querySelectorAll(".character-card");
+        if (!carousel || cards.length === 0) return;
+
         const prevBtn = document.querySelector(".prev-btn");
         const nextBtn = document.querySelector(".next-btn");
         let currentIndex = 0;
@@ -138,20 +141,26 @@ document.addEventListener("DOMContentLoaded", () => {
             cards.forEach((card, index) => {
                 card.classList.toggle("active", index === currentIndex);
             });
+            const cardWidth = cards[0].offsetWidth + 40;
+            const offset = -(cardWidth * currentIndex - (carousel.offsetWidth - cardWidth) / 2);
+            carousel.style.transform = `translateX(${offset}px)`;
         };
 
-        if(prevBtn) prevBtn.addEventListener("click", () => {
-            currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-            updateCarousel();
-        });
+        if (prevBtn)
+            prevBtn.addEventListener("click", () => {
+                currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+                updateCarousel();
+            });
 
-        if(nextBtn) nextBtn.addEventListener("click", () => {
-            currentIndex = (currentIndex + 1) % cards.length;
-            updateCarousel();
-        });
+        if (nextBtn)
+            nextBtn.addEventListener("click", () => {
+                currentIndex = (currentIndex + 1) % cards.length;
+                updateCarousel();
+            });
 
         updateCarousel();
     };
+
     // ======================================================
     // NAVBAR / SAYFA GEÇİŞLERİ
     // ======================================================

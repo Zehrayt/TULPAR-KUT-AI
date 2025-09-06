@@ -173,6 +173,32 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ======================================================
+// ANKET MODAL EVENTLERİ
+// ======================================================
+document.addEventListener("click", (e) => {
+  // Anket butonları
+  const surveyBtn = e.target.closest(".btn-outline-primary");
+  if (surveyBtn) {
+    e.preventDefault();
+    const modalId = surveyBtn.getAttribute("data-target");
+    const modal = document.querySelector(modalId);
+    if (modal) modal.classList.add("active");
+  }
+
+  // Kapatma butonları
+  const closeBtn = e.target.closest(".close-btn");
+  if (closeBtn) {
+    const modal = closeBtn.closest(".survey-modal");
+    if (modal) modal.classList.remove("active");
+  }
+
+  // Modal arkaplanına tıklama
+  const modalBg = e.target.closest(".survey-modal");
+  if (modalBg && e.target === modalBg) modalBg.classList.remove("active");
+});
+
+
+  // ======================================================
   // SAYFA YÜKLEME (İLK AÇILIŞ)
   // ======================================================
   loadPage("anasayfa");

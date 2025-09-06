@@ -28,6 +28,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 oldScript.parentNode.replaceChild(newScript, oldScript);
             }
 
+            // ✅ Eğer ANASAYFA yüklendiyse karakterler + sayaçları başlat
+            if (pageName === "anasayfa") {
+                initCharacterCarousel();
+                animateCounters();
+            }
+
         } catch (error) {
             console.error("Sayfa Yükleme Hatası:", error);
             contentContainer.innerHTML = `<div class="alert alert-danger text-center">${error.message}</div>`;
@@ -50,10 +56,10 @@ document.addEventListener("DOMContentLoaded", () => {
             contentContainer.appendChild(section);
             window.scrollTo({ top: contentContainer.offsetTop, behavior: "smooth" });
 
-            
-            // Karakterler carousel ve counter animasyonunu çalıştır
+            // ✅ Karakterler + sayaçlar section yüklenince çalışsın
             initCharacterCarousel();
             animateCounters();
+
             // Oyun konusu overlay
             if (sectionId === "#oyunkonusu") attachOyunKonusuEvents();
         } catch (error) {
@@ -126,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // ======================================================
-    // KARAKTERLER CAROUSEL
+    // KARAKTERLER CAROUSEL (Sabit kartlar, sadece active değişir)
     // ======================================================
     const initCharacterCarousel = () => {
         const cards = document.querySelectorAll(".character-card");
@@ -140,18 +146,19 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         };
 
-        if(prevBtn) prevBtn.addEventListener("click", () => {
+        if (prevBtn) prevBtn.addEventListener("click", () => {
             currentIndex = (currentIndex - 1 + cards.length) % cards.length;
             updateCarousel();
         });
 
-        if(nextBtn) nextBtn.addEventListener("click", () => {
+        if (nextBtn) nextBtn.addEventListener("click", () => {
             currentIndex = (currentIndex + 1) % cards.length;
             updateCarousel();
         });
 
         updateCarousel();
     };
+
     // ======================================================
     // NAVBAR / SAYFA GEÇİŞLERİ
     // ======================================================
@@ -216,5 +223,4 @@ document.addEventListener("DOMContentLoaded", () => {
     // SAYFA İLK YÜKLENDİĞİNDE
     // ======================================================
     loadPage("anasayfa");
-    
 });

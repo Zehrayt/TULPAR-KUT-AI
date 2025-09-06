@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         <span class="visually-hidden">Yükleniyor...</span>
                     </div>
                 </div>`;
-
             const response = await fetch(`partials/${pageName}.html`);
             if (!response.ok) throw new Error(`'${pageName}.html' bulunamadı.`);
             const html = await response.text();
@@ -20,17 +19,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Partial içindeki scriptleri çalıştır
             const scripts = Array.from(contentContainer.querySelectorAll("script"));
-            scripts.forEach(oldScript => {
+            for (const oldScript of scripts) {
                 const newScript = document.createElement("script");
-                Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+                Array.from(oldScript.attributes).forEach(attr =>
+                    newScript.setAttribute(attr.name, attr.value)
+                );
                 newScript.appendChild(document.createTextNode(oldScript.innerHTML));
                 oldScript.parentNode.replaceChild(newScript, oldScript);
-            });
+            }
 
-            // Partial yüklendikten sonra gerekli fonksiyonları çağır
+            // Karakterler carousel ve counter animasyonunu çalıştır
             initCharacterCarousel();
             animateCounters();
-            attachOyunKonusuEvents();
         } catch (error) {
             console.error("Sayfa Yükleme Hatası:", error);
             contentContainer.innerHTML = `<div class="alert alert-danger text-center">${error.message}</div>`;
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // ======================================================
-    // BÖLÜM YÜKLEME (örn. #oyunkonusu)
+    // SAYFA BÖLÜMÜ YÜKLEME
     // ======================================================
     const loadSection = async (sectionId) => {
         try {
@@ -53,28 +53,13 @@ document.addEventListener("DOMContentLoaded", () => {
             contentContainer.appendChild(section);
             window.scrollTo({ top: contentContainer.offsetTop, behavior: "smooth" });
 
+            // Karakterler carousel ve counter animasyonunu çalıştır
             initCharacterCarousel();
             animateCounters();
-            attachOyunKonusuEvents();
         } catch (error) {
             console.error("Bölüm Yükleme Hatası:", error);
             contentContainer.innerHTML = `<div class="alert alert-danger text-center">${error.message}</div>`;
         }
-    };
-
-    // ======================================================
-    // OYUN KONUSU OVERLAY
-    // ======================================================
-    const attachOyunKonusuEvents = () => {
-        const openBtn = document.getElementById("open-textbox-btn");
-        const closeBtn = document.getElementById("close-btn");
-        const overlay = document.getElementById("overlay");
-
-        if (openBtn && overlay) openBtn.addEventListener("click", () => overlay.classList.add("active"));
-        if (closeBtn && overlay) closeBtn.addEventListener("click", () => overlay.classList.remove("active"));
-        if (overlay) overlay.addEventListener("click", (e) => {
-            if (e.target === overlay) overlay.classList.remove("active");
-        });
     };
 
     // ======================================================
@@ -122,58 +107,33 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    // Sayfa yüklendiğinde ve görünür olduğunda başlat
-    window.addEventListener("scroll", () => {
-        const statsSection = document.getElementById("stats");
-        if (!statsSection) return;
-        const rect = statsSection.getBoundingClientRect();
-        if (rect.top < window.innerHeight && rect.bottom >= 0) {
-            animateCounters();
-        }
-    });
-
-    const statsSection = document.getElementById("stats");
-    if (statsSection) {
-        const rect = statsSection.getBoundingClientRect();
-        if (rect.top < window.innerHeight && rect.bottom >= 0) {
-            animateCounters();
-        }
-    }
-
     // ======================================================
     // KARAKTERLER CAROUSEL
     // ======================================================
     const initCharacterCarousel = () => {
-        const carousel = document.querySelector(".character-carousel");
-        const cards = document.querySelectorAll(".character-card");
-        const prevBtn = document.querySelector(".prev-btn");
-        const nextBtn = document.querySelector(".next-btn");
+       const cards = document.querySelectorAll(".character-card");
+  const prevBtn = document.querySelector(".prev-btn");
+  const nextBtn = document.querySelector(".next-btn");
+  let currentIndex = 0;
 
-        if (!carousel || !cards.length || !prevBtn || !nextBtn) return;
+  const updateCarousel = () => {
+    cards.forEach((card, index) => {
+      card.classList.toggle("active", index === currentIndex);
+    });
+  };
 
-        let currentIndex = 0;
+  prevBtn.addEventListener("click", () => {
+    currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+    updateCarousel();
+  });
 
-        const updateCarousel = () => {
-            cards.forEach((card, index) => {
-                card.classList.toggle("active", index === currentIndex);
-            });
+  nextBtn.addEventListener("click", () => {
+    currentIndex = (currentIndex + 1) % cards.length;
+    updateCarousel();
+  });
 
-            const cardWidth = cards[0].offsetWidth + 40;
-            const offset = -(cardWidth * currentIndex - (carousel.offsetWidth - cardWidth) / 2);
-            carousel.style.transform = `translateX(${offset}px)`;
-        };
+  updateCarousel();
 
-        prevBtn.addEventListener("click", () => {
-            currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-            updateCarousel();
-        });
-
-        nextBtn.addEventListener("click", () => {
-            currentIndex = (currentIndex + 1) % cards.length;
-            updateCarousel();
-        });
-
-        updateCarousel();
     };
 
     // ======================================================
@@ -213,30 +173,10 @@ document.addEventListener("DOMContentLoaded", () => {
             const menu = document.querySelector('#user-dropdown');
             if (menu) menu.classList.toggle('show');
         }
-
-        // Anket butonları
-        const surveyBtn = e.target.closest(".btn-outline-primary");
-        if (surveyBtn) {
-            e.preventDefault();
-            const modalId = surveyBtn.getAttribute("data-target");
-            const modal = document.querySelector(modalId);
-            if (modal) modal.classList.add("active");
-        }
-
-        // Kapatma butonları
-        const closeBtn = e.target.closest(".close-btn");
-        if (closeBtn) {
-            const modal = closeBtn.closest(".survey-modal");
-            if (modal) modal.classList.remove("active");
-        }
-
-        // Modal arkaplanına tıklama
-        const modalBg = e.target.closest(".survey-modal");
-        if (modalBg && e.target === modalBg) modalBg.classList.remove("active");
     });
 
     // ======================================================
-    // SAYFA İLK YÜKLENDİĞİNDE
+    // SAYFA YÜKLEME (İLK AÇILIŞ)
     // ======================================================
     loadPage("anasayfa");
 });

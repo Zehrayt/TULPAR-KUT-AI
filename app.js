@@ -31,9 +31,6 @@ document.addEventListener("DOMContentLoaded", () => {
             // Karakterler carousel ve counter animasyonunu çalıştır
             initCharacterCarousel();
             animateCounters();
-
-            // Hikaye overlay eventleri
-            attachOyunKonusuEvents();
         } catch (error) {
             console.error("Sayfa Yükleme Hatası:", error);
             contentContainer.innerHTML = `<div class="alert alert-danger text-center">${error.message}</div>`;
@@ -41,23 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // ======================================================
-    // HİKAYE/OVERLAY EVENTLERİ
-    // ======================================================
-    const attachOyunKonusuEvents = () => {
-        const openBtn = document.getElementById("open-textbox-btn");
-        const closeBtn = document.getElementById("close-btn");
-        const overlay = document.getElementById("overlay");
-
-        if (openBtn && overlay) openBtn.addEventListener("click", () => overlay.classList.add("active"));
-        if (closeBtn && overlay) closeBtn.addEventListener("click", () => overlay.classList.remove("active"));
-
-        if (overlay) overlay.addEventListener("click", (e) => {
-            if (e.target === overlay) overlay.classList.remove("active");
-        });
-    };
-
-    // ======================================================
-    // SAYFA BÖLÜMÜ YÜKLEME (SECTION)
+    // SAYFA BÖLÜMÜ YÜKLEME
     // ======================================================
     const loadSection = async (sectionId) => {
         try {
@@ -72,11 +53,9 @@ document.addEventListener("DOMContentLoaded", () => {
             contentContainer.appendChild(section);
             window.scrollTo({ top: contentContainer.offsetTop, behavior: "smooth" });
 
-            // Karakterler ve counter animasyonunu çalıştır
+            // Karakterler carousel ve counter animasyonunu çalıştır
             initCharacterCarousel();
             animateCounters();
-
-            if (sectionId === "#oyunkonusu") attachOyunKonusuEvents();
         } catch (error) {
             console.error("Bölüm Yükleme Hatası:", error);
             contentContainer.innerHTML = `<div class="alert alert-danger text-center">${error.message}</div>`;
@@ -113,6 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
         counters.forEach(counter => {
             const el = document.getElementById(counter.id);
             if (!el) return;
+
             let current = 0;
             const increment = Math.ceil(counter.target / 100);
             const interval = setInterval(() => {
@@ -134,7 +114,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const cards = document.querySelectorAll(".character-card");
         const prevBtn = document.querySelector(".prev-btn");
         const nextBtn = document.querySelector(".next-btn");
-        if (!cards.length || !prevBtn || !nextBtn) return;
         let currentIndex = 0;
 
         const updateCarousel = () => {
@@ -143,12 +122,12 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         };
 
-        prevBtn.addEventListener("click", () => {
+        if(prevBtn) prevBtn.addEventListener("click", () => {
             currentIndex = (currentIndex - 1 + cards.length) % cards.length;
             updateCarousel();
         });
 
-        nextBtn.addEventListener("click", () => {
+        if(nextBtn) nextBtn.addEventListener("click", () => {
             currentIndex = (currentIndex + 1) % cards.length;
             updateCarousel();
         });
@@ -157,47 +136,24 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // ======================================================
-    // ANKETLER VE MODAL EVENTLERİ
-    // ======================================================
-    document.addEventListener("click", (e) => {
-        // Anket aç
-        const surveyBtn = e.target.closest(".btn-outline-primary");
-        if (surveyBtn) {
-            e.preventDefault();
-            const modalId = surveyBtn.getAttribute("data-target");
-            const modal = document.querySelector(modalId);
-            if (modal) modal.classList.add("active");
-        }
-
-        // Kapatma butonları
-        const closeBtn = e.target.closest(".close-btn");
-        if (closeBtn) {
-            const modal = closeBtn.closest(".survey-modal");
-            if (modal) modal.classList.remove("active");
-        }
-
-        // Modal arkaplanına tıklama
-        const modalBg = e.target.closest(".survey-modal");
-        if (modalBg && e.target === modalBg) modalBg.classList.remove("active");
-    });
-
-    // ======================================================
     // NAVBAR VE SAYFA GEÇİŞLERİ
     // ======================================================
-    document.body.addEventListener("click", (e) => {
-        // Sayfa linkleri
+    document.body.addEventListener('click', (e) => {
+        // Sayfa linkleri (data-page ile)
         const pageLink = e.target.closest('a[data-page]');
         if (pageLink) {
             e.preventDefault();
-            loadPage(pageLink.getAttribute('data-page'));
+            const pageName = pageLink.getAttribute('data-page');
+            if(pageName) loadPage(pageName);
             return;
         }
 
-        // Section linkleri
+        // Section linkleri (data-section ile)
         const sectionLink = e.target.closest('a[data-section]');
         if (sectionLink) {
             e.preventDefault();
-            loadSection(sectionLink.getAttribute('data-section'));
+            const sectionId = sectionLink.getAttribute('data-section');
+            if(sectionId) loadSection(sectionId);
             return;
         }
 
@@ -213,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // ======================================================
-    // SAYFA YÜKLEME (İLK AÇILIŞ)
+    // SAYFA İLK YÜKLENDİĞİNDE
     // ======================================================
     loadPage("anasayfa");
 });

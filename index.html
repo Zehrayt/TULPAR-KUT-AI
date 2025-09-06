@@ -520,70 +520,81 @@
           showMessage("forgot-message", "", "");
         });
 
-        const registerForm = document.getElementById("register-form");
-        if (registerForm) {
-          registerForm.addEventListener("submit", async function (event) {
-            event.preventDefault();
-            const registerButton = document.getElementById("register-button");
-            registerButton.disabled = true;
-            registerButton.innerHTML =
-              '<i class="fas fa-spinner fa-spin"></i> Kaydediliyor...';
+       const registerForm = document.getElementById("register-form");
+if (registerForm) {
+  registerForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+    const registerButton = document.getElementById("register-button");
+    registerButton.disabled = true;
+    registerButton.innerHTML =
+      '<i class="fas fa-spinner fa-spin"></i> Kaydediliyor...';
 
-            // Önceki mesajları temizle
-            showMessage("register-message", "", "");
+    // Önceki mesajları temizle
+    showMessage("register-message", "", "");
 
-            try {
-              const formData = {
-                name: document.getElementById("register-name").value,
-                surname: document.getElementById("register-surname").value,
-                email: document.getElementById("register-email").value,
-                username: document.getElementById("register-username").value,
-                password: document.getElementById("registerPassword").value,
-                userType: studentBtn.classList.contains("active")
-                  ? "student"
-                  : "teacher",
-              };
+    try {
+      const formData = {
+        name: document.getElementById("register-name").value,
+        surname: document.getElementById("register-surname").value,
+        email: document.getElementById("register-email").value,
+        username: document.getElementById("register-username").value,
+        password: document.getElementById("registerPassword").value,
+        userType: studentBtn.classList.contains("active")
+          ? "student"
+          : "teacher",
+      };
 
-              const response = await fetch("/.netlify/functions/register", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData),
-              });
+      const response = await fetch("/.netlify/functions/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-              const result = await response.json();
-              if (response.ok) {
-                showMessage(
-                  "register-message",
-                  result.message || "Kayıt başarılı!",
-                  "success"
-                );
+      const result = await response.json();
 
-                registerForm.reset();
+      if (response.ok) {
+        showMessage(
+          "register-message",
+          result.message || "Kayıt başarılı!",
+          "success"
+        );
 
-                setTimeout(() => {
-                  toggleForm(true);
-                }, 2000);
-              } else {
-                showMessage(
-                  "register-message",
-                  result.message || "Bilinmeyen bir hata oluştu.",
-                  "error"
-                );
-              }
-            } catch (error) {
-              console.error("Kayıt sırasında hata:", error);
-              showMessage(
-                "register-message",
-                "Bir ağ hatası oluştu. Lütfen tekrar deneyin.",
-                "error"
-              );
-            } finally {
-              registerButton.disabled = false;
-              registerButton.innerHTML =
-                '<i class="fas fa-user-plus"></i> Kayıt Ol';
-            }
-          });
+        registerForm.reset();
+
+        setTimeout(() => {
+          toggleForm(true);
+        }, 2000);
+      } else {
+        // Özel kontrol: kullanıcı adı alınmışsa
+        if (result.message && result.message.toLowerCase().includes("username")) {
+          showMessage(
+            "register-message",
+            "Bu kullanıcı adı zaten alınmıştır. Lütfen başka bir kullanıcı adı deneyin.",
+            "error"
+          );
+        } else {
+          showMessage(
+            "register-message",
+            result.message || "Bilinmeyen bir hata oluştu.",
+            "error"
+          );
         }
+      }
+    } catch (error) {
+      console.error("Kayıt sırasında hata:", error);
+      showMessage(
+        "register-message",
+        "Bir ağ hatası oluştu. Lütfen tekrar deneyin.",
+        "error"
+      );
+    } finally {
+      registerButton.disabled = false;
+      registerButton.innerHTML =
+        '<i class="fas fa-user-plus"></i> Kayıt Ol';
+    }
+  });
+}
+
 
         const loginForm = document.getElementById("login-form");
         if (loginForm) {

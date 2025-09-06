@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html lang="tr">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Giriş ve Kayıt</title>
-    <link rel="stylesheet" href="Giriş.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
-  </head>
-  <body>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="Giriş.css" />
+</head>
+<body>
     <div class="logo">
       <i class="fas fa-graduation-cap"></i>
       <span>KutAI</span>
     </div>
 
     <div class="main">
-      <div class="user-type-selector">
+      <div class="user-type-selector" id="user-type-selector">
         <button class="user-type-btn active" id="student-btn">
           <i class="fas fa-user-graduate"></i> Öğrenci
         </button>
@@ -27,10 +28,11 @@
       </div>
 
       <input type="checkbox" id="chk" aria-hidden="true" />
+      <input type="checkbox" id="forgot-chk" aria-hidden="true" />
 
       <div class="signup">
         <form id="register-form">
-          <label> <i class="fas fa-user-plus"></i> Kayıt Ol </label>
+          <label> <i class="fas fa-user-plus"></i> Öğrenci Kaydı </label>
 
           <div id="register-message" class="message-box"></div>
 
@@ -115,12 +117,16 @@
           <p class="info-text">
             Hesabınız var mı? <a onclick="toggleForm()">Giriş yapın</a>
           </p>
+          
+          <p class="info-text">
+            Öğretmen misiniz? <a id="teacher-info-link" onclick="toggleTeacherOverlay()">Bilgi alın</a>
+          </p>
         </form>
       </div>
 
       <div class="login">
         <form id="login-form">
-          <label> <i class="fas fa-sign-in-alt"></i> Giriş Yap </label>
+          <label> <i class="fas fa-sign-in-alt"></i> Öğrenci Girişi </label>
           <!-- Giriş formu için mesaj kutusu -->
           <div id="login-message" class="message-box"></div>
 
@@ -160,6 +166,10 @@
             <i class="fas fa-sign-in-alt"></i> Giriş Yap
           </button>
 
+          <div class="forgot-link">
+            <a onclick="toggleForgotPassword()">Şifremi unuttum</a>
+          </div>
+
           <div class="divider">
             <div class="divider-line"></div>
             <div class="divider-text">veya</div>
@@ -171,7 +181,124 @@
           </p>
         </form>
       </div>
+
+      <div class="forgot-password">
+        <form id="forgot-password-form">
+          <label> <i class="fas fa-key"></i> Şifremi Unuttum </label>
+
+          <div id="forgot-message" class="message-box"></div>
+
+          <div class="input-group">
+            <i class="fas fa-envelope input-icon"></i>
+            <input
+              type="email"
+              name="email"
+              placeholder=" "
+              required
+              id="forgot-email"
+            />
+            <span class="floating-label">Email Adresiniz</span>
+          </div>
+
+          <button type="submit" id="forgot-button">
+            <i class="fas fa-paper-plane"></i> Şifre Sıfırlama Maili Gönder
+          </button>
+
+          <div class="divider">
+            <div class="divider-line"></div>
+            <div class="divider-text">veya</div>
+            <div class="divider-line"></div>
+          </div>
+
+          <p class="info-text">
+            <a onclick="toggleBackToLogin()">Giriş sayfasına dön</a>
+          </p>
+        </form>
+      </div>
     </div>
+
+    <!-- ÖĞRETMEN OVERLAY -->
+<div id="teacher-overlay" class="overlay">
+  <div id="teacher-container" class="p-4">
+    <div class="teacher-content bg-white rounded-4 shadow-lg p-5">
+      
+      <!-- Başlık -->
+      <span class="badge bg-danger px-3 py-2 fs-6 mb-3">Öğretmen Bilgilendirme</span>
+      <h2 class="story-title fw-bold mb-2">Öğretmen Kayıt Süreci</h2>
+      <div class="border-bottom border-danger border-3 mb-4" style="width: 60px"></div>
+      
+      <!-- Açıklama -->
+      <div class="story-section mb-4">
+        <p class="lead fw-semibold">
+          Öğretmen olanların güvenliği için <strong>okulları ya da bireysel olarak</strong> bizimle direkt olarak iletişime geçerek hesap açmaları gerekmektedir.
+        </p>
+      </div>
+      
+      <!-- Alıntı -->
+      <div class="highlight bg-light p-4 rounded-3 mb-5 shadow-sm">
+        <div class="d-flex">
+          <i class="bi bi-quote fs-1 text-danger opacity-25 me-3"></i>
+          <div>
+            <blockquote class="mb-0 fst-italic fw-semibold">
+              "Eğitimde güvenlik her şeyden önce gelir. Öğretmen hesaplarının güvenliği için ek önlemler alınmaktadır."
+            </blockquote>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Liste -->
+      <ul class="list-unstyled mt-3">
+        <li class="mb-4">
+          <div class="d-flex align-items-start">
+           
+            <div>
+              <span class="badge bg-danger mb-1">  <i class="bi bi-shield-check text-danger fs-4 me-3 mt-1"></i> Güvenlik Önlemleri</span>
+              <p class="fw-semibold mb-0">Öğretmen hesapları ek güvenlik önlemleri ile korunmaktadır.</p>
+              <p class="text-muted small">Hesap açma süreci manuel olarak kontrol edilmektedir.</p>
+            </div>
+          </div>
+        </li>
+        
+        <li class="mb-4">
+          <div class="d-flex align-items-start">
+          
+            <div>
+              <span class="badge bg-danger mb-1">  <i class="bi bi-envelope text-danger fs-4 me-3 mt-1"></i> İletişim Süreci</span>
+              <p class="fw-semibold mb-0">Öğretmen kaydı için aşağıdaki e-posta adresine okul bilgilerinizi iletmeniz gerekmektedir.</p>
+              <p class="text-muted small">Okul adı, göreviniz ve iletişim bilgileriniz belirtilmelidir.</p>
+            </div>
+          </div>
+        </li>
+        
+        <li class="mb-4">
+          <div class="d-flex align-items-start">
+     
+            <div>
+              <span class="badge bg-danger mb-1">  <i class="bi bi-clock-history text-danger fs-4 me-3 mt-1"></i> İşlem Süresi</span>
+              <p class="fw-semibold mb-0">İletişime geçtikten sonra hesabınızın açılması <strong>1-3 iş günü</strong> sürebilir.</p>
+              <p class="text-muted small">Onay sürecinden sonra giriş bilgileriniz e-posta ile iletilecektir.</p>
+            </div>
+          </div>
+        </li>
+      </ul>
+      
+      <!-- Uyarı -->
+      <div class="alert alert-danger mt-5 d-flex align-items-center shadow-sm">
+        <i class="bi bi-exclamation-triangle-fill fs-3 me-3"></i>
+        <div class="fw-semibold">
+          <strong>İletişim Bilgisi:</strong> Öğretmen kaydı için lütfen 
+          <span class="fw-bold">tulpar.kutai@kutai.com</span> adresine e-posta gönderiniz.
+        </div>
+      </div>
+      
+      <!-- Kapat Butonu -->
+      <button id="teacher-close-btn" class="btn btn-danger btn-lg w-100 mt-4 rounded-pill fw-bold">
+        <i class="bi bi-x-circle-fill me-2"></i> Pencereyi Kapat
+      </button>
+      
+    </div>
+  </div>
+</div>
 
     <script>
       function togglePasswordVisibility(fieldId, iconElement) {
@@ -232,6 +359,11 @@
 
       function toggleForm(toLogin = false) {
         const chk = document.getElementById("chk");
+        const forgotChk = document.getElementById("forgot-chk");
+        
+        // Şifremi unuttum formunu kapat
+        forgotChk.checked = false;
+        
         // Eğer toLogin true ise, giriş formunu göster (checked=false yap)
         // Değilse mevcut davranışı uygula (toggle)
         if (toLogin === true) {
@@ -242,29 +374,128 @@
 
         const event = new Event("change");
         chk.dispatchEvent(event);
+        forgotChk.dispatchEvent(event);
 
         // Form değiştirildiğinde mesaj kutularını temizle
         showMessage("register-message", "", "");
         showMessage("login-message", "", "");
+        showMessage("forgot-message", "", "");
+        
+        // Ana yüksekliği ayarla
+        adjustMainHeight();
       }
+      
+      function toggleForgotPassword() {
+        const chk = document.getElementById("chk");
+        const forgotChk = document.getElementById("forgot-chk");
+        
+        chk.checked = false;
+        forgotChk.checked = true;
+        
+        const event = new Event("change");
+        chk.dispatchEvent(event);
+        forgotChk.dispatchEvent(event);
+        
+        // Mesaj kutularını temizle
+        showMessage("register-message", "", "");
+        showMessage("login-message", "", "");
+        showMessage("forgot-message", "", "");
+        
+        // Ana yüksekliği ayarla
+        adjustMainHeight();
+      }
+      
+      function toggleBackToLogin() {
+        const chk = document.getElementById("chk");
+        const forgotChk = document.getElementById("forgot-chk");
+        
+        chk.checked = false;
+        forgotChk.checked = false;
+        
+        const event = new Event("change");
+        chk.dispatchEvent(event);
+        forgotChk.dispatchEvent(event);
+        
+        // Mesaj kutularını temizle
+        showMessage("register-message", "", "");
+        showMessage("login-message", "", "");
+        showMessage("forgot-message", "", "");
+        
+        // Ana yüksekliği ayarla
+        adjustMainHeight();
+      }
+      
+      function toggleTeacherOverlay() {
+        const teacherOverlay = document.getElementById("teacher-overlay");
+        teacherOverlay.classList.toggle("active");
+      }
+      
+      function adjustMainHeight() {
+        const mainContainer = document.querySelector(".main");
+        const chk = document.getElementById("chk");
+        const forgotChk = document.getElementById("forgot-chk");
+        
+        if (forgotChk.checked) {
+          // Şifremi unuttum formu aktif
+          mainContainer.style.height = "450px";
+        } else if (chk.checked) {
+          // Kayıt formu aktifse yüksekliği artır
+          mainContainer.style.height = "750px";
+        } else {
+          // Giriş formu aktifse yüksekliği azalt
+          mainContainer.style.height = "540px";
+        }
+      }
+
       document.addEventListener("DOMContentLoaded", function () {
         const studentBtn = document.getElementById("student-btn");
         const teacherBtn = document.getElementById("teacher-btn");
+        const userTypeSelector = document.getElementById("user-type-selector");
+        const teacherOverlay = document.getElementById("teacher-overlay");
+        const teacherCloseBtn = document.getElementById("teacher-close-btn");
 
         const chk = document.getElementById("chk");
+        const forgotChk = document.getElementById("forgot-chk");
         const mainContainer = document.querySelector(".main");
 
-        chk.addEventListener("change", function () {
-          if (this.checked) {
-            // Kayıt formu aktifse yüksekliği artır
-            mainContainer.style.height = "750px";
-          } else {
-            // Giriş formu aktifse yüksekliği azalt
-            mainContainer.style.height = "540px";
+        // Öğretmen overlay kapatma
+        if (teacherCloseBtn) {
+          teacherCloseBtn.addEventListener("click", function() {
+            teacherOverlay.classList.remove("active");
+          });
+        }
+
+        // Overlay dışına tıklanınca kapat
+        teacherOverlay.addEventListener("click", function(e) {
+          if (e.target === teacherOverlay) {
+            teacherOverlay.classList.remove("active");
           }
+        });
+
+        chk.addEventListener("change", function () {
+          // Kayıt formu açıldığında sadece öğrenci seçeneğini göster
+          if (this.checked) {
+            userTypeSelector.style.width = "200px";
+            teacherBtn.style.display = "none";
+            studentBtn.style.flex = "1";
+          } else {
+            userTypeSelector.style.width = "90%";
+            teacherBtn.style.display = "flex";
+          }
+          
+          adjustMainHeight();
           // Form değişiminde mesajları temizle
           showMessage("register-message", "", "");
           showMessage("login-message", "", "");
+          showMessage("forgot-message", "", "");
+        });
+        
+        forgotChk.addEventListener("change", function () {
+          adjustMainHeight();
+          // Form değişiminde mesajları temizle
+          showMessage("register-message", "", "");
+          showMessage("login-message", "", "");
+          showMessage("forgot-message", "", "");
         });
 
         studentBtn.addEventListener("click", function () {
@@ -274,13 +505,17 @@
             if (label.querySelector("i").classList.contains("fa-sign-in-alt")) {
               label.innerHTML =
                 '<i class="fas fa-sign-in-alt"></i> Öğrenci Girişi';
-            } else {
+            } else if (label.querySelector("i").classList.contains("fa-user-plus")) {
               label.innerHTML =
                 '<i class="fas fa-user-plus"></i> Öğrenci Kaydı';
+            } else if (label.querySelector("i").classList.contains("fa-key")) {
+              label.innerHTML =
+                '<i class="fas fa-key"></i> Şifremi Unuttum';
             }
           });
           showMessage("register-message", "", "");
           showMessage("login-message", "", "");
+          showMessage("forgot-message", "", "");
         });
 
         teacherBtn.addEventListener("click", function () {
@@ -290,13 +525,17 @@
             if (label.querySelector("i").classList.contains("fa-sign-in-alt")) {
               label.innerHTML =
                 '<i class="fas fa-sign-in-alt"></i> Öğretmen Girişi';
-            } else {
+            } else if (label.querySelector("i").classList.contains("fa-user-plus")) {
               label.innerHTML =
                 '<i class="fas fa-user-plus"></i> Öğretmen Kaydı';
+            } else if (label.querySelector("i").classList.contains("fa-key")) {
+              label.innerHTML =
+                '<i class="fas fa-key"></i> Şifremi Unuttum';
             }
           });
           showMessage("register-message", "", "");
           showMessage("login-message", "", "");
+          showMessage("forgot-message", "", "");
         });
 
         const registerForm = document.getElementById("register-form");
@@ -443,7 +682,70 @@
             }
           });
         }
+        
+        // Şifremi unuttum formu işleme
+        const forgotForm = document.getElementById("forgot-password-form");
+        if (forgotForm) {
+          forgotForm.addEventListener("submit", async function (event) {
+            event.preventDefault();
+            const forgotButton = document.getElementById("forgot-button");
+            forgotButton.disabled = true;
+            forgotButton.innerHTML =
+              '<i class="fas fa-spinner fa-spin"></i> Gönderiliyor...';
+
+            // Önceki mesajları temizle
+            showMessage("forgot-message", "", "");
+
+            try {
+              const email = document.getElementById("forgot-email").value;
+              const userType = studentBtn.classList.contains("active")
+                ? "student"
+                : "teacher";
+
+              const response = await fetch("/.netlify/functions/forgot-password", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, userType }),
+              });
+
+              const result = await response.json();
+              if (response.ok) {
+                showMessage(
+                  "forgot-message",
+                  result.message || "Şifre sıfırlama maili gönderildi!",
+                  "success"
+                );
+
+                forgotForm.reset();
+
+                setTimeout(() => {
+                  toggleBackToLogin();
+                }, 2000);
+              } else {
+                showMessage(
+                  "forgot-message",
+                  result.message || "Bu email adresi ile kayıtlı kullanıcı bulunamadı.",
+                  "error"
+                );
+              }
+            } catch (error) {
+              console.error("Şifre sıfırlama sırasında hata:", error);
+              showMessage(
+                "forgot-message",
+                "Bir ağ hatası oluştu. Lütfen tekrar deneyin.",
+                "error"
+              );
+            } finally {
+              forgotButton.disabled = false;
+              forgotButton.innerHTML =
+                '<i class="fas fa-paper-plane"></i> Şifre Sıfırlama Maili Gönder';
+            }
+          });
+        }
+        
+        // Sayfa yüklendiğinde yüksekliği ayarla
+        adjustMainHeight();
       });
     </script>
-  </body>
+</body>
 </html>

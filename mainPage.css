@@ -248,107 +248,50 @@ section {
   padding: 5rem 0;
 }
 
-.character-carousel-wrapper {
-  position: relative;
-  overflow: hidden;
-}
-
-.carousel-control {
-  position: absolute;
-  top: 50%;
-  z-index: 1000; /* Yüksek tutun! */
-  background: #fff;
-  border: none;
-  border-radius: 50%;
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: translateY(-50%);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  cursor: pointer;
-  font-size: 2rem;
-  color: #d32f2f;
-  opacity: 0.9;
-  pointer-events: auto;
-}
-.prev-btn { left: 0; }
-.next-btn { right: 0; }
-
 .character-carousel {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 40px; /* Kartlar arasındaki mesafeyi artırır */
-    transition: transform 0.5s ease-in-out;
-    padding: 0 20px;
-    width: 100%;
-    overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 40px;
+  flex-wrap: wrap;
 }
 
 .character-card {
-    /* flex-basis değerini artırarak kart genişliğini artırır */
-    flex: 0 0 380px;
-    min-width: 380px;
-    max-width: 420px; /* Maksimum genişlik sınırı koyar */
-    box-sizing: border-box;
-    padding: 20px;
-    background-color: white;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    opacity: 0.6;
-    transform: scale(0.95);
-    transition: all 0.4s ease;
-    min-height: auto;
-}
-.character-card.active {
-  opacity: 1;
-  transform: scale(1);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  flex: 0 0 300px;
+  max-width: 340px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  opacity: 0.6;
+  transform: scale(0.95);
+  transition: all 0.4s ease;
+  cursor: pointer;
 }
 
+
 #karakterler .character-image {
-  width: 100% !important;
-  height: 380px !important; /* İstediğiniz yüksekliği buraya yazın */
-  overflow: hidden !important;
-  position: relative !important;
-  border-radius: 10px !important;
-  margin-bottom: 15px !important;
-  background-color: #f0f0f0 !important;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  background-color: #f0f0f0;
 }
 
 #karakterler .character-image img {
-  width: 100% !important;
-  height: auto !important;
-  position: absolute !important;
-  top: 0 !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.character-card:hover .character-image img {
-  transform: translateX(-50%); /* Sadece yatayda ortalamayı koru, başka bir transform olmasın */
-  transition: none; /* Üzerine gelince geçiş efektini kaldır */
-}
-
-/* JavaScript'ten gelen .active class'ı dışındaki kartlara uygulanan hover efektini sıfırla */
-.character-card:not(.active):hover {
-    transform: scale(0.95); /* Aktif olmayan kartların hover durumunu da sabit tut */
-}
-
+/* Detaylar */
 .character-details {
-  flex-grow: 1;
   display: flex;
   flex-direction: column;
-  padding: 0 10px;
-}
-
-.character-description {
-  flex-grow: 1; 
 }
 
 .character-type {
@@ -372,13 +315,6 @@ section {
   font-size: 0.7rem;
 }
 
-
-
-.carousel-control:hover {
-  background: #dc3545;
-  color: white;
-  transform: translateY(-50%) scale(1.1);
-}
 
 
 .section-title {
@@ -820,4 +756,12 @@ footer {
 /* Butonun olduğu div'in konumlandırma referansı olmasını sağla */
 .dropdown {
   position: relative;
+}
+
+.character-card.active {
+  opacity: 1 !important;
+  transform: scale(1.1) !important;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.25) !important;
+  z-index: 10 !important;
+  background-color: #ffffff !important; /* gri arka planı bastır */
 }

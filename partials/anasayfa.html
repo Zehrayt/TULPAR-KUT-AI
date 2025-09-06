@@ -162,9 +162,7 @@ document.getElementById("overlay").addEventListener("click", (e) => {
   <div class="container">
     <h2 class="text-center section-title">Karakterler</h2>
     <div class="character-carousel-wrapper">
-      <button class="carousel-control prev-btn" data-dir="prev">
-        <i class="bi bi-chevron-left"></i>
-      </button>
+     
       <div class="character-carousel">
         <!-- Arda'nın Kartı -->
         <div class="character-card active" data-index="0">
@@ -230,9 +228,7 @@ document.getElementById("overlay").addEventListener("click", (e) => {
           </div>
         </div>
       </div>
-      <button class="carousel-control next-btn" data-dir="next">
-        <i class="bi bi-chevron-right"></i>
-      </button>
+   
     </div>
   </div>
 </section>
@@ -543,67 +539,16 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    const cards = document.querySelectorAll(".character-card");
 
-    const carouselWrapper = document.querySelector('.character-carousel-wrapper');
-    const carouselContainer = document.querySelector('.character-card-container');
-    const cards = Array.from(document.querySelectorAll('.character-card'));
-    const prevBtn = document.querySelector('.prev-btn');
-    const nextBtn = document.querySelector('.next-btn');
-    let currentIndex = 1; // Başlangıçta ortadaki kart (Selin) 1. indekste
-
-    // Carousel'i başlat
-    function updateCarousel() {
-        const totalCards = cards.length;
-        // Ortadaki kartın indeksini ayarla
-        const centerIndex = currentIndex;
-        const prevIndex = (currentIndex - 1 + totalCards) % totalCards;
-        const nextIndex = (currentIndex + 1) % totalCards;
-
-        cards.forEach(card => {
-            card.classList.remove('active-center');
-            card.style.opacity = '0.6';
-            card.style.transform = 'scale(0.95)';
-            card.style.pointerEvents = 'none'; // Aktif olmayan kartlara tıklamayı engelle
-        });
-
-        // Ortadaki kartı aktifleştir
-        cards[centerIndex].classList.add('active-center');
-        cards[centerIndex].style.pointerEvents = 'auto'; // Aktif karta tıklamayı etkinleştir
-
-        // Sol ve sağ kartları göster
-        cards[prevIndex].style.opacity = '0.6';
-        cards[prevIndex].style.transform = 'scale(0.95)';
-        cards[prevIndex].style.pointerEvents = 'auto';
-
-        cards[nextIndex].style.opacity = '0.6';
-        cards[nextIndex].style.transform = 'scale(0.95)';
-        cards[nextIndex].style.pointerEvents = 'auto';
-
-        // Geri kalan kartları görünmez yap
-        for(let i = 0; i < totalCards; i++) {
-            if (i !== centerIndex && i !== prevIndex && i !== nextIndex) {
-                cards[i].style.opacity = '0';
-                cards[i].style.pointerEvents = 'none';
-            }
-        }
-
-        // Konumu kaydır
-        const cardWidth = cards[0].offsetWidth + 20; // Kart genişliği + gap
-        carouselContainer.style.transform = `translateX(-${(currentIndex - 1) * cardWidth}px)`;
-    }
-
-    // Buton tıklama olayları
-    prevBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-        updateCarousel();
+  cards.forEach(card => {
+    card.addEventListener("click", () => {
+      // önce tüm kartlardan active class'ını kaldır
+      cards.forEach(c => c.classList.remove("active"));
+      // tıklanan karta ekle
+      card.classList.add("active");
     });
+  });
 
-    nextBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex + 1) % cards.length;
-        updateCarousel();
-    });
-
-    // Sayfa yüklendiğinde carousel'i başlat
-    updateCarousel();
 });
 </script>

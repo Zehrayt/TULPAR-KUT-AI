@@ -132,7 +132,7 @@ const initCharacterButtons = () => {
     const prevBtn = document.querySelector(".prev-btn");
     const nextBtn = document.querySelector(".next-btn");
 
-    if (!cards.length || !prevBtn || !nextBtn) return;
+    if (!cards.length) return; // Eğer kart yoksa çık
 
     let currentIndex = 0;
 
@@ -142,22 +142,26 @@ const initCharacterButtons = () => {
         });
     };
 
-    prevBtn.addEventListener("click", () => {
-        currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-        updateActiveCard();
-    });
+    if (prevBtn) {
+        prevBtn.addEventListener("click", () => {
+            currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+            updateActiveCard();
+        });
+    }
 
-    nextBtn.addEventListener("click", () => {
-        currentIndex = (currentIndex + 1) % cards.length;
-        updateActiveCard();
-    });
+    if (nextBtn) {
+        nextBtn.addEventListener("click", () => {
+            currentIndex = (currentIndex + 1) % cards.length;
+            updateActiveCard();
+        });
+    }
 
-    // Başlangıçta active kartı ayarla
+    // Sayfa yüklendiğinde ilk kart aktif olsun
     updateActiveCard();
 };
 
 // Sayfa veya section yüklendiğinde çağır
-initCharacterButtons();
+document.addEventListener("DOMContentLoaded", initCharacterButtons);
     // ======================================================
     // NAVBAR / SAYFA GEÇİŞLERİ
     // ======================================================

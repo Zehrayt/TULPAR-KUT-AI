@@ -28,10 +28,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 oldScript.parentNode.replaceChild(newScript, oldScript);
             }
 
+             animateCounters();
             // ✅ Eğer ANASAYFA yüklendiyse karakterler + sayaçları başlat
             if (pageName === "anasayfa") {
                 initCharacterCarousel();
-                animateCounters();
+               
             }
 
         } catch (error) {
@@ -103,31 +104,34 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("scroll", animateOnScroll);
     animateOnScroll();
 
-  const animateCounters = () => {
-    const counters = [
-        { id: "counter1", target: 12 },
-        { id: "counter2", target: 5 },
-        { id: "counter3", target: 50 }
-    ];
+     const animateCounters = () => {
+        const counters = [
+            { id: "counter1", target: 12 },
+            { id: "counter2", target: 5 },
+            { id: "counter3", target: 50 }
+        ];
 
-    counters.forEach(counter => {
-        const el = document.getElementById(counter.id);
-        if (!el) return;  // ✅ yoksa hata verme
-
-        let current = 0;
-        const increment = Math.ceil(counter.target / 100);
-
-        const interval = setInterval(() => {
-            current += increment;
-            if (current >= counter.target) {
-                el.textContent = counter.target;
-                clearInterval(interval);
-            } else {
-                el.textContent = current;
+        counters.forEach(counter => {
+            const el = document.getElementById(counter.id);
+            if (!el) {
+                console.warn(`Counter ID'si bulunamadı: ${counter.id}`); // Debug için uyarı eklendi
+                return;
             }
-        }, 20);
-    });
-};
+
+            let current = 0;
+            const increment = Math.ceil(counter.target / 100);
+
+            const interval = setInterval(() => {
+                current += increment;
+                if (current >= counter.target) {
+                    el.textContent = counter.target;
+                    clearInterval(interval);
+                } else {
+                    el.textContent = current;
+                }
+            }, 20);
+        });
+    };
     // ======================================================
     // KARAKTERLER CAROUSEL (Sabit kartlar, sadece active değişir)
     // ======================================================

@@ -28,9 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 oldScript.parentNode.replaceChild(newScript, oldScript);
             }
 
-            // Counter ve oyun konusu overlay
-            animateCounters();
-            attachOyunKonusuEvents();
         } catch (error) {
             console.error("Sayfa Yükleme Hatası:", error);
             contentContainer.innerHTML = `<div class="alert alert-danger text-center">${error.message}</div>`;
@@ -128,37 +125,39 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 // ======================================================
-    // KARAKTERLER CAROUSEL
-    // ======================================================
-    const initCharacterCarousel = () => {
-        const cards = document.querySelectorAll(".character-card");
-        const prevBtn = document.querySelector(".prev-btn");
-        const nextBtn = document.querySelector(".next-btn");
+// KARAKTERLER BUTONLARI (SABİT KARTLAR, SADECE ACTIVE DEĞİŞECEK)
+// ======================================================
+const initCharacterButtons = () => {
+    const cards = document.querySelectorAll(".character-card");
+    const prevBtn = document.querySelector(".prev-btn");
+    const nextBtn = document.querySelector(".next-btn");
 
-        // Eğer carousel elemanları yoksa çık
-        if (!cards.length || !prevBtn || !nextBtn) return;
+    if (!cards.length || !prevBtn || !nextBtn) return;
 
-        let currentIndex = 0;
+    let currentIndex = 0;
 
-        const updateCarousel = () => {
-            cards.forEach((card, index) => {
-                card.classList.toggle("active", index === currentIndex);
-            });
-        };
-
-        prevBtn.addEventListener("click", () => {
-            currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-            updateCarousel();
+    const updateActiveCard = () => {
+        cards.forEach((card, index) => {
+            card.classList.toggle("active", index === currentIndex);
         });
-
-        nextBtn.addEventListener("click", () => {
-            currentIndex = (currentIndex + 1) % cards.length;
-            updateCarousel();
-        });
-
-        updateCarousel();
     };
 
+    prevBtn.addEventListener("click", () => {
+        currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+        updateActiveCard();
+    });
+
+    nextBtn.addEventListener("click", () => {
+        currentIndex = (currentIndex + 1) % cards.length;
+        updateActiveCard();
+    });
+
+    // Başlangıçta active kartı ayarla
+    updateActiveCard();
+};
+
+// Sayfa veya section yüklendiğinde çağır
+initCharacterButtons();
     // ======================================================
     // NAVBAR / SAYFA GEÇİŞLERİ
     // ======================================================

@@ -28,9 +28,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 oldScript.parentNode.replaceChild(newScript, oldScript);
             }
 
-            // Partial yüklendikten sonra gerekli eventleri başlat
+            // Eventleri bağla
             attachOyunKonusuEvents();
-            initCharacterCarousel();
+            attachSurveyEvents();
             animateCounters();
         } catch (error) {
             console.error("Sayfa Yükleme Hatası:", error);
@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // ======================================================
-    // SAYFA BÖLÜMÜ YÜKLEME (örn. #oyunkonusu)
+    // SAYFA BÖLÜMÜ YÜKLEME
     // ======================================================
     const loadSection = async (sectionId) => {
         try {
@@ -55,9 +55,8 @@ document.addEventListener("DOMContentLoaded", () => {
             contentContainer.appendChild(section);
             window.scrollTo({ top: contentContainer.offsetTop, behavior: "smooth" });
 
-            // Section yüklendikten sonra overlay eventlerini bağla
             if (sectionId === "#oyunkonusu") attachOyunKonusuEvents();
-            initCharacterCarousel();
+            attachSurveyEvents();
             animateCounters();
         } catch (error) {
             console.error("Bölüm Yükleme Hatası:", error);
@@ -66,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // ======================================================
-    // HİKAYE / OYUN KONUSU OVERLAY EVENTLERİ
+    // HİKAYE / OYUN KONUSU OVERLAY
     // ======================================================
     const attachOyunKonusuEvents = () => {
         const overlay = document.getElementById("overlay");
@@ -80,6 +79,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
         overlay.addEventListener("click", (e) => {
             if (e.target === overlay) overlay.classList.remove("active");
+        });
+    };
+
+    // ======================================================
+    // ANKET MODAL EVENTLERİ
+    // ======================================================
+    const attachSurveyEvents = () => {
+        const surveyBtns = document.querySelectorAll(".btn-outline-primary");
+        surveyBtns.forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                e.preventDefault();
+                const modalId = btn.getAttribute("data-target");
+                const modal = document.querySelector(modalId);
+                if (modal) modal.classList.add("active");
+            });
+        });
+
+        const closeBtns = document.querySelectorAll(".close-btn");
+        closeBtns.forEach(btn => {
+            btn.addEventListener("click", () => {
+                const modal = btn.closest(".survey-modal");
+                if (modal) modal.classList.remove("active");
+            });
+        });
+
+        const modals = document.querySelectorAll(".survey-modal");
+        modals.forEach(modal => {
+            modal.addEventListener("click", (e) => {
+                if (e.target === modal) modal.classList.remove("active");
+            });
         });
     };
 
@@ -129,46 +158,20 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // ======================================================
-    // KARAKTERLER CAROUSEL
+    // KARAKTERLER (SABİT KARTLAR)
     // ======================================================
     const initCharacterCarousel = () => {
-        const carousel = document.querySelector(".character-carousel");
+        // Kartlar sabit duracak, kaydırma yok
         const cards = document.querySelectorAll(".character-card");
-        if (!carousel || cards.length === 0) return;
-
-        const prevBtn = document.querySelector(".prev-btn");
-        const nextBtn = document.querySelector(".next-btn");
-        let currentIndex = 0;
-
-        const updateCarousel = () => {
-            cards.forEach((card, index) => {
-                card.classList.toggle("active", index === currentIndex);
-            });
-            const cardWidth = cards[0].offsetWidth + 40;
-            const offset = -(cardWidth * currentIndex - (carousel.offsetWidth - cardWidth) / 2);
-            carousel.style.transform = `translateX(${offset}px)`;
-        };
-
-        if (prevBtn)
-            prevBtn.addEventListener("click", () => {
-                currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-                updateCarousel();
-            });
-
-        if (nextBtn)
-            nextBtn.addEventListener("click", () => {
-                currentIndex = (currentIndex + 1) % cards.length;
-                updateCarousel();
-            });
-
-        updateCarousel();
+        if (!cards) return;
+        cards.forEach(card => card.classList.add("active")); // hepsi görünür
     };
+    initCharacterCarousel();
 
     // ======================================================
-    // NAVBAR VE MODAL EVENTLERİ
+    // NAVBAR VE SAYFA GEÇİŞLERİ
     // ======================================================
     document.body.addEventListener('click', (e) => {
-        // Sayfa linkleri
         const pageLink = e.target.closest('a[data-page]');
         if (pageLink) {
             e.preventDefault();
@@ -176,7 +179,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // Section linkleri
         const sectionLink = e.target.closest('a[data-section]');
         if (sectionLink) {
             e.preventDefault();
@@ -184,7 +186,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // Logout
         const logoutButton = e.target.closest('#logout-button');
         if (logoutButton) {
             e.preventDefault();
@@ -194,33 +195,12 @@ document.addEventListener("DOMContentLoaded", () => {
             window.location.href = 'index.html';
         }
 
-        // Kullanıcı hesabına tıklama
         const userMenu = e.target.closest('#user-menu');
         if (userMenu) {
             e.preventDefault();
             const menu = document.querySelector('#user-dropdown');
             if (menu) menu.classList.toggle('show');
         }
-
-        // Anket butonları (delegated)
-        const surveyBtn = e.target.closest(".btn-outline-primary");
-        if (surveyBtn) {
-            e.preventDefault();
-            const modalId = surveyBtn.getAttribute("data-target");
-            const modal = document.querySelector(modalId);
-            if (modal) modal.classList.add("active");
-        }
-
-        // Kapatma butonları
-        const closeBtn = e.target.closest(".close-btn");
-        if (closeBtn) {
-            const modal = closeBtn.closest(".survey-modal");
-            if (modal) modal.classList.remove("active");
-        }
-
-        // Modal arkaplanına tıklama
-        const modalBg = e.target.closest(".survey-modal");
-        if (modalBg && e.target === modalBg) modalBg.classList.remove("active");
     });
 
     // ======================================================

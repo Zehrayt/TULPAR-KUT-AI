@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Karakterler carousel ve counter animasyonunu çalıştır
             initCharacterCarousel();
             animateCounters();
+            attachOyunKonusuEvents(); // hikaye kısmı
         } catch (error) {
             console.error("Sayfa Yükleme Hatası:", error);
             contentContainer.innerHTML = `<div class="alert alert-danger text-center">${error.message}</div>`;
@@ -53,7 +54,9 @@ document.addEventListener("DOMContentLoaded", () => {
             contentContainer.appendChild(section);
             window.scrollTo({ top: contentContainer.offsetTop, behavior: "smooth" });
 
-            // Karakterler carousel ve counter animasyonunu çalıştır
+            // Anket ve hikaye eventlerini ekle
+            attachSurveyEvents();
+            attachOyunKonusuEvents();
             initCharacterCarousel();
             animateCounters();
         } catch (error) {
@@ -63,16 +66,51 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // ======================================================
+    // HİKAYE (OYUN KONUSU) EVENTLERİ
+    // ======================================================
+    const attachOyunKonusuEvents = () => {
+        const openBtn = document.getElementById("open-textbox-btn");
+        const closeBtn = document.getElementById("close-btn");
+        const overlay = document.getElementById("overlay");
+        if (openBtn && overlay) openBtn.addEventListener("click", () => overlay.classList.add("active"));
+        if (closeBtn && overlay) closeBtn.addEventListener("click", () => overlay.classList.remove("active"));
+        if (overlay) overlay.addEventListener("click", (e) => {
+            if (e.target === overlay) overlay.classList.remove("active");
+        });
+    };
+
+    // ======================================================
+    // ANKET MODAL EVENTLERİ
+    // ======================================================
+    const attachSurveyEvents = () => {
+        document.querySelectorAll(".btn-outline-primary").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                const modalId = btn.getAttribute("data-target");
+                const modal = document.querySelector(modalId);
+                if (modal) modal.classList.add("active");
+            });
+        });
+        document.querySelectorAll(".close-btn").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                const modal = btn.closest(".survey-modal");
+                if (modal) modal.classList.remove("active");
+            });
+        });
+        document.querySelectorAll(".survey-modal").forEach(modal => {
+            modal.addEventListener("click", (e) => {
+                if (e.target === modal) modal.classList.remove("active");
+            });
+        });
+    };
+
+    // ======================================================
     // SCROLL ANİMASYONLARI
     // ======================================================
     const animateOnScroll = () => {
         const elements = document.querySelectorAll(".animate-on-scroll");
-        const isInViewport = (el) => {
-            const rect = el.getBoundingClientRect();
-            return rect.top < window.innerHeight && rect.bottom > 0;
-        };
         elements.forEach(el => {
-            if (isInViewport(el)) el.classList.add("active");
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0) el.classList.add("active");
             else el.classList.remove("active");
         });
     };
@@ -88,11 +126,9 @@ document.addEventListener("DOMContentLoaded", () => {
             { id: "counter2", target: 5 },
             { id: "counter3", target: 50 }
         ];
-
         counters.forEach(counter => {
             const el = document.getElementById(counter.id);
             if (!el) return;
-
             let current = 0;
             const increment = Math.ceil(counter.target / 100);
             const interval = setInterval(() => {
@@ -114,32 +150,28 @@ document.addEventListener("DOMContentLoaded", () => {
         const cards = document.querySelectorAll(".character-card");
         const prevBtn = document.querySelector(".prev-btn");
         const nextBtn = document.querySelector(".next-btn");
+        if (!cards.length) return;
         let currentIndex = 0;
-
         const updateCarousel = () => {
             cards.forEach((card, index) => {
                 card.classList.toggle("active", index === currentIndex);
             });
         };
-
         if(prevBtn) prevBtn.addEventListener("click", () => {
             currentIndex = (currentIndex - 1 + cards.length) % cards.length;
             updateCarousel();
         });
-
         if(nextBtn) nextBtn.addEventListener("click", () => {
             currentIndex = (currentIndex + 1) % cards.length;
             updateCarousel();
         });
-
         updateCarousel();
     };
 
     // ======================================================
-    // NAVBAR VE SAYFA GEÇİŞLERİ
+    // NAVBAR / SAYFA GEÇİŞLERİ
     // ======================================================
     document.body.addEventListener('click', (e) => {
-        // Sayfa linkleri (data-page ile)
         const pageLink = e.target.closest('a[data-page]');
         if (pageLink) {
             e.preventDefault();
@@ -147,8 +179,6 @@ document.addEventListener("DOMContentLoaded", () => {
             if(pageName) loadPage(pageName);
             return;
         }
-
-        // Section linkleri (data-section ile)
         const sectionLink = e.target.closest('a[data-section]');
         if (sectionLink) {
             e.preventDefault();
@@ -156,8 +186,6 @@ document.addEventListener("DOMContentLoaded", () => {
             if(sectionId) loadSection(sectionId);
             return;
         }
-
-        // Logout
         const logoutButton = e.target.closest('#logout-button');
         if (logoutButton) {
             e.preventDefault();

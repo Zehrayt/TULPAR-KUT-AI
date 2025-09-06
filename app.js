@@ -53,6 +53,10 @@ document.addEventListener("DOMContentLoaded", () => {
             contentContainer.appendChild(section);
             window.scrollTo({ top: contentContainer.offsetTop, behavior: "smooth" });
 
+            
+            // Karakterler carousel ve counter animasyonunu çalıştır
+            initCharacterCarousel();
+            animateCounters();
             // Oyun konusu overlay
             if (sectionId === "#oyunkonusu") attachOyunKonusuEvents();
         } catch (error) {
@@ -123,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 20);
         });
     };
- // ======================================================
+// ======================================================
     // KARAKTERLER CAROUSEL
     // ======================================================
     const initCharacterCarousel = () => {

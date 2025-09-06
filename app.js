@@ -125,6 +125,17 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // ======================================================
+    // KARAKTERLER SABİT GÖRÜNÜM (butonlar sadece gösterim)
+    // ======================================================
+    const showCharacters = () => {
+        // Butonlar vs sadece görünür, kartlar sabit
+        const carousel = document.querySelector(".character-carousel");
+        if (!carousel) return;
+        // Hiçbir ileri/geri işlemi yok
+        carousel.style.transform = "translateX(0)";
+    };
+
+    // ======================================================
     // NAVBAR / SAYFA GEÇİŞLERİ
     // ======================================================
     document.body.addEventListener("click", (e) => {
@@ -188,4 +199,5 @@ document.addEventListener("DOMContentLoaded", () => {
     // SAYFA İLK YÜKLENDİĞİNDE
     // ======================================================
     loadPage("anasayfa");
+    showCharacters(); // karakterler sabit
 });

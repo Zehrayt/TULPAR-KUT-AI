@@ -28,9 +28,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 oldScript.parentNode.replaceChild(newScript, oldScript);
             }
 
-            // Karakterler carousel ve counter animasyonunu çalıştır
-            initCharacterCarousel();
+            // Counter ve oyun konusu overlay
             animateCounters();
+            attachOyunKonusuEvents();
         } catch (error) {
             console.error("Sayfa Yükleme Hatası:", error);
             contentContainer.innerHTML = `<div class="alert alert-danger text-center">${error.message}</div>`;
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // ======================================================
-    // SAYFA BÖLÜMÜ YÜKLEME (örn: #oyunkonusu)
+    // SAYFA BÖLÜMÜ YÜKLEME
     // ======================================================
     const loadSection = async (sectionId) => {
         try {
@@ -53,12 +53,8 @@ document.addEventListener("DOMContentLoaded", () => {
             contentContainer.appendChild(section);
             window.scrollTo({ top: contentContainer.offsetTop, behavior: "smooth" });
 
-            // Eğer oyun konusu overlay varsa event ekle
+            // Oyun konusu overlay
             if (sectionId === "#oyunkonusu") attachOyunKonusuEvents();
-
-            // Karakterler ve counter animasyonu
-            initCharacterCarousel();
-            animateCounters();
         } catch (error) {
             console.error("Bölüm Yükleme Hatası:", error);
             contentContainer.innerHTML = `<div class="alert alert-danger text-center">${error.message}</div>`;
@@ -129,34 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // ======================================================
-    // KARAKTERLER CAROUSEL
-    // ======================================================
-    const initCharacterCarousel = () => {
-        const cards = document.querySelectorAll(".character-card");
-        const prevBtn = document.querySelector(".prev-btn");
-        const nextBtn = document.querySelector(".next-btn");
-        let currentIndex = 0;
-
-        const updateCarousel = () => {
-            cards.forEach((card, index) => {
-                card.classList.toggle("active", index === currentIndex);
-            });
-        };
-
-        if (prevBtn) prevBtn.addEventListener("click", () => {
-            currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-            updateCarousel();
-        });
-        if (nextBtn) nextBtn.addEventListener("click", () => {
-            currentIndex = (currentIndex + 1) % cards.length;
-            updateCarousel();
-        });
-
-        updateCarousel();
-    };
-
-    // ======================================================
-    // NAVBAR / MODAL / SAYFA GEÇİŞLERİ
+    // NAVBAR / SAYFA GEÇİŞLERİ
     // ======================================================
     document.body.addEventListener("click", (e) => {
         // Partials sayfa linkleri
@@ -165,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
             e.preventDefault();
             const pageName = pageLink.getAttribute('data-page');
 
-            // Eğer kullanıcı paneli ise yeni sayfaya yönlendir
+            // Kullanıcı paneli ayrı sayfa
             if (pageName === "KullanıcıSayfa") {
                 window.location.href = "KullanıcıSayfa.html";
             } else {
@@ -191,18 +160,10 @@ document.addEventListener("DOMContentLoaded", () => {
             alert('Başarıyla çıkış yaptınız.');
             window.location.href = 'index.html';
         }
-
-        // Kullanıcı menüsü toggle
-        const userMenu = e.target.closest('#user-menu');
-        if (userMenu) {
-            e.preventDefault();
-            const menu = document.querySelector('#user-dropdown');
-            if (menu) menu.classList.toggle('show');
-        }
     });
 
     // ======================================================
-    // ANKET MODAL DELEGATED EVENTLERİ
+    // ANKET MODAL EVENTLERİ
     // ======================================================
     document.addEventListener("click", (e) => {
         const surveyBtn = e.target.closest(".btn-outline-primary");

@@ -124,40 +124,34 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    // ======================================================
-    // KARAKTERLER SABİT GÖRÜNÜM (butonlar sadece gösterim)
-    // ======================================================
-   // ======================================================
-// KARAKTERLER SABİT, BUTONLAR ÇALIŞIYOR
-// ======================================================
-const initCharacterCarousel = () => {
-    const cards = document.querySelectorAll(".character-card");
-    const prevBtn = document.querySelector(".prev-btn");
-    const nextBtn = document.querySelector(".next-btn");
-    if (!cards.length || !prevBtn || !nextBtn) return;
+   const initCharacterCarousel = () => {
+        const cards = document.querySelectorAll(".character-card");
+        const prevBtn = document.querySelector(".prev-btn");
+        const nextBtn = document.querySelector(".next-btn");
+        if (!cards.length || !prevBtn || !nextBtn) return;
 
-    let currentIndex = 0;
+        let currentIndex = 0;
 
-    const updateCarousel = () => {
-        cards.forEach((card, index) => {
-            card.classList.toggle("active", index === currentIndex);
+        const updateCarousel = () => {
+            cards.forEach((card, index) => {
+                card.classList.toggle("active", index === currentIndex);
+            });
+            // Kartlar sabit kalacak, transform uygulanmayacak
+        };
+
+        prevBtn.addEventListener("click", () => {
+            currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+            updateCarousel();
         });
-        // Kartlar sabit kalacak, transform uygulanmayacak
+
+        nextBtn.addEventListener("click", () => {
+            currentIndex = (currentIndex + 1) % cards.length;
+            updateCarousel();
+        });
+
+        // Başlangıçta aktif kartı ayarla
+        updateCarousel();
     };
-
-    prevBtn.addEventListener("click", () => {
-        currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-        updateCarousel();
-    });
-
-    nextBtn.addEventListener("click", () => {
-        currentIndex = (currentIndex + 1) % cards.length;
-        updateCarousel();
-    });
-
-    // Başlangıçta aktif kartı ayarla
-    updateCarousel();
-};
 
 
     // ======================================================

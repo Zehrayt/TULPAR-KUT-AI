@@ -103,34 +103,31 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("scroll", animateOnScroll);
     animateOnScroll();
 
-    // ======================================================
-    // COUNTER ANİMASYONU
-    // ======================================================
-    const animateCounters = () => {
-        const counters = [
-            { id: "counter1", target: 12 },
-            { id: "counter2", target: 5 },
-            { id: "counter3", target: 50 }
-        ];
+  const animateCounters = () => {
+    const counters = [
+        { id: "counter1", target: 12 },
+        { id: "counter2", target: 5 },
+        { id: "counter3", target: 50 }
+    ];
 
-        counters.forEach(counter => {
-            const el = document.getElementById(counter.id);
-            if (!el) return;
+    counters.forEach(counter => {
+        const el = document.getElementById(counter.id);
+        if (!el) return;  // ✅ yoksa hata verme
 
-            let current = 0;
-            const increment = Math.ceil(counter.target / 100);
-            const interval = setInterval(() => {
-                current += increment;
-                if (current >= counter.target) {
-                    el.textContent = counter.target;
-                    clearInterval(interval);
-                } else {
-                    el.textContent = current;
-                }
-            }, 20);
-        });
-    };
+        let current = 0;
+        const increment = Math.ceil(counter.target / 100);
 
+        const interval = setInterval(() => {
+            current += increment;
+            if (current >= counter.target) {
+                el.textContent = counter.target;
+                clearInterval(interval);
+            } else {
+                el.textContent = current;
+            }
+        }, 20);
+    });
+};
     // ======================================================
     // KARAKTERLER CAROUSEL (Sabit kartlar, sadece active değişir)
     // ======================================================

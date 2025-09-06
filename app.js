@@ -28,12 +28,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 oldScript.parentNode.replaceChild(newScript, oldScript);
             }
 
-             animateCounters();
+           animateCounters();
+            animateOnScroll();
             // ✅ Eğer ANASAYFA yüklendiyse karakterler + sayaçları başlat
             if (pageName === "anasayfa") {
                 initCharacterCarousel();
                
             }
+
+          
 
         } catch (error) {
             console.error("Sayfa Yükleme Hatası:", error);
@@ -58,9 +61,10 @@ document.addEventListener("DOMContentLoaded", () => {
             window.scrollTo({ top: contentContainer.offsetTop, behavior: "smooth" });
 
             // ✅ Karakterler + sayaçlar section yüklenince çalışsın
-            initCharacterCarousel();
+          
             animateCounters();
 
+     
             // Oyun konusu overlay
             if (sectionId === "#oyunkonusu") attachOyunKonusuEvents();
         } catch (error) {
@@ -87,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
     };
 
-    // ======================================================
+     // ======================================================
     // SCROLL ANİMASYONLARI
     // ======================================================
     const animateOnScroll = () => {
@@ -104,7 +108,10 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("scroll", animateOnScroll);
     animateOnScroll();
 
-     const animateCounters = () => {
+    // ======================================================
+    // COUNTER ANİMASYONU
+    // ======================================================
+    const animateCounters = () => {
         const counters = [
             { id: "counter1", target: 12 },
             { id: "counter2", target: 5 },
@@ -113,14 +120,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         counters.forEach(counter => {
             const el = document.getElementById(counter.id);
-            if (!el) {
-                console.warn(`Counter ID'si bulunamadı: ${counter.id}`); // Debug için uyarı eklendi
-                return;
-            }
+            if (!el) return;
 
             let current = 0;
             const increment = Math.ceil(counter.target / 100);
-
             const interval = setInterval(() => {
                 current += increment;
                 if (current >= counter.target) {

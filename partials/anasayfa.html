@@ -539,16 +539,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    const cards = document.querySelectorAll(".character-card");
-
-  cards.forEach(card => {
-    card.addEventListener("click", () => {
-      // önce tüm kartlardan active class'ını kaldır
-      cards.forEach(c => c.classList.remove("active"));
-      // tıklanan karta ekle
-      card.classList.add("active");
-    });
-  });
-
+  
 });
 </script>

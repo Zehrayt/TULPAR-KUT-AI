@@ -43,48 +43,179 @@
 
 
   <section class="bg-ankettur open-sans" id="anket">
-    <h3 class="text-center section-title">Anket Türleri</h3>
-    <div class="container py-5">
+    <div class="container">
+      <h3 class="text-center section-title">Anketler</h3>
       <div class="row g-4">
-        <div class="col-md-4">
-          <div class="p-4 border rounded shadow-sm survey-card bg-light">
-        
-            <h5 class="survey-title"> <i class="bi bi-journal-text icon"></i> Klasik Anket</h5>
-            <div class="survey-description">
-              Bu testler daha çok kişinin kendi düşünce yapısını öğrenebilmek için oluşturulmuştur. <br><br>
-              <a  class="btn btn-outline-primary  rounded-5 px-4">Örnek Anket</a>
+        <div class="container py-5">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="p-4 border rounded shadow-sm survey-card bg-light">
+                        <h5 class="survey-title">
+                            <i class="bi bi-journal-text icon"></i> Big Five Anketleri
+                        </h5>
+                        <div class="survey-description">
+                            Bu testler, kişinin kendi düşünce yapısını ve karakter özelliklerini daha iyi anlaması için tasarlanmıştır.
+                            <br>
+                          <a href="javascript:void(0);" class="btn btn-outline-primary" data-target="#bigFiveModal">Örnek Anket</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-4 border rounded shadow-sm survey-card bg-light"> 
+                        <h5 class="survey-title">
+                            <i class="bi bi-ui-checks icon"></i> Kolbs Anketleri
+                        </h5>
+                        <div class="survey-description">
+                            Öğrenme stilinizi belirleyerek, sizin için en etkili öğrenme yöntemlerini keşfetmenize yardımcı olur.
+                            <br>
+                            <a href="javascript:void(0);" class="btn btn-outline-primary" data-target="#kolbsModal">Örnek Anket</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-4 border rounded shadow-sm survey-card bg-light">
+                        <h5 class="survey-title">
+                            <i class="bi bi-question-circle icon"></i> RIASEC Anketleri
+                        </h5>
+                        <div class="survey-description">
+                            Kariyer ve ilgi alanlarınızı keşfetmek için hangi aktivitelerden hoşlandığınızı belirler.
+                            <br>
+                              <a href="javascript:void(0);" class="btn btn-outline-primary" data-target="#riasecModal">Örnek Anket</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
- 
+    </section>
 
-      
-        <div class="col-md-4">
-          <div class="p-4 border rounded shadow-sm survey-card bg-light"> 
-            <h5 class="survey-title"><i class="bi bi-ui-checks icon"></i> Çoklu Seçmeli Anket</h5>
-            <div class="survey-description">
-             Kullanıcının birkaç seçeneğini görerek onlardan hangisini seçeceği öğrenilmeye çalışılmıştır. <br><br>
-            <a class="btn btn-outline-primary  rounded-5 px-4">Örnek Anket</a>
+    <div id="bigFiveModal" class="survey-modal">
+        <div class="survey-modal-content">
+            <span class="close-btn">&times;</span>
+            <h4 class="mb-4 text-center">Big Five Anketleri - Örnek Sorular</h4>
+            <hr>
+            <div class="question-container">
+                <p><strong>1. Sosyal ortamlarda bulunmaktan keyif alırım.</strong></p>
+                <div class="likert-scale">
+                    <label><input type="radio" name="bigFive_q1" value="1">1</label>
+                    <label><input type="radio" name="bigFive_q1" value="2">2</label>
+                    <label><input type="radio" name="bigFive_q1" value="3">3</label>
+                    <label><input type="radio" name="bigFive_q1" value="4">4</label>
+                    <label><input type="radio" name="bigFive_q1" value="5">5</label>
+                </div>
+                <p class="text-center text-muted"><small>1: Kesinlikle Katılmıyorum, 5: Kesinlikle Katılıyorum</small></p>
+                <hr>
+                
+                <p><strong>2. Yeni insanlarla tanışmak bana enerji verir.</strong></p>
+                <div class="likert-scale">
+                    <label><input type="radio" name="bigFive_q2" value="1">1</label>
+                    <label><input type="radio" name="bigFive_q2" value="2">2</label>
+                    <label><input type="radio" name="bigFive_q2" value="3">3</label>
+                    <label><input type="radio" name="bigFive_q2" value="4">4</label>
+                    <label><input type="radio" name="bigFive_q2" value="5">5</label>
+                </div>
+                <p class="text-center text-muted"><small>1: Kesinlikle Katılmıyorum, 5: Kesinlikle Katılıyorum</small></p>
+                <hr>
+
+                <p><strong>3. İşlerimi zamanında ve düzenli bir şekilde bitirmeye özen gösteririm.</strong></p>
+                <div class="likert-scale">
+                    <label><input type="radio" name="bigFive_q3" value="1">1</label>
+                    <label><input type="radio" name="bigFive_q3" value="2">2</label>
+                    <label><input type="radio" name="bigFive_q3" value="3">3</label>
+                    <label><input type="radio" name="bigFive_q3" value="4">4</label>
+                    <label><input type="radio" name="bigFive_q3" value="5">5</label>
+                </div>
+                <p class="text-center text-muted"><small>1: Kesinlikle Katılmıyorum, 5: Kesinlikle Katılıyorum</small></p>
             </div>
-          </div>
         </div>
+    </div>
 
-
-        <div class="col-md-4">
-          <div class="p-4 border rounded shadow-sm survey-card bg-light">
-          
-            <h5 class="survey-title">   <i class="bi bi-question-circle icon"></i> Evet / Hayır Anketi</h5>
-            <div class="survey-description">
-              Kullanıcıdan kısa Evet Hayır cevaplar alınmak istenmiştir. <br><br>
-              <a  class="btn btn-outline-primary  rounded-5 px-4">Örnek Anket</a>
+    <div id="kolbsModal" class="survey-modal">
+        <div class="survey-modal-content">
+            <span class="close-btn">&times;</span>
+            <h4 class="mb-4 text-center">Kolbs Anketleri - Örnek Sorular</h4>
+            <hr>
+            <div class="question-container">
+                <p><strong>1. Yeni bir konuyu öğrenirken en çok neyi tercih edersin?</strong></p>
+                <div class="option">
+                    <label><input type="radio" name="kolbs_q1" value="A" required> A) Konuyla ilgili şemalar ve grafikler incelemek</label>
+                </div>
+                <div class="option">
+                    <label><input type="radio" name="kolbs_q1" value="B"> B) Konuyla ilgili birinin bana açıklama yapmasını dinlemek</label>
+                </div>
+                <div class="option">
+                    <label><input type="radio" name="kolbs_q1" value="C"> C) Konuyu kendi başıma uygulamalı olarak denemek</label>
+                </div>
+                <hr>
+                
+                <p><strong>2. Bir arkadaşının tarif ettiği yeni bir yeri bulmak için neye ihtiyaç duyarsın?</strong></p>
+                <div class="option">
+                    <label><input type="radio" name="kolbs_q2" value="A" required> A) Harita ya da kroki</label>
+                </div>
+                <div class="option">
+                    <label><input type="radio" name="kolbs_q2" value="B"> B) Sözlü yol tarifi</label>
+                </div>
+                <div class="option">
+                    <label><input type="radio" name="kolbs_q2" value="C"> C) Oraya gidip keşfederek öğrenmek</label>
+                </div>
+                <hr>
+                
+                <p><strong>3. Bir kitabı daha iyi anlamak için ne yaparsın?</strong></p>
+                <div class="option">
+                    <label><input type="radio" name="kolbs_q3" value="A" required> A) Altını çizer ve notlar alırım</label>
+                </div>
+                <div class="option">
+                    <label><input type="radio" name="kolbs_q3" value="B"> B) Kitabı sesli okurum</label>
+                </div>
+                <div class="option">
+                    <label><input type="radio" name="kolbs_q3" value="C"> C) Kitaptaki bilgileri günlük hayatta uygularım</label>
+                </div>
             </div>
-          </div>
         </div>
+    </div>
 
-      </div>
-    </div> 
- </section>
-
+    <div id="riasecModal" class="survey-modal">
+        <div class="survey-modal-content">
+            <span class="close-btn">&times;</span>
+            <h4 class="mb-4 text-center">RIASEC Anketleri - Örnek Sorular</h4>
+            <hr>
+            <div class="question-container">
+                <p><strong>1. Aşağıdaki aktivitelerden hangisi en çok ilginizi çeker?</strong></p>
+                <div class="option">
+                    <label><input type="radio" name="riasec_q1" value="A" required> A) Bir makinenin nasıl çalıştığını öğrenmek</label>
+                </div>
+                <div class="option">
+                    <label><input type="radio" name="riasec_q1" value="B"> B) Bir hikaye kitabı yazmak</label>
+                </div>
+                <div class="option">
+                    <label><input type="radio" name="riasec_q1" value="C"> C) Başkalarına finansal konularda tavsiye vermek</label>
+                </div>
+                <hr>
+                
+                <p><strong>2. Aşağıdaki hobilerden hangisi size daha uygun?</strong></p>
+                <div class="option">
+                    <label><input type="radio" name="riasec_q2" value="A" required> A) Bahçeyle uğraşmak ve bitki yetiştirmek</label>
+                </div>
+                <div class="option">
+                    <label><input type="radio" name="riasec_q2" value="B"> B) Yeni bir beste yapmak</label>
+                </div>
+                <div class="option">
+                    <label><input type="radio" name="riasec_q2" value="C"> C) Bir grup etkinliği düzenlemek</label>
+                </div>
+                <hr>
+                
+                <p><strong>3. Kariyerinizde en çok neye önem verirsiniz?</strong></p>
+                <div class="option">
+                    <label><input type="radio" name="riasec_q3" value="A" required> A) Somut sonuçlar üreten bir işte çalışmak</label>
+                </div>
+                <div class="option">
+                    <label><input type="radio" name="riasec_q3" value="B"> B) Yaratıcılığımı kullanabileceğim bir alanda olmak</label>
+                </div>
+                <div class="option">
+                    <label><input type="radio" name="riasec_q3" value="C"> C) İnsanlarla doğrudan etkileşimde bulunmak</label>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
@@ -130,58 +261,5 @@
   </section>
 
 
-  <script>
-   
-document.addEventListener("DOMContentLoaded", function () {
-  const elements = document.querySelectorAll(".animate-on-scroll");
-  const psikolojiLink = document.querySelector('a[href="#psikoloji"]');
-  const psikolojiSection = document.getElementById("psikoloji");
-
-  function isElementInViewport(el) {
-    const rect = el.getBoundingClientRect();
-    return (
-      rect.top < window.innerHeight && rect.bottom > 0
-    );
-  }
-
-  function checkScroll() {
-    elements.forEach((element) => {
-      if (isElementInViewport(element)) {
-        element.classList.add("active");
-      } else {
-        element.classList.remove("active");
-      }
-    });
-  }
-
-  
-  if (psikolojiSection && isElementInViewport(psikolojiSection)) {
-    const animatedElements = psikolojiSection.querySelectorAll(".animate-on-scroll");
-    animatedElements.forEach((el) => el.classList.add("active"));
-  }
-
-
-  if (oyunHakkindaLink) {
-      psikolojiLink.addEventListener("click", function (event) {
-      event.preventDefault();
-
-      psikolojiSection.scrollIntoView({ behavior: "smooth" });
-
-
-      setTimeout(() => {
-        const animatedElements = psikolojiSection.querySelectorAll(".animate-on-scroll");
-        animatedElements.forEach((el) => el.classList.add("active"));
-      }, 500);
-    });
-  }
-
-  window.addEventListener("scroll", checkScroll);
-  checkScroll(); 
-
-
-  
-
-});
-
-
+ 
 

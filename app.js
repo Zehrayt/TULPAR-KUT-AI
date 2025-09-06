@@ -27,6 +27,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 newScript.appendChild(document.createTextNode(oldScript.innerHTML));
                 oldScript.parentNode.replaceChild(newScript, oldScript);
             }
+
+            // Karakterler carousel ve counter animasyonunu çalıştır
+            initCharacterCarousel();
+            animateCounters();
         } catch (error) {
             console.error("Sayfa Yükleme Hatası:", error);
             contentContainer.innerHTML = `<div class="alert alert-danger text-center">${error.message}</div>`;
@@ -34,17 +38,8 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // ======================================================
-    // BÖLÜM YÜKLEME (örn. #oyunkonusu)
+    // SAYFA BÖLÜMÜ YÜKLEME
     // ======================================================
-    const attachOyunKonusuEvents = () => {
-        const openBtn = document.getElementById("open-textbox-btn");
-        const closeBtn = document.getElementById("close-btn");
-        const overlay = document.getElementById("overlay");
-        if (openBtn && overlay) openBtn.addEventListener("click", () => overlay.classList.add("active"));
-        if (closeBtn && overlay) closeBtn.addEventListener("click", () => overlay.classList.remove("active"));
-        if (overlay) overlay.addEventListener("click", (e) => { if (e.target === overlay) overlay.classList.remove("active"); });
-    };
-
     const loadSection = async (sectionId) => {
         try {
             const response = await fetch("partials/anasayfa.html");
@@ -57,7 +52,10 @@ document.addEventListener("DOMContentLoaded", () => {
             contentContainer.innerHTML = "";
             contentContainer.appendChild(section);
             window.scrollTo({ top: contentContainer.offsetTop, behavior: "smooth" });
-            if (sectionId === "#oyunkonusu") attachOyunKonusuEvents();
+
+            // Karakterler carousel ve counter animasyonunu çalıştır
+            initCharacterCarousel();
+            animateCounters();
         } catch (error) {
             console.error("Bölüm Yükleme Hatası:", error);
             contentContainer.innerHTML = `<div class="alert alert-danger text-center">${error.message}</div>`;
@@ -79,49 +77,86 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
     window.addEventListener("scroll", animateOnScroll);
-    animateOnScroll(); // ilk yüklemede kontrol
+    animateOnScroll();
 
     // ======================================================
-    // DELEGATED EVENT LISTENER (ANKET MODAL)
+    // COUNTER ANİMASYONU
     // ======================================================
-    document.addEventListener("click", (e) => {
-        // Örnek Anket butonları
-        const surveyBtn = e.target.closest(".btn-outline-primary");
-        if (surveyBtn) {
-            e.preventDefault();
-            const modalId = surveyBtn.getAttribute("data-target");
-            const modal = document.querySelector(modalId);
-            if (modal) modal.classList.add("active");
-        }
+    const animateCounters = () => {
+        const counters = [
+            { id: "counter1", target: 12 },
+            { id: "counter2", target: 5 },
+            { id: "counter3", target: 50 }
+        ];
 
-        // Kapatma butonları
-        const closeBtn = e.target.closest(".close-btn");
-        if (closeBtn) {
-            const modal = closeBtn.closest(".survey-modal");
-            if (modal) modal.classList.remove("active");
-        }
+        counters.forEach(counter => {
+            const el = document.getElementById(counter.id);
+            if (!el) return;
 
-        // Modal arkaplanına tıklama
-        const modalBg = e.target.closest(".survey-modal");
-        if (modalBg && e.target === modalBg) modalBg.classList.remove("active");
+            let current = 0;
+            const increment = Math.ceil(counter.target / 100);
+            const interval = setInterval(() => {
+                current += increment;
+                if (current >= counter.target) {
+                    el.textContent = counter.target;
+                    clearInterval(interval);
+                } else {
+                    el.textContent = current;
+                }
+            }, 20);
+        });
+    };
+
+    // ======================================================
+    // KARAKTERLER CAROUSEL
+    // ======================================================
+    const initCharacterCarousel = () => {
+       const cards = document.querySelectorAll(".character-card");
+  const prevBtn = document.querySelector(".prev-btn");
+  const nextBtn = document.querySelector(".next-btn");
+  let currentIndex = 0;
+
+  const updateCarousel = () => {
+    cards.forEach((card, index) => {
+      card.classList.toggle("active", index === currentIndex);
     });
+  };
+
+  prevBtn.addEventListener("click", () => {
+    currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+    updateCarousel();
+  });
+
+  nextBtn.addEventListener("click", () => {
+    currentIndex = (currentIndex + 1) % cards.length;
+    updateCarousel();
+  });
+
+  updateCarousel();
+
+    };
 
     // ======================================================
-    // NAVBAR / SAYFA GEÇİŞLERİ
+    // NAVBAR VE MODAL EVENTLERİ
     // ======================================================
     document.body.addEventListener('click', (e) => {
+        // Sayfa linkleri
         const pageLink = e.target.closest('a[data-page]');
         if (pageLink) {
             e.preventDefault();
             loadPage(pageLink.getAttribute('data-page'));
             return;
         }
+
+        // Section linkleri
         const sectionLink = e.target.closest('a[data-section]');
         if (sectionLink) {
             e.preventDefault();
             loadSection(sectionLink.getAttribute('data-section'));
             return;
         }
+
+        // Logout
         const logoutButton = e.target.closest('#logout-button');
         if (logoutButton) {
             e.preventDefault();
@@ -130,58 +165,18 @@ document.addEventListener("DOMContentLoaded", () => {
             alert('Başarıyla çıkış yaptınız.');
             window.location.href = 'index.html';
         }
+
+        // Kullanıcı hesabına tıklama
+        const userMenu = e.target.closest('#user-menu');
+        if (userMenu) {
+            e.preventDefault();
+            const menu = document.querySelector('#user-dropdown');
+            if (menu) menu.classList.toggle('show');
+        }
     });
 
     // ======================================================
-// SAYAC (COUNTER) ANİMASYONU
-// ======================================================
-const animateCounters = () => {
-    const counters = [
-        { id: "counter1", target: 12 }, // Anket Türü sayısı
-        { id: "counter2", target: 5 },  // Oyun Modu sayısı
-        { id: "counter3", target: 50 }  // Sınırsız Rapor sayısı
-    ];
-
-    counters.forEach(counter => {
-        const el = document.getElementById(counter.id);
-        if (!el) return;
-
-        let current = 0;
-        const increment = Math.ceil(counter.target / 100); // 100 adımda bitir
-        const interval = setInterval(() => {
-            current += increment;
-            if (current >= counter.target) {
-                el.textContent = counter.target;
-                clearInterval(interval);
-            } else {
-                el.textContent = current;
-            }
-        }, 20); // Her 20ms artış
-    });
-};
-
-// Sayfa yüklendiğinde ve animasyon görünür olduğunda başlat
-window.addEventListener("scroll", () => {
-    const statsSection = document.getElementById("stats");
-    if (!statsSection) return;
-
-    const rect = statsSection.getBoundingClientRect();
-    if (rect.top < window.innerHeight && rect.bottom >= 0) {
-        animateCounters();
-    }
-});
-
-// Eğer sayfa açıldığında zaten görünüyorsa çalıştır
-const statsSection = document.getElementById("stats");
-if (statsSection) {
-    const rect = statsSection.getBoundingClientRect();
-    if (rect.top < window.innerHeight && rect.bottom >= 0) {
-        animateCounters();
-    }
-}
-
-    // ======================================================
-    // SAYFA İLK YÜKLENDİĞİNDE
+    // SAYFA YÜKLEME (İLK AÇILIŞ)
     // ======================================================
     loadPage("anasayfa");
 });

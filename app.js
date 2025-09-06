@@ -123,31 +123,33 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 20);
         });
     };
- // KARAKTERLER SABİT, BUTONLAR ÇALIŞIYOR
-    const initCharacterCarousel = () => {
-        const cards = document.querySelectorAll(".character-card");
-        const prevBtn = document.querySelector(".prev-btn");
-        const nextBtn = document.querySelector(".next-btn");
-        if (!cards.length || !prevBtn || !nextBtn) return;
+const initCharacterCarousel = () => {
+    const cards = document.querySelectorAll(".character-card");
+    const prevBtn = document.querySelector(".prev-btn");
+    const nextBtn = document.querySelector(".next-btn");
+    let currentIndex = 0;
 
-        let currentIndex = 0;
-        const updateCarousel = () => {
-            cards.forEach((card, index) => {
-                card.classList.toggle("active", index === currentIndex);
-            });
-        };
+    if (!cards.length || !prevBtn || !nextBtn) return;
 
-        prevBtn.addEventListener("click", () => {
-            currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-            updateCarousel();
+    const updateCarousel = () => {
+        cards.forEach((card, index) => {
+            card.classList.toggle("active", index === currentIndex);
         });
-        nextBtn.addEventListener("click", () => {
-            currentIndex = (currentIndex + 1) % cards.length;
-            updateCarousel();
-        });
-
-        updateCarousel();
     };
+
+    prevBtn.addEventListener("click", () => {
+        currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+        updateCarousel();
+    });
+
+    nextBtn.addEventListener("click", () => {
+        currentIndex = (currentIndex + 1) % cards.length;
+        updateCarousel();
+    });
+
+    // Başlangıçta aktif kart
+    updateCarousel();
+};
 
     // ======================================================
     // NAVBAR / SAYFA GEÇİŞLERİ

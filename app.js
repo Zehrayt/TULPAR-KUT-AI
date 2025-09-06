@@ -127,13 +127,38 @@ document.addEventListener("DOMContentLoaded", () => {
     // ======================================================
     // KARAKTERLER SABİT GÖRÜNÜM (butonlar sadece gösterim)
     // ======================================================
-    const showCharacters = () => {
-        // Butonlar vs sadece görünür, kartlar sabit
-        const carousel = document.querySelector(".character-carousel");
-        if (!carousel) return;
-        // Hiçbir ileri/geri işlemi yok
-        carousel.style.transform = "translateX(0)";
+   // ======================================================
+// KARAKTERLER SABİT, BUTONLAR ÇALIŞIYOR
+// ======================================================
+const initCharacterCarousel = () => {
+    const cards = document.querySelectorAll(".character-card");
+    const prevBtn = document.querySelector(".prev-btn");
+    const nextBtn = document.querySelector(".next-btn");
+    if (!cards.length || !prevBtn || !nextBtn) return;
+
+    let currentIndex = 0;
+
+    const updateCarousel = () => {
+        cards.forEach((card, index) => {
+            card.classList.toggle("active", index === currentIndex);
+        });
+        // Kartlar sabit kalacak, transform uygulanmayacak
     };
+
+    prevBtn.addEventListener("click", () => {
+        currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+        updateCarousel();
+    });
+
+    nextBtn.addEventListener("click", () => {
+        currentIndex = (currentIndex + 1) % cards.length;
+        updateCarousel();
+    });
+
+    // Başlangıçta aktif kartı ayarla
+    updateCarousel();
+};
+
 
     // ======================================================
     // NAVBAR / SAYFA GEÇİŞLERİ
@@ -199,5 +224,5 @@ document.addEventListener("DOMContentLoaded", () => {
     // SAYFA İLK YÜKLENDİĞİNDE
     // ======================================================
     loadPage("anasayfa");
-    showCharacters(); // karakterler sabit
+    
 });

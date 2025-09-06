@@ -50,14 +50,18 @@ document.addEventListener("DOMContentLoaded", () => {
             contentContainer.appendChild(section);
             window.scrollTo({ top: contentContainer.offsetTop, behavior: "smooth" });
 
-            animateCounters(); // Sayaç animasyonunu başlat
-            // Karakterler carousel ve counter animasyonunu çalıştır
+            // Bölüme özel fonksiyonları çalıştır
+            animateCounters();
             if (sectionId === "#karakterler") {
-            initCharacterCarousel(); 
-  }
-       
-            // Oyun konusu overlay
-            if (sectionId === "#oyunkonusu") attachOyunKonusuEvents();
+                initCharacterCarousel();
+            }
+            if (sectionId === "#oyunkonusu") {
+                attachOyunKonusuEvents();
+            }
+            if (sectionId === "#anketler") {
+                 // anketlere özel fonksiyonları burada çağırabilirsiniz
+            }
+
         } catch (error) {
             console.error("Bölüm Yükleme Hatası:", error);
             contentContainer.innerHTML = `<div class="alert alert-danger text-center">${error.message}</div>`;
@@ -127,67 +131,57 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-   // ======================================================
-// KARAKTERLER CAROUSEL - YENİ KOD
-// ======================================================
-const initCharacterCarousel = () => {
-    // Gerekli tüm elemanları seç
-    const cards = document.querySelectorAll(".character-card");
-    const prevBtn = document.querySelector(".prev-btn");
-    const nextBtn = document.querySelector(".next-btn");
+    // ======================================================
+    // KARAKTERLER CAROUSEL
+    // ======================================================
+    const initCharacterCarousel = () => {
+        const cards = document.querySelectorAll(".character-card");
+        const prevBtn = document.querySelector(".prev-btn");
+        const nextBtn = document.querySelector(".next-btn");
 
-    // Eğer elemanlar sayfada yoksa, fonksiyonu sonlandır
-    if (!cards || cards.length === 0) return;
+        if (!cards || cards.length === 0) return;
 
-    let currentIndex = 0; // Başlangıçta ilk kart aktif
+        let currentIndex = 0;
 
-    // Kartların aktiflik durumunu güncelleyen ana fonksiyon
-    const updateCards = () => {
-        cards.forEach((card, index) => {
-            if (index === currentIndex) {
-                card.classList.add("active");
-                card.classList.remove("passive");
-            } else {
-                card.classList.add("passive");
-                card.classList.remove("active");
-            }
-        });
+        const updateCards = () => {
+            cards.forEach((card, index) => {
+                if (index === currentIndex) {
+                    card.classList.add("active");
+                    card.classList.remove("passive");
+                } else {
+                    card.classList.add("passive");
+                    card.classList.remove("active");
+                }
+            });
+            prevBtn.style.opacity = currentIndex === 0 ? "0.5" : "1";
+            prevBtn.style.pointerEvents = currentIndex === 0 ? "none" : "auto";
+            nextBtn.style.opacity = currentIndex === cards.length - 1 ? "0.5" : "1";
+            nextBtn.style.pointerEvents = currentIndex === cards.length - 1 ? "none" : "auto";
+        };
 
-        // Butonların görünürlüğünü güncelle (isteğe bağlı)
-        prevBtn.style.opacity = currentIndex === 0 ? "0.5" : "1";
-        prevBtn.style.pointerEvents = currentIndex === 0 ? "none" : "auto";
-        nextBtn.style.opacity = currentIndex === cards.length - 1 ? "0.5" : "1";
-        nextBtn.style.pointerEvents = currentIndex === cards.length - 1 ? "none" : "auto";
+        if (nextBtn) {
+            nextBtn.addEventListener("click", () => {
+                if (currentIndex < cards.length - 1) {
+                    currentIndex++;
+                    updateCards();
+                }
+            });
+        }
+
+        if (prevBtn) {
+            prevBtn.addEventListener("click", () => {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateCards();
+                }
+            });
+        }
+        updateCards();
     };
-
-    // İleri butonuna tıklama olayı
-    if (nextBtn) {
-        nextBtn.addEventListener("click", () => {
-            if (currentIndex < cards.length - 1) {
-                currentIndex++;
-                updateCards();
-            }
-        });
-    }
-
-    // Geri butonuna tıklama olayı
-    if (prevBtn) {
-        prevBtn.addEventListener("click", () => {
-            if (currentIndex > 0) {
-                currentIndex--;
-                updateCards();
-            }
-        });
-    }
-
- 
-    updateCards();
-};
-
 
 
     // ======================================================
-    // NAVBAR / SAYFA GEÇİŞLERİ
+    // NAVBAR / SAYFA GEÇİŞLERİ VE ANKET MODALLARI
     // ======================================================
     document.body.addEventListener("click", (e) => {
         // Partials sayfa linkleri
@@ -195,8 +189,6 @@ const initCharacterCarousel = () => {
         if (pageLink) {
             e.preventDefault();
             const pageName = pageLink.getAttribute('data-page');
-
-            // Kullanıcı paneli ayrı sayfa
             if (pageName === "KullanıcıSayfa") {
                 window.location.href = "KullanıcıSayfa.html";
             } else {
@@ -221,27 +213,28 @@ const initCharacterCarousel = () => {
             localStorage.removeItem('userId');
             alert('Başarıyla çıkış yaptınız.');
             window.location.href = 'index.html';
+            return;
         }
-    });
 
-    // ======================================================
-    // ANKET MODAL EVENTLERİ
-    // ======================================================
-    document.addEventListener("click", (e) => {
+        // Anket butonları
         const surveyBtn = e.target.closest(".btn-outline-primary");
         if (surveyBtn) {
             e.preventDefault();
             const modalId = surveyBtn.getAttribute("data-target");
             const modal = document.querySelector(modalId);
             if (modal) modal.classList.add("active");
+            return;
         }
 
+        // Anket modalı kapatma butonları
         const closeBtn = e.target.closest(".close-btn");
         if (closeBtn) {
             const modal = closeBtn.closest(".survey-modal");
             if (modal) modal.classList.remove("active");
+            return;
         }
 
+        // Modal dışına tıklayarak kapatma
         const modalBg = e.target.closest(".survey-modal");
         if (modalBg && e.target === modalBg) modalBg.classList.remove("active");
     });
@@ -250,5 +243,5 @@ const initCharacterCarousel = () => {
     // SAYFA İLK YÜKLENDİĞİNDE
     // ======================================================
     loadPage("anasayfa");
-    
+
 });

@@ -124,44 +124,34 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 20);
         });
     };
-// ======================================================
-// KARAKTERLER BUTONLARI (SABİT KARTLAR, SADECE ACTIVE DEĞİŞECEK)
-// ======================================================
-const initCharacterButtons = () => {
-    const cards = document.querySelectorAll(".character-card");
-    const prevBtn = document.querySelector(".prev-btn");
-    const nextBtn = document.querySelector(".next-btn");
 
-    if (!cards.length) return; // Eğer kart yoksa çık
+    // ======================================================
+    // KARAKTERLER CAROUSEL
+    // ======================================================
+    const initCharacterCarousel = () => {
+        const cards = document.querySelectorAll(".character-card");
+        const prevBtn = document.querySelector(".prev-btn");
+        const nextBtn = document.querySelector(".next-btn");
+        let currentIndex = 0;
 
-    let currentIndex = 0;
+        const updateCarousel = () => {
+            cards.forEach((card, index) => {
+                card.classList.toggle("active", index === currentIndex);
+            });
+        };
 
-    const updateActiveCard = () => {
-        cards.forEach((card, index) => {
-            card.classList.toggle("active", index === currentIndex);
-        });
-    };
-
-    if (prevBtn) {
-        prevBtn.addEventListener("click", () => {
+        if(prevBtn) prevBtn.addEventListener("click", () => {
             currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-            updateActiveCard();
+            updateCarousel();
         });
-    }
 
-    if (nextBtn) {
-        nextBtn.addEventListener("click", () => {
+        if(nextBtn) nextBtn.addEventListener("click", () => {
             currentIndex = (currentIndex + 1) % cards.length;
-            updateActiveCard();
+            updateCarousel();
         });
-    }
 
-    // Sayfa yüklendiğinde ilk kart aktif olsun
-    updateActiveCard();
-};
-
-// Sayfa veya section yüklendiğinde çağır
-document.addEventListener("DOMContentLoaded", initCharacterButtons);
+        updateCarousel();
+    };
     // ======================================================
     // NAVBAR / SAYFA GEÇİŞLERİ
     // ======================================================

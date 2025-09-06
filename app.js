@@ -52,7 +52,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             
             // Karakterler carousel ve counter animasyonunu çalıştır
-            initCharacterCarousel();
+            if (sectionId === "#karakterler") {
+            initCharacterCarousel(); 
+  }
             animateCounters();
             // Oyun konusu overlay
             if (sectionId === "#oyunkonusu") attachOyunKonusuEvents();
@@ -125,41 +127,74 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    / ======================================================
-    // KARAKTERLER CAROUSEL
-    // ======================================================
-    const initCharacterCarousel = () => {
-        const carousel = document.querySelector(".character-carousel");
-        const cards = document.querySelectorAll(".character-card");
-        if (!carousel || cards.length === 0) return;
+   // ======================================================
+// KARAKTERLER CAROUSEL - YENİ KOD
+// ======================================================
+const initCharacterCarousel = () => {
+    // Gerekli tüm elemanları seç
+    const cards = document.querySelectorAll(".character-card");
+    const prevBtn = document.querySelector(".prev-btn");
+    const nextBtn = document.querySelector(".next-btn");
 
-        const prevBtn = document.querySelector(".prev-btn");
-        const nextBtn = document.querySelector(".next-btn");
-        let currentIndex = 0;
+    // Eğer elemanlar sayfada yoksa, fonksiyonu sonlandır
+    if (!cards || cards.length === 0) return;
 
-        const updateCarousel = () => {
-            cards.forEach((card, index) => {
-                card.classList.toggle("active", index === currentIndex);
-            });
-            const cardWidth = cards[0].offsetWidth + 40;
-            const offset = -(cardWidth * currentIndex - (carousel.offsetWidth - cardWidth) / 2);
-            carousel.style.transform = `translateX(${offset}px)`;
-        };
+    let currentIndex = 0; // Başlangıçta ilk kart aktif
 
-        if (prevBtn)
-            prevBtn.addEventListener("click", () => {
-                currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-                updateCarousel();
-            });
+    // Kartların aktiflik durumunu güncelleyen ana fonksiyon
+    const updateCards = () => {
+        cards.forEach((card, index) => {
+            if (index === currentIndex) {
+                card.classList.add("active");
+                card.classList.remove("passive");
+            } else {
+                card.classList.add("passive");
+                card.classList.remove("active");
+            }
+        });
 
-        if (nextBtn)
-            nextBtn.addEventListener("click", () => {
-                currentIndex = (currentIndex + 1) % cards.length;
-                updateCarousel();
-            });
-
-        updateCarousel();
+        // Butonların görünürlüğünü güncelle (isteğe bağlı)
+        prevBtn.style.opacity = currentIndex === 0 ? "0.5" : "1";
+        prevBtn.style.pointerEvents = currentIndex === 0 ? "none" : "auto";
+        nextBtn.style.opacity = currentIndex === cards.length - 1 ? "0.5" : "1";
+        nextBtn.style.pointerEvents = currentIndex === cards.length - 1 ? "none" : "auto";
     };
+
+    // İleri butonuna tıklama olayı
+    if (nextBtn) {
+        nextBtn.addEventListener("click", () => {
+            if (currentIndex < cards.length - 1) {
+                currentIndex++;
+                updateCards();
+            }
+        });
+    }
+
+    // Geri butonuna tıklama olayı
+    if (prevBtn) {
+        prevBtn.addEventListener("click", () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCards();
+            }
+        });
+    }
+
+    // Fonksiyon ilk çağrıldığında kartları başlat
+    updateCards();
+};
+
+// Bu fonksiyonu, `loadSection` fonksiyonunuzun içinde çağırabilirsiniz.
+// loadSection fonksiyonunun içine zaten ekliydi.
+// Sadece yukarıdaki fonksiyonu onunla değiştirmeniz yeterli.
+//
+// const loadSection = async (sectionId) => {
+//    ...
+//    contentContainer.appendChild(section);
+//
+//   
+//    ...
+// };
 
     // ======================================================
     // NAVBAR / SAYFA GEÇİŞLERİ

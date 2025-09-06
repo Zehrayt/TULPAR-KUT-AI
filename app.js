@@ -50,12 +50,12 @@ document.addEventListener("DOMContentLoaded", () => {
             contentContainer.appendChild(section);
             window.scrollTo({ top: contentContainer.offsetTop, behavior: "smooth" });
 
-            
+            animateCounters(); // Sayaç animasyonunu başlat
             // Karakterler carousel ve counter animasyonunu çalıştır
             if (sectionId === "#karakterler") {
             initCharacterCarousel(); 
   }
-            animateCounters();
+       
             // Oyun konusu overlay
             if (sectionId === "#oyunkonusu") attachOyunKonusuEvents();
         } catch (error) {
@@ -180,21 +180,11 @@ const initCharacterCarousel = () => {
         });
     }
 
-    // Fonksiyon ilk çağrıldığında kartları başlat
+ 
     updateCards();
 };
 
-// Bu fonksiyonu, `loadSection` fonksiyonunuzun içinde çağırabilirsiniz.
-// loadSection fonksiyonunun içine zaten ekliydi.
-// Sadece yukarıdaki fonksiyonu onunla değiştirmeniz yeterli.
-//
-// const loadSection = async (sectionId) => {
-//    ...
-//    contentContainer.appendChild(section);
-//
-//   
-//    ...
-// };
+
 
     // ======================================================
     // NAVBAR / SAYFA GEÇİŞLERİ

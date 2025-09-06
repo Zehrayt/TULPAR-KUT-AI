@@ -111,9 +111,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // KARAKTERLER CAROUSEL
     // ======================================================
     const initCharacterCarousel = () => {
-       const cards = document.querySelectorAll(".character-card");
+  const cards = document.querySelectorAll(".character-card");
   const prevBtn = document.querySelector(".prev-btn");
   const nextBtn = document.querySelector(".next-btn");
+  if (!cards.length || !prevBtn || !nextBtn) return; // yoksa çık
+
   let currentIndex = 0;
 
   const updateCarousel = () => {
@@ -133,8 +135,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   updateCarousel();
+};
 
-    };
 
     // ======================================================
     // NAVBAR VE MODAL EVENTLERİ

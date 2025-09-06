@@ -50,18 +50,12 @@ document.addEventListener("DOMContentLoaded", () => {
             contentContainer.appendChild(section);
             window.scrollTo({ top: contentContainer.offsetTop, behavior: "smooth" });
 
-            // Bölüme özel fonksiyonları çalıştır
+            
+            // Karakterler carousel ve counter animasyonunu çalıştır
+            initCharacterCarousel();
             animateCounters();
-            if (sectionId === "#karakterler") {
-                initCharacterCarousel();
-            }
-            if (sectionId === "#oyunkonusu") {
-                attachOyunKonusuEvents();
-            }
-            if (sectionId === "#anketler") {
-                 // anketlere özel fonksiyonları burada çağırabilirsiniz
-            }
-
+            // Oyun konusu overlay
+            if (sectionId === "#oyunkonusu") attachOyunKonusuEvents();
         } catch (error) {
             console.error("Bölüm Yükleme Hatası:", error);
             contentContainer.innerHTML = `<div class="alert alert-danger text-center">${error.message}</div>`;
@@ -138,50 +132,28 @@ document.addEventListener("DOMContentLoaded", () => {
         const cards = document.querySelectorAll(".character-card");
         const prevBtn = document.querySelector(".prev-btn");
         const nextBtn = document.querySelector(".next-btn");
-
-        if (!cards || cards.length === 0) return;
-
         let currentIndex = 0;
 
-        const updateCards = () => {
+        const updateCarousel = () => {
             cards.forEach((card, index) => {
-                if (index === currentIndex) {
-                    card.classList.add("active");
-                    card.classList.remove("passive");
-                } else {
-                    card.classList.add("passive");
-                    card.classList.remove("active");
-                }
+                card.classList.toggle("active", index === currentIndex);
             });
-            prevBtn.style.opacity = currentIndex === 0 ? "0.5" : "1";
-            prevBtn.style.pointerEvents = currentIndex === 0 ? "none" : "auto";
-            nextBtn.style.opacity = currentIndex === cards.length - 1 ? "0.5" : "1";
-            nextBtn.style.pointerEvents = currentIndex === cards.length - 1 ? "none" : "auto";
         };
 
-        if (nextBtn) {
-            nextBtn.addEventListener("click", () => {
-                if (currentIndex < cards.length - 1) {
-                    currentIndex++;
-                    updateCards();
-                }
-            });
-        }
+        if(prevBtn) prevBtn.addEventListener("click", () => {
+            currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+            updateCarousel();
+        });
 
-        if (prevBtn) {
-            prevBtn.addEventListener("click", () => {
-                if (currentIndex > 0) {
-                    currentIndex--;
-                    updateCards();
-                }
-            });
-        }
-        updateCards();
+        if(nextBtn) nextBtn.addEventListener("click", () => {
+            currentIndex = (currentIndex + 1) % cards.length;
+            updateCarousel();
+        });
+
+        updateCarousel();
     };
-
-
     // ======================================================
-    // NAVBAR / SAYFA GEÇİŞLERİ VE ANKET MODALLARI
+    // NAVBAR / SAYFA GEÇİŞLERİ
     // ======================================================
     document.body.addEventListener("click", (e) => {
         // Partials sayfa linkleri
@@ -189,6 +161,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (pageLink) {
             e.preventDefault();
             const pageName = pageLink.getAttribute('data-page');
+
+            // Kullanıcı paneli ayrı sayfa
             if (pageName === "KullanıcıSayfa") {
                 window.location.href = "KullanıcıSayfa.html";
             } else {
@@ -213,28 +187,27 @@ document.addEventListener("DOMContentLoaded", () => {
             localStorage.removeItem('userId');
             alert('Başarıyla çıkış yaptınız.');
             window.location.href = 'index.html';
-            return;
         }
+    });
 
-        // Anket butonları
+    // ======================================================
+    // ANKET MODAL EVENTLERİ
+    // ======================================================
+    document.addEventListener("click", (e) => {
         const surveyBtn = e.target.closest(".btn-outline-primary");
         if (surveyBtn) {
             e.preventDefault();
             const modalId = surveyBtn.getAttribute("data-target");
             const modal = document.querySelector(modalId);
             if (modal) modal.classList.add("active");
-            return;
         }
 
-        // Anket modalı kapatma butonları
         const closeBtn = e.target.closest(".close-btn");
         if (closeBtn) {
             const modal = closeBtn.closest(".survey-modal");
             if (modal) modal.classList.remove("active");
-            return;
         }
 
-        // Modal dışına tıklayarak kapatma
         const modalBg = e.target.closest(".survey-modal");
         if (modalBg && e.target === modalBg) modalBg.classList.remove("active");
     });
@@ -243,5 +216,5 @@ document.addEventListener("DOMContentLoaded", () => {
     // SAYFA İLK YÜKLENDİĞİNDE
     // ======================================================
     loadPage("anasayfa");
-
+    
 });

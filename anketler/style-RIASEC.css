@@ -30,7 +30,7 @@ body {
 
 .btn {
     display: inline-block;
-    background-color: var(--primary-red);
+  
     color: #fff;
     padding: 12px 25px;
     border-radius: 5px;

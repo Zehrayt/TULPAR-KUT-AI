@@ -30,11 +30,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
            animateCounters();
             animateOnScroll();
-            // ✅ Eğer ANASAYFA yüklendiyse karakterler + sayaçları başlat
-            if (pageName === "anasayfa") {
+   
                 initCharacterCarousel();
-               
-            }
+           
 
           
 
@@ -63,6 +61,8 @@ document.addEventListener("DOMContentLoaded", () => {
             // ✅ Karakterler + sayaçlar section yüklenince çalışsın
           
             animateCounters();
+            animateOnScroll();
+            initCharacterCarousel();
 
      
             // Oyun konusu overlay

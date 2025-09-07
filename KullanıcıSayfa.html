@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="anketler/style-bigfive.css"/>
     <link rel="stylesheet" href="anketler/style-kolbs.css"/>
     <link rel="stylesheet" href="anketler/style-testler.css"/>
+    <link rel="stylesheet" href="anketler/style-RIASEC.css"/>
 
     <script></script>
   </head>
@@ -436,27 +437,26 @@
 
     <script>
 function loadPage(page, targetId = "loadAnket") {
-    fetch(page)
-        .then(response => response.text())
-        .then(data => {
-            const container = document.getElementById(targetId);
-            container.innerHTML = data;
+  fetch(page)
+    .then(res => res.text())
+    .then(data => {
+      const container = document.getElementById(targetId);
+      container.innerHTML = data;
 
-            // Sayfadaki script taglerini çalıştır
-            const scripts = container.querySelectorAll("script");
-            scripts.forEach(oldScript => {
-                const newScript = document.createElement("script");
-                if (oldScript.src) {
-                    newScript.src = oldScript.src;
-                } else {
-                    newScript.textContent = oldScript.textContent;
-                }
-                document.body.appendChild(newScript);
-                oldScript.remove(); // eski script tagini temizle
-            });
-        })
-        .catch(error => console.error("Sayfa yüklenemedi:", error));
+      // Partial içindeki scriptleri çalıştır
+      container.querySelectorAll("script").forEach(oldScript => {
+        const newScript = document.createElement("script");
+        if (oldScript.src) newScript.src = oldScript.src;
+        else newScript.textContent = oldScript.textContent;
+        document.body.appendChild(newScript);
+      });
+
+      // Eğer init fonksiyon varsa çağır
+      if (typeof initRiasecTest === "function") initRiasecTest();
+    })
+    .catch(err => console.error("Sayfa yüklenemedi:", err));
 }
+
 
 
   document.addEventListener("DOMContentLoaded", function () {

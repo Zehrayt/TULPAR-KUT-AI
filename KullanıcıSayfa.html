@@ -546,8 +546,8 @@ function loadPage(page, targetId = "loadAnket") {
                     <td>Psikolojik Değerlendirme Raporu</td>
                     <td>${formattedDate}</td>
                     <td>
-                        <a href="${data.reportLink}" target="_blank" class="btn btn-sm btn-outline-primary">Görüntüle</a>
-                        <a href="${data.reportLink}?download=rapor.pdf" class="btn btn-sm btn-outline-danger">İndir</a>
+                        <a href="${data.reportLink}" target="_blank" class="btn btn-sm btn-outline-primary" id="view">Görüntüle</a>
+                        <a href="${data.reportLink}?download=rapor.pdf" class="btn btn-sm btn-outline-danger" id="download">İndir</a>
                     </td>
                 `;
                 raporlarTableBody.appendChild(tr);
@@ -579,7 +579,7 @@ function loadPage(page, targetId = "loadAnket") {
                         <div class="flex-fill" style="margin-left: 10px;">
                             <div class="small">Psikolojik Değerlendirme Raporu</div>
                         </div>
-                        <button class="btn btn-sm btn-outline-primary" onclick="window.open('${data.reportLink}', '_blank')">
+                        <button class="btn btn-sm btn-outline-primary" onclick="window.open('${data.reportLink}', '_blank')" id="view">
                             Görüntüle
                         </button>
                     </div>

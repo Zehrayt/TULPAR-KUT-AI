@@ -257,3 +257,11 @@ body {
     display: block !important;
   }
 }
+
+#view{
+  background-color: var(--primary-color);
+}
+
+#download{
+  background-color: red;
+}

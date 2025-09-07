@@ -281,7 +281,7 @@
     </div>
   </div>
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     <script>
       function togglePasswordVisibility(fieldId, iconElement) {
         const passwordField = document.getElementById(fieldId);
@@ -675,68 +675,28 @@ if (registerForm) {
             }
           });
         }
+
+        emailjs.init("gqVRKit_pxzhQY5aD"); 
         
-        // Şifremi unuttum formu işleme
-        const forgotForm = document.getElementById("forgot-password-form");
-        if (forgotForm) {
-          forgotForm.addEventListener("submit", async function (event) {
-            event.preventDefault();
-            const forgotButton = document.getElementById("forgot-button");
-            forgotButton.disabled = true;
-            forgotButton.innerHTML =
-              '<i class="fas fa-spinner fa-spin"></i> Gönderiliyor...';
+const forgotForm = document.getElementById("forgot-password-form");
 
-            // Önceki mesajları temizle
-            showMessage("forgot-message", "", "");
+forgotForm.addEventListener("submit", function (e) {
+  e.preventDefault();
 
-            try {
-              const email = document.getElementById("forgot-email").value;
-              const userType = studentBtn.classList.contains("active")
-                ? "student"
-                : "teacher";
+  const email = document.getElementById("forgot-email").value;
 
-              const response = await fetch("/.netlify/functions/forgot-password", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, userType }),
-              });
+emailjs
+  .send("service_3ico5lb", "template_4fx2kwv", { to_email: email })
+  .then(() => {
+    showMessage("forgot-message", "Şifre sıfırlama maili gönderildi!", "success");
+  })
+  .catch((err) => {
+    console.error("Mail gönderilemedi:", err);
+    showMessage("forgot-message", "Mail gönderilemedi, lütfen tekrar deneyin.", "error");
+  });
 
-              const result = await response.json();
-              if (response.ok) {
-                showMessage(
-                  "forgot-message",
-                  result.message || "Şifre sıfırlama maili gönderildi!",
-                  "success"
-                );
-
-                forgotForm.reset();
-
-                setTimeout(() => {
-                  toggleBackToLogin();
-                }, 2000);
-              } else {
-                showMessage(
-                  "forgot-message",
-                  result.message || "Bu email adresi ile kayıtlı kullanıcı bulunamadı.",
-                  "error"
-                );
-              }
-            } catch (error) {
-              console.error("Şifre sıfırlama sırasında hata:", error);
-              showMessage(
-                "forgot-message",
-                "Bir ağ hatası oluştu. Lütfen tekrar deneyin.",
-                "error"
-              );
-            } finally {
-              forgotButton.disabled = false;
-              forgotButton.innerHTML =
-                '<i class="fas fa-paper-plane"></i> Şifre Sıfırlama Maili Gönder';
-            }
-          });
-        }
-        
-        // Sayfa yüklendiğinde yüksekliği ayarla
+});
+   
         adjustMainHeight();
       });
     </script>

@@ -147,6 +147,7 @@
               </div>
 
               <div class="col-xl-4">
+
                 <!-- Psikolojik Durum Analizi -->
                 <div class="card dashboard-card">
                   <div class="card-header py-3">
@@ -156,44 +157,35 @@
                   </div>
                   <div class="card-body">
                     <div class="mb-3">
-                      <p class="small text-muted mb-1">Dışadönüklük: %25</p>
+                
+                      <!-- Dışadönüklük -->
+                      <p class="small text-muted mb-1" id="text-disadonukluk">Dışadönüklük: %0</p>
                       <div class="progress mb-3">
-                        <div
-                          class="progress-bar bg-danger"
-                          role="progressbar"
-                          style="width: 25%"
-                        ></div>
+                        <div id="bar-disadonukluk" class="progress-bar bg-danger" role="progressbar" style="width: 0%"></div>
                       </div>
-
-                      <p class="small text-muted mb-1">Uyumluluk: %50</p>
+                
+                      <!-- Uyumluluk -->
+                      <p class="small text-muted mb-1" id="text-uyumluluk">Uyumluluk: %0</p>
                       <div class="progress mb-3">
-                        <div
-                          class="progress-bar bg-warning"
-                          role="progressbar"
-                          style="width: 50%"
-                        ></div>
+                        <div id="bar-uyumluluk" class="progress-bar bg-warning" role="progressbar" style="width: 0%"></div>
                       </div>
-
-                      <p class="small text-muted mb-1">Sorumluluk: %75</p>
+                
+                      <!-- Sorumluluk -->
+                      <p class="small text-muted mb-1" id="text-sorumluluk">Sorumluluk: %0</p>
                       <div class="progress mb-3">
-                        <div
-                          class="progress-bar bg-info"
-                          role="progressbar"
-                          style="width: 75%"
-                        ></div>
+                        <div id="bar-sorumluluk" class="progress-bar bg-info" role="progressbar" style="width: 0%"></div>
                       </div>
-
-                      <p class="small text-muted mb-1">Duygusal Denge: %60</p>
+                
+                      <!-- Duygusal Denge -->
+                      <p class="small text-muted mb-1" id="text-duygusaldenge">Duygusal Denge: %0</p>
                       <div class="progress mb-3">
-                        <div
-                          class="progress-bar bg-success"
-                          role="progressbar"
-                          style="width: 60%"
-                        ></div>
+                        <div id="bar-duygusaldenge" class="progress-bar bg-success" role="progressbar" style="width: 0%"></div>
                       </div>
+                
                     </div>
                   </div>
                 </div>
+               
               
               
               <div class="card dashboard-card">
@@ -682,6 +674,37 @@ function loadPage(page, targetId = "loadAnket") {
             }
         }
     });
+
+    // === GRAFİKLERİ GÜNCELLEME FONKSİYONU ===
+    function updateDashboardVisuals(scores) {
+        if (!scores) return;
+    
+        // Her bir özellik için ID'leri ve skorları eşleştirerek güncelle
+        const chartMapping = {
+            disadonukluk: { barId: 'bar-disadonukluk', textId: 'text-disadonukluk', label: 'Dışadönüklük' },
+            uyumluluk: { barId: 'bar-uyumluluk', textId: 'text-uyumluluk', label: 'Uyumluluk' },
+            sorumluluk: { barId: 'bar-sorumluluk', textId: 'text-sorumluluk', label: 'Sorumluluk' },
+            duygusalDenge: { barId: 'bar-duygusaldenge', textId: 'text-duygusaldenge', label: 'Duygusal Denge' }
+        };
+    
+        // n8n'den gelen skorlar nesnesindeki her bir anahtar için döngü başlat
+        for (const key in scores) {
+            if (chartMapping[key]) {
+                const mapping = chartMapping[key];
+                const score = scores[key]; // Örneğin, scores['disadonukluk'] -> 75
+                
+                const barElement = document.getElementById(mapping.barId);
+                const textElement = document.getElementById(mapping.textId);
+    
+                // İlgili HTML elementleri bulunduysa güncelle
+                if (barElement && textElement) {
+                    barElement.style.width = `${score}%`;
+                    barElement.setAttribute('aria-valuenow', score);
+                    textElement.textContent = `${mapping.label}: %${score}`;
+                }
+            }
+        }
+    }
 
 
 

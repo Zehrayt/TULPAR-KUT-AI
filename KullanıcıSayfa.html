@@ -718,7 +718,7 @@ function loadPage(page, targetId = "loadAnket") {
                 return null;
             }
             try {
-                const response = await fetch("/.netlify/functions/generate-report", { // Tek bir fonksiyon kullanıyoruz
+                const response = await fetch("/.netlify/functions/get-analysis-data", { // Tek bir fonksiyon kullanıyoruz
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({ userId: userId })

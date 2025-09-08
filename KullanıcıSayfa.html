@@ -589,7 +589,7 @@ function loadPage(page, targetId = "loadAnket") {
 
     // Sayfa yüklenince dashboard raporlarını ve grafikleri yükle
     loadDashboardReports();
-
+/*
     // ==========================================================
     // ANALİZLERİN GRAFİKLERİ
     // ==========================================================
@@ -700,9 +700,158 @@ function loadPage(page, targetId = "loadAnket") {
             }
         }
     }
+*/
 
+    // ==========================================================
+        // DEĞİŞKENLER VE CHART.JS NESNELERİ
+        // ==========================================================
+        let ipipChart, gad7Chart, careerChart; // Grafikleri globalde tanımlayalım ki güncelleyebilelim
 
+        // ==========================================================
+        // ANA FONKSİYONLAR
+        // ==========================================================
 
+        async function fetchReportData() {
+            const userId = localStorage.getItem("userId");
+            if (!userId) {
+                console.warn("Kullanıcı ID bulunamadı.");
+                return null;
+            }
+            try {
+                const response = await fetch("/.netlify/functions/generate-report", { // Tek bir fonksiyon kullanıyoruz
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ userId: userId })
+                });
+                const data = await response.json();
+                return (response.ok && data.success) ? data : null;
+            } catch (err) {
+                console.error("Rapor verisi yüklenemedi:", err);
+                return null;
+            }
+        }
+
+        function updateAllVisuals(report) {
+            if (!report) return;
+            // Dashboard'daki progress barları güncelle
+            updateDashboardProgressBars(report.scores);
+            // Analizler sekmesindeki Chart.js grafiklerini güncelle
+            updateAnalysisCharts(report.scores);
+            // Analizler sekmesindeki AI yorumunu güncelle
+            updateAiComment(report.aiComment);
+        }
+
+        function updateDashboardProgressBars(scores) {
+            if (!scores) return;
+            const chartMapping = {
+                disadonukluk: { barId: 'bar-disadonukluk', textId: 'text-disadonukluk', label: 'Dışadönüklük' },
+                uyumluluk: { barId: 'bar-uyumluluk', textId: 'text-uyumluluk', label: 'Uyumluluk' },
+                sorumluluk: { barId: 'bar-sorumluluk', textId: 'text-sorumluluk', label: 'Sorumluluk' },
+                duygusalDenge: { barId: 'bar-duygusaldenge', textId: 'text-duygusaldenge', label: 'Duygusal Denge' }
+            };
+            for (const key in scores) {
+                if (chartMapping[key]) {
+                    const mapping = chartMapping[key];
+                    const score = scores[key];
+                    const barElement = document.getElementById(mapping.barId);
+                    const textElement = document.getElementById(mapping.textId);
+                    if (barElement && textElement) {
+                        barElement.style.width = `${score}%`;
+                        textElement.textContent = `${mapping.label}: %${score}`;
+                    }
+                }
+            }
+        }
+        
+        function updateAnalysisCharts(scores) {
+            if (!scores || !ipipChart || !gad7Chart || !careerChart) return;
+            // IPIP Bar Grafiğini Güncelle
+            ipipChart.data.datasets[0].data = [
+                scores.nevrotiklik,
+                scores.disadonukluk,
+                scores.aciklik,
+                scores.uyumluluk,
+                scores.vicdanlilik
+            ];
+            ipipChart.update();
+
+            // GAD-7 Donut Grafiğini Güncelle (GAD-7 skoruna göre yorumlayalım)
+            let gad7Data = [0, 0, 0]; // [hafif, orta, şiddetli]
+            if (scores.gad7 >= 5 && scores.gad7 <= 9) gad7Data[0] = 100;
+            else if (scores.gad7 >= 10 && scores.gad7 <= 14) gad7Data[1] = 100;
+            else if (scores.gad7 >= 15) gad7Data[2] = 100;
+            gad7Chart.data.datasets[0].data = gad7Data;
+            gad7Chart.update();
+
+            // Kariyer Radar Grafiğini Güncelle (IPIP skorlarından ilgili olanları alalım)
+            careerChart.data.datasets[0].data = [
+                scores.uyumluluk,      // Sosyal Beceri (Uyumluluk varsayımı)
+                scores.sorumluluk,     // Analitik Düşünce (Sorumluluk varsayımı)
+                scores.aciklik,        // Yaratıcılık (Açıklık varsayımı)
+                scores.disadonukluk,   // Liderlik (Dışadönüklük varsayımı)
+                scores.uyumluluk       // Empati (Uyumluluk varsayımı)
+            ];
+            careerChart.update();
+        }
+
+        function updateAiComment(comment) {
+            const aiCommentEl = document.getElementById("aiComment");
+            if (aiCommentEl) {
+                aiCommentEl.textContent = comment ? `"${comment}"` : "Yapay zeka yorumu henüz mevcut değil.";
+            }
+        }
+
+    // Sayfa yüklenince ilk iş olarak verileri yükle
+        async function initializePage() {
+            const data = await fetchReportData();
+            initializeCharts(); // Önce boş grafikleri çiz
+            updateAllVisuals(data?.report); // Sonra gelen veriyle güncelle
+        }
+
+        function initializeCharts() {
+            // IPIP Grafiği
+            const ipipCtx = document.getElementById("ipipChart").getContext("2d");
+            ipipChart = new Chart(ipipCtx, {
+                type: "bar",
+                data: {
+                    labels: ["Nevrotiklik", "Dışadönüklük", "Açıklık", "Uyumluluk", "Sorumluluk"],
+                    datasets: [{
+                        label: "Seviye (%)",
+                        data: [0, 0, 0, 0, 0], // Başlangıçta boş
+                        backgroundColor: ["rgba(231, 74, 59, 0.7)", "rgba(78, 115, 223, 0.7)", "rgba(246, 194, 62, 0.7)", "rgba(28, 200, 138, 0.7)", "rgba(54, 185, 204, 0.7)"],
+                    }]
+                },
+                options: { scales: { y: { beginAtZero: true, max: 100 } }, plugins: { legend: { display: false } } }
+            });
+
+            // GAD-7 Grafiği
+            const gad7Ctx = document.getElementById("gad7Chart").getContext("2d");
+            gad7Chart = new Chart(gad7Ctx, {
+                type: "doughnut",
+                data: {
+                    labels: ["Hafif", "Orta", "Şiddetli"],
+                    datasets: [{ data: [0, 0, 0], backgroundColor: ["#1cc88a", "#f6c23e", "#e74a3b"] }]
+                },
+                options: { cutout: "70%", plugins: { legend: { position: "bottom" } } }
+            });
+
+            // Kariyer Grafiği
+            const careerCtx = document.getElementById("careerChart").getContext("2d");
+            careerChart = new Chart(careerCtx, {
+                type: "radar",
+                data: {
+                    labels: ["Sosyal Beceri", "Analitik Düşünce", "Yaratıcılık", "Liderlik", "Empati"],
+                    datasets: [{
+                        label: "Mevcut Seviye",
+                        data: [0, 0, 0, 0, 0], // Başlangıçta boş
+                        backgroundColor: "rgba(78, 115, 223, 0.2)",
+                        borderColor: "rgba(78, 115, 223, 1)",
+                    }]
+                },
+                options: { scales: { r: { suggestedMin: 0, suggestedMax: 100 } } }
+            });
+        }
+    initializePage();
 });
 </script>
 </body>

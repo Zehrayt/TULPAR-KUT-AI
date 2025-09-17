@@ -18,8 +18,12 @@
     <link rel="stylesheet" href="anketler/style-kolbs.css"/>
     <link rel="stylesheet" href="anketler/style-testler.css"/>
     <link rel="stylesheet" href="anketler/style-RIASEC.css"/>
-
-    <script></script>
+ <script>
+      if (!localStorage.getItem('userToken')) {
+        alert('Bu sayfayı görüntülemek için lütfen giriş yapın.');
+        window.location.href = 'index.html'; 
+      }
+    </script>
   </head>
   <body>
     <div class="d-flex">
@@ -30,7 +34,7 @@
         </div>
 
         <div class="sidebar-user-info">
-          <h5 class="user-username-display">gozdegonul</h5>
+          <h5 class="user-username-display">Username</h5>
           <span class="badge bg-success">Öğrenci</span>
         </div>
 
@@ -102,7 +106,7 @@
                   <div class="card-body">
                     <h4 class="card-title">
                       Hoş Geldiniz,
-                      <span class="user-username-display">gozdegonul</span>!
+                      <span class="user-username-display">Username</span>!
                     </h4>
                     <p class="card-text">
                       Kut-AI psikolojik destek platformuna hoş geldiniz.
@@ -119,10 +123,8 @@
                     <h6 class="m-0 font-weight-bold">Oyun</h6>
                   </div>
                   <div class="card-body p-0">
-                    <div class="game-container">
-                      <video autoplay muted loop playsinline>
-                        <source src="video.mp4" type="video/mp4" />
-                      </video>
+                    <div class="game-container" style="background-color:  #4c73e7;">
+
                       <div class="overlay">
                         <h3>Psikolojik Destek Oyunu</h3>
                         <p>
@@ -203,14 +205,11 @@
           <!-- Diğer İçerik Bölümleri (Başlangıçta Gizli) -->
           <div id="oyun-content" class="content-section d-none">
             <div class="card dashboard-card">
-              <div class="card-header py-3">
+              <div class="card-header py-4">
                 <h6 class="m-0 font-weight-bold">Oyun</h6>
               </div>
               <div class="card-body p-0">
-                <div class="game-container">
-                  <video autoplay muted loop playsinline>
-                    <source src="video.mp4" type="video/mp4" />
-                  </video>
+                <div class="game-container" style="background-color:  #4c73e7;">
                   <div class="overlay">
                     <h3>Psikolojik Destek Oyunu</h3>
                     <p>
@@ -364,7 +363,7 @@
                         type="text"
                         class="form-control"
                         id="firstName"
-                        value="Gözde"
+                        value="Name"
                       />
                     </div>
                     <div class="col-md-6">
@@ -373,7 +372,7 @@
                         type="text"
                         class="form-control"
                         id="lastName"
-                        value="Gönül"
+                        value="Surname"
                       />
                     </div>
                   </div>
@@ -383,7 +382,7 @@
                       type="email"
                       class="form-control"
                       id="email"
-                      value="gozde.gonul@example.com"
+                      value="username@example.com"
                     />
                   </div>
                   <div class="mb-3">

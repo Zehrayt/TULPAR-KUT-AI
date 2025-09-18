@@ -17,7 +17,7 @@ body {
 #sidebar {
   position: fixed;
   left: 0;
-  top: 0;
+  top: 30px;
   width: var(--sidebar-width);
   height: 100%;
   background: linear-gradient(180deg, var(--primary-color) 0%, #9fa5b4 100%);

@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 } else {
                     el.textContent = current;
                 }
-            }, 1000);
+            }, 650);
         });
     };
     // ======================================================

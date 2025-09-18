@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ======================================================
     const animateCounters = () => {
         const counters = [
-            { id: "counter1", target: 12 },
+            { id: "counter1", target: 3 },
             { id: "counter2", target: 5 },
             { id: "counter3", target: 50 }
         ];

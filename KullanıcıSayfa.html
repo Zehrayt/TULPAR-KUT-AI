@@ -498,24 +498,32 @@ function loadPage(page, targetId = "loadAnket") {
     // SIDEBAR NAVİGASYON VE Rapor Yükleme
     // ==========================================================
     const navLinks = document.querySelectorAll("nav#sidebar a[data-content]");
+    
     const contentSections = document.querySelectorAll(".content-section");
 
-    navLinks.forEach((link) => {
-        link.addEventListener("click", function (e) {
-            e.preventDefault();
-            navLinks.forEach((l) => l.classList.remove("active"));
-            this.classList.add("active");
+navLinks.forEach((link) => {
+    link.addEventListener("click", function (e) {
+        e.preventDefault();
+        navLinks.forEach((l) => l.classList.remove("active"));
+        this.classList.add("active");
 
-            const targetContent = this.getAttribute("data-content");
-            contentSections.forEach((section) => section.classList.add("d-none"));
-            document.getElementById(`${targetContent}-content`).classList.remove("d-none");
+        const targetContent = this.getAttribute("data-content");
+        contentSections.forEach((section) => section.classList.add("d-none"));
+        document.getElementById(`${targetContent}-content`).classList.remove("d-none");
 
-            // Raporlar sayfasına tıklandığında raporları yeniden yükle
-            if (targetContent === "raporlar") {
-                loadReportsTable();
-            }
-        });
+        // Raporlar sayfasına tıklandığında raporları yeniden yükle
+        if (targetContent === "raporlar") {
+            loadReportsTable();
+        }
+
+        // 🔥 Menüden bir şey seçildiğinde sidebar’ı kapat
+        const sidebar = document.getElementById("sidebar");
+        const content = document.getElementById("content");
+        sidebar.classList.remove("active");
+        content.classList.remove("full");
     });
+});
+
 
     // ==========================================================
     // FONKSİYONLAR
@@ -854,27 +862,7 @@ function loadPage(page, targetId = "loadAnket") {
         }
     initializePage();
 
-   
-document.querySelectorAll('#sidebar a[data-content]').forEach(a => {
-  a.addEventListener('click', function (e) {
-    e.preventDefault();
 
-    // Aktif linki güncelle
-    document.querySelectorAll('#sidebar a[data-content]').forEach(l => l.classList.remove('active'));
-    this.classList.add('active');
-
-    // İçerik göster/gizle
-    const target = this.getAttribute('data-content');
-    document.querySelectorAll('.content-section').forEach(s => s.classList.add('d-none'));
-    const el = document.getElementById(target + '-content');
-    if (el) el.classList.remove('d-none');
-
-    // 🔥 Mobilde sidebar'ı kapat
-    if (window.innerWidth <= 991) {
-      document.body.classList.remove('sidebar-open');
-    }
-  });
-});
 
 });
 </script>

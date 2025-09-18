@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const counters = [
             { id: "counter1", target: 3 },
             { id: "counter2", target: 5 },
-            { id: "counter3", target: 50 }
+            
         ];
 
         counters.forEach(counter => {
@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!el) return;
 
             let current = 0;
-            const increment = Math.ceil(counter.target / 100);
+            const increment = Math.ceil(counter.target / 1000);
             const interval = setInterval(() => {
                 current += increment;
                 if (current >= counter.target) {
@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 } else {
                     el.textContent = current;
                 }
-            }, 20);
+            }, 40);
         });
     };
     // ======================================================

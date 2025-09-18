@@ -16,16 +16,13 @@ body {
 /* Sidebar varsayılan */
 #sidebar {
   position: fixed;
-  left: 0;
-  top: 30px;
   width: var(--sidebar-width);
-  height: 100%;
+  min-height: 100vh;
   background: linear-gradient(180deg, var(--primary-color) 0%, #9fa5b4 100%);
-  color: #fff;
-  transition: all 0.3s ease-in-out;
-  z-index: 1050;
+  color: white;
+  transition: all 0.3s;
+  z-index: 1000;
 }
-
 
 .sidebar-header {
   padding: 10px;
@@ -95,39 +92,36 @@ body {
   border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-
 /* Ana İçerik Alanı - Boşluk Ekleme */
 #content {
-    margin-left: var(--sidebar-width);
-    width: calc(100% - var(--sidebar-width));
-    min-height: 100vh;
-    transition: all 0.3s;
-    padding: 20px; /* İçerik alanına genel boşluk ekler */
+  margin-left: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width));
+  min-height: 100vh;
+  transition: all 0.3s;
+  padding: 20px; /* İçerik alanına genel boşluk ekler */
 }
 
 /* Üst Bar - Alt Boşluk Ekleme */
 .topbar {
-    padding: 15px 20px;
-    background: white;
-    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
-    margin-bottom: 30px; /* Üst barın altına boşluk ekler */
+  padding: 15px 20px;
+  background: white;
+  box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+  margin-bottom: 30px; /* Üst barın altına boşluk ekler */
 }
 
 /* Raporlar ve Anketler Sayfalarına Özgü Başlık ve Alan Düzenlemesi */
 #raporlar-content,
 #anketler-content {
-    padding-top: 20px; /* Sayfa içeriğinin üstüne boşluk ekler */
+  padding-top: 20px; /* Sayfa içeriğinin üstüne boşluk ekler */
 }
 
 #raporlar-content h4,
 #anketler-content h4 {
-    margin-bottom: 20px; /* Başlıkların altına boşluk ekler */
-    font-size: 1.5rem; /* Başlık font boyutunu küçültür */
+  margin-bottom: 20px; /* Başlıkların altına boşluk ekler */
+  font-size: 1.5rem; /* Başlık font boyutunu küçültür */
 }
 
 /* Ana İçerik Alanı */
-
-
 
 .back-button {
   color: var(--primary-color);
@@ -152,7 +146,6 @@ body {
   border-radius: 10px 10px 0 0 !important;
   margin-left: 10px;
   transition: all 0.3s;
-  
 }
 
 /* Oyun Bölümü */
@@ -260,10 +253,10 @@ body {
   }
 }
 
-#view{
+#view {
   background-color: var(--primary-color);
 }
 
-#download{
+#download {
   background-color: red;
 }

@@ -855,16 +855,26 @@ function loadPage(page, targetId = "loadAnket") {
     initializePage();
 
    
-  const menuToggle = document.querySelector(".menu-toggle");
-  const sidebar = document.getElementById("sidebar");
-  const content = document.getElementById("content");
+document.querySelectorAll('#sidebar a[data-content]').forEach(a => {
+  a.addEventListener('click', function (e) {
+    e.preventDefault();
 
-  if (menuToggle) {
-    menuToggle.addEventListener("click", function () {
-      sidebar.classList.toggle("active");
-      content.classList.toggle("full");
-    });
-  }
+    // Aktif linki güncelle
+    document.querySelectorAll('#sidebar a[data-content]').forEach(l => l.classList.remove('active'));
+    this.classList.add('active');
+
+    // İçerik göster/gizle
+    const target = this.getAttribute('data-content');
+    document.querySelectorAll('.content-section').forEach(s => s.classList.add('d-none'));
+    const el = document.getElementById(target + '-content');
+    if (el) el.classList.remove('d-none');
+
+    // 🔥 Mobilde sidebar'ı kapat
+    if (window.innerWidth <= 991) {
+      document.body.classList.remove('sidebar-open');
+    }
+  });
+});
 
 });
 </script>

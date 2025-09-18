@@ -88,9 +88,11 @@
         <!-- Topbar -->
         <div class="topbar mb-4">
           <div class="d-flex align-items-center">
+            <span class="menu-toggle"><i class="bi bi-list"></i></span>
             <a href="javascript:history.back()" class="back-button">
               <i class="bi bi-arrow-left"></i>
             </a>
+              <div class="d-flex align-items-center">
             <h4 class="mb-0">Kullanıcı Paneli</h4>
           </div>
         </div>
@@ -851,6 +853,19 @@ function loadPage(page, targetId = "loadAnket") {
             });
         }
     initializePage();
+
+    document.addEventListener("DOMContentLoaded", function () {
+  const menuToggle = document.querySelector(".menu-toggle");
+  const sidebar = document.getElementById("sidebar");
+  const content = document.getElementById("content");
+
+  if (menuToggle) {
+    menuToggle.addEventListener("click", function () {
+      sidebar.classList.toggle("active");
+      content.classList.toggle("full");
+    });
+  }
+});
 });
 </script>
 </body>

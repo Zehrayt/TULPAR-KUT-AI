@@ -13,16 +13,61 @@ body {
   overflow-x: hidden;
   color: var(--text-dark);
 }
-
-/* Sidebar Stilleri */
+/* Sidebar varsayılan */
 #sidebar {
   position: fixed;
+  left: 0;
+  top: 0;
   width: var(--sidebar-width);
-  min-height: 100vh;
+  height: 100%;
   background: linear-gradient(180deg, var(--primary-color) 0%, #9fa5b4 100%);
-  color: white;
-  transition: all 0.3s;
-  z-index: 1000;
+  color: #fff;
+  transition: all 0.3s ease-in-out;
+  z-index: 1050;
+}
+
+/* Sidebar mobilde gizli */
+#sidebar.closed {
+  left: -250px;
+}
+
+/* Content */
+#content {
+  margin-left: var(--sidebar-width);
+  transition: all 0.3s ease-in-out;
+}
+
+#content.full {
+  margin-left: 0;
+  width: 100%;
+}
+
+/* Mobil uyum */
+@media (max-width: 768px) {
+  #sidebar {
+    left: -250px; /* mobilde kapalı başlasın */
+  }
+  #sidebar.active {
+    left: 0;
+  }
+  #content {
+    margin-left: 0;
+    width: 100%;
+  }
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .topbar .menu-toggle {
+    display: inline-block;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  .dashboard-card {
+    margin: 10px 0;
+  }
 }
 
 .sidebar-header {

@@ -26,49 +26,6 @@ body {
   z-index: 1050;
 }
 
-/* Sidebar mobilde gizli */
-#sidebar.closed {
-  left: -250px;
-}
-
-/* Content */
-#content {
-  margin-left: var(--sidebar-width);
-  transition: all 0.3s ease-in-out;
-}
-
-#content.full {
-  margin-left: 0;
-  width: 100%;
-}
-
-/* Mobil uyum */
-@media (max-width: 768px) {
-  #sidebar {
-    left: -250px; /* mobilde kapalı başlasın */
-  }
-  #sidebar.active {
-    left: 0;
-  }
-  #content {
-    margin-left: 0;
-    width: 100%;
-  }
-  .topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .topbar .menu-toggle {
-    display: inline-block;
-    font-size: 1.5rem;
-    cursor: pointer;
-    margin-right: 10px;
-  }
-  .dashboard-card {
-    margin: 10px 0;
-  }
-}
 
 .sidebar-header {
   padding: 10px;

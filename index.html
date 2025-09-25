@@ -84,14 +84,13 @@
               id="register-username"
             />
             <span class="floating-label">Kullanıcı Adınız</span>
-              <p
-            id="username-warning"
-            style="color: red; font-size: 14px; display: none"
-          >
-            Türkçe karakter kullanamazsınız!
-          </p>
+            <p
+              id="username-warning"
+              style="color: red; font-size: 14px; display: none"
+            >
+              Türkçe karakter kullanamazsınız!
+            </p>
           </div>
-        
 
           <div class="input-group">
             <i class="fas fa-lock input-icon"></i>
@@ -555,99 +554,138 @@
           showMessage("forgot-message", "", "");
         });
 
-       const registerForm = document.getElementById("register-form");
-if (registerForm) {
-  registerForm.addEventListener("submit", async function (event) {
-    event.preventDefault();
-    const registerButton = document.getElementById("register-button");
-    registerButton.disabled = true;
-    registerButton.innerHTML =
-      '<i class="fas fa-spinner fa-spin"></i> Kaydediliyor...';
+        const registerForm = document.getElementById("register-form");
+        if (registerForm) {
+          registerForm.addEventListener("submit", async function (event) {
+            event.preventDefault();
 
-    // Önceki mesajları temizle
-    showMessage("register-message", "", "");
+            const registerButton = document.getElementById("register-button");
+            registerButton.disabled = true;
+            registerButton.innerHTML =
+              '<i class="fas fa-spinner fa-spin"></i> Kaydediliyor...';
 
-    // === TÜRKÇE KARAKTER KONTROLÜ ===
-    const username = document.getElementById("register-username").value;
-    const turkishChars = /[çğıöşüÇĞİÖŞÜ]/;
-    if (turkishChars.test(username)) {
-      showMessage(
-        "register-message",
-        "Kullanıcı adınızda Türkçe karakter bulunamaz. Lütfen değiştirin.",
-        "error"
-      );
-      registerButton.disabled = false;
-      registerButton.innerHTML = '<i class="fas fa-user-plus"></i> Kayıt Ol';
-      return; // API isteğini iptal et
-    }
+            // Önceki mesajları temizle
+            showMessage("register-message", "", "");
 
-    try {
-      const formData = {
-        name: document.getElementById("register-name").value,
-        surname: document.getElementById("register-surname").value,
-        email: document.getElementById("register-email").value,
-        username: username,
-        password: document.getElementById("registerPassword").value,
-        userType: studentBtn.classList.contains("active")
-          ? "student"
-          : "teacher",
-      };
+            // === TÜRKÇE KARAKTER KONTROLÜ ===
+            const username = document.getElementById("register-username").value;
+            const turkishChars = /[çğıöşüÇĞİÖŞÜ]/;
+            if (turkishChars.test(username)) {
+              showMessage(
+                "register-message",
+                "Kullanıcı adınızda Türkçe karakter bulunamaz. Lütfen değiştirin.",
+                "error"
+              );
+              registerButton.disabled = false;
+              registerButton.innerHTML =
+                '<i class="fas fa-user-plus"></i> Kayıt Ol';
+              return; // API isteğini iptal et
+            }
 
-      const response = await fetch(
-        "https://gulnihalgur.app.n8n.cloud/webhook/register",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
+            try {
+              const formData = {
+                name: document.getElementById("register-name").value,
+                surname: document.getElementById("register-surname").value,
+                email: document.getElementById("register-email").value,
+                username: username,
+                password: document.getElementById("registerPassword").value,
+                userType: studentBtn.classList.contains("active")
+                  ? "student"
+                  : "teacher",
+              };
+
+              const response = await fetch(
+                "https://gulnihalgur.app.n8n.cloud/webhook/register",
+                {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify(formData),
+                }
+              );
+
+              const result = await response.json();
+
+              if (response.ok) {
+                showMessage(
+                  "register-message",
+                  result.message || "Kayıt başarılı!",
+                  "success"
+                );
+
+                registerForm.reset();
+
+                setTimeout(() => {
+                  toggleForm(true);
+                }, 2000);
+              } else {
+                // Kullanıcı adı alınmışsa özel mesaj
+                if (
+                  result.message &&
+                  result.message.toLowerCase().includes("username")
+                ) {
+                  showMessage(
+                    "register-message",
+                    "Bu kullanıcı adı zaten alınmış. Lütfen başka bir kullanıcı adı deneyin.",
+                    "error"
+                  );
+                } else {
+                  showMessage(
+                    "register-message",
+                    result.message || "Bilinmeyen bir hata oluştu.",
+                    "error"
+                  );
+                }
+              }
+            } catch (error) {
+              console.error("Kayıt sırasında hata:", error);
+              showMessage(
+                "register-message",
+                "Bir ağ hatası oluştu. Lütfen tekrar deneyin.",
+                "error"
+              );
+            } finally {
+              registerButton.disabled = false;
+              registerButton.innerHTML =
+                '<i class="fas fa-user-plus"></i> Kayıt Ol';
+            }
+          });
         }
-      );
 
-      const result = await response.json();
+        // === INLINE TÜRKÇE KARAKTER UYARISI ===
+        (function () {
+          const usernameInput = document.getElementById("register-username");
+          if (!usernameInput) return;
 
-      if (response.ok) {
-        showMessage(
-          "register-message",
-          result.message || "Kayıt başarılı!",
-          "success"
-        );
+          const turkishChars = /[çğıöşüÇĞİÖŞÜ]/;
 
-        registerForm.reset();
+          // inline uyarı span ekle
+          let inline = document.getElementById("username-inline-warning");
+          if (!inline) {
+            inline = document.createElement("span");
+            inline.id = "username-inline-warning";
+            inline.style.position = "absolute";
+            inline.style.right = "35px";
+            inline.style.top = "50%";
+            inline.style.transform = "translateY(-50%)";
+            inline.style.fontSize = "12px";
+            inline.style.color = "red";
+            inline.style.fontWeight = "600";
+            inline.style.display = "none";
+            inline.textContent = "Türkçe karakter yok!";
+            const parent =
+              usernameInput.closest(".input-group") ||
+              usernameInput.parentElement;
+            parent.appendChild(inline);
+          }
 
-        setTimeout(() => {
-          toggleForm(true);
-        }, 2000);
-      } else {
-        // Kullanıcı adı alınmışsa özel mesaj
-        if (
-          result.message &&
-          result.message.toLowerCase().includes("username")
-        ) {
-          showMessage(
-            "register-message",
-            "Bu kullanıcı adı zaten alınmış. Lütfen başka bir kullanıcı adı deneyin.",
-            "error"
-          );
-        } else {
-          showMessage(
-            "register-message",
-            result.message || "Bilinmeyen bir hata oluştu.",
-            "error"
-          );
-        }
-      }
-    } catch (error) {
-      console.error("Kayıt sırasında hata:", error);
-      showMessage(
-        "register-message",
-        "Bir ağ hatası oluştu. Lütfen tekrar deneyin.",
-        "error"
-      );
-    } finally {
-      registerButton.disabled = false;
-      registerButton.innerHTML = '<i class="fas fa-user-plus"></i> Kayıt Ol';
-    }
-  });
-}
+          usernameInput.addEventListener("input", function () {
+            if (turkishChars.test(this.value)) {
+              inline.style.display = "block";
+            } else {
+              inline.style.display = "none";
+            }
+          });
+        })();
 
         const loginForm = document.getElementById("login-form");
         if (loginForm) {
@@ -798,7 +836,6 @@ if (registerForm) {
         });
 
         adjustMainHeight();
-
       });
     </script>
   </body>
